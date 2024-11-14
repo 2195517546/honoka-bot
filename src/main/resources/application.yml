@@ -1,0 +1,69 @@
+server:
+  port: ${honoka.server.port}
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: honoka-app
+  main:
+    allow-circular-references: true
+
+  datasource:
+
+    #JDBC配置
+    driver-class-name: ${honoka.datasource.driver-class-name}
+    url: jdbc:mysql://${honoka.datasource.host}:${honoka.datasource.port}/${honoka.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${honoka.datasource.username}
+    password: ${honoka.datasource.password}
+
+    #druid连接池池配置
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+
+  data:
+    redis:
+      host: ${honoka.redis.host}
+      port: ${honoka.redis.port}
+      password: ${honoka.redis.password}
+      database: ${honoka.redis.database}
+
+logging:
+  level:
+    com:
+      sky:
+        mapper: debug
+        service: info
+        controller: info
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.uiloalxise.xiaoyiapp.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+honoka:
+
+  #thread-pool:
+
+  #这里是你QQBOT的信息
+  qq-bot:
+    qq-number: ${honoka.qq-bot.qq-number}
+    app-id: ${honoka.qq-bot.app-id}
+    token: ${honoka.qq-bot.token}
+    app-secret: ${honoka.qq-bot.app-secret}
+
+

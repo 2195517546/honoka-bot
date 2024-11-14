@@ -1,0 +1,25 @@
+honoka:
+  server:
+    port:
+
+  datasource:
+    driver-class-name:
+    host:
+    port:
+    database:
+    username:
+    password:
+
+
+  redis:
+    host:
+    port:
+    password:
+    database:
+
+  qq-bot:
+    qq-number:
+    app-id:
+    token:
+    app-secret:
+
