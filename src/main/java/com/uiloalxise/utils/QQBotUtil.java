@@ -88,4 +88,12 @@ public class QQBotUtil {
     }
 
 
+    public HttpHeaders getHeader()
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type"," application/json");
+        headers.set("Authorization", getAuthorization());
+        return headers;
+    }
+
 }

@@ -6,6 +6,7 @@ import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.constants.RegexConstant;
 import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
+import com.uiloalxise.honoka.service.QQBotDuelService;
 import com.uiloalxise.pojo.entity.PJSKMusicObject;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import com.uiloalxise.pojo.entity.QQMediaFile;
@@ -40,6 +41,9 @@ import java.util.regex.Pattern;
 @Slf4j
 @Async
 public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService {
+
+    @Resource
+    private QQBotDuelService qqBotDuelService;
 
     @Resource
     private MsgGeneratorService msgGeneratorService;
@@ -428,6 +432,38 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     }
 
     /**
+     * 决斗功能
+     * @param data
+     * @param msgSeq
+     */
+    @Override
+    public void honokaDuel(JSONObject data, Integer msgSeq) {
+        String command = data.getString("content");
+
+        Pattern duelPattern = Pattern.compile(RegexConstant.DUEL_REGEX);
+        Matcher duelMatcher = duelPattern.matcher(command);
+
+        String id = data.getString("id");
+        String url = QQBotConstant.OPENAPI_URL + "/v2/groups/" + data.getString("group_openid");
+        HttpHeaders headers = getHeader();
+
+        if (duelMatcher.find()) {
+           qqBotDuelService.duel(data,msgSeq);
+        }else{
+            QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
+                    .content("决斗格式 :/决斗[昵称]")
+                    .msgType(0)
+                    .eventId("GROUP_AT_MESSAGE_CREATE")
+                    .msgId(id)
+                    .build();
+
+            HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
+            ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
+            log.info("消息发送成功：{}", groupMsgResp.getBody());
+        }
+    }
+
+    /**
      * 查卡749单独为钉钉十号添加呵呵
      * @param data
      * @param msgSeq
@@ -546,6 +582,8 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         log.info("消息发送成功：{}", groupMsgResp.getBody());
     }
+
+
 
     /**
      * 获取httpHeader模板

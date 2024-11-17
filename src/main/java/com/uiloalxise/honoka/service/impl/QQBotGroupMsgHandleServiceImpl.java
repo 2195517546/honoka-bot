@@ -91,11 +91,14 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
                 qqBotGroupFunctionService.check749(data,seq);
                 return;
             }
-//        if (content.contains("/我要举报"))
-//        {
-//            xiaoyiDuel(data);
-//            return;
-//        }
+
+            //决斗发起，决斗改名，查询决斗次数
+            if (content.contains("/决斗"))
+            {
+                qqBotGroupFunctionService.honokaDuel(data,seq);
+                return;
+            }
+
 
             if (content.contains("/help")) {
                 qqBotGroupFunctionService.helpMenu(data,seq);
@@ -115,7 +118,9 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
     }
 
     private void xiaoyiDuel(JSONObject data) {
+        //构造群iD用于匹配决斗串key
         String groupId = "[Duel:" + data.getString("group_openid") + "]";
+
         String duelId =(String) redisTemplate.opsForValue().get(groupId);
         String player1 = null,player2 = null;
 
@@ -131,6 +136,8 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
             //如果duelId不存在，则加入一个member的ID
             duelId = data.getJSONObject("author").getString("id");
             player1 = duelId;
+
+            //key:groupdID,value:duelId
             redisTemplate.opsForValue().set(groupId, duelId);
             redisTemplate.expire(groupId,300, TimeUnit.SECONDS);
 

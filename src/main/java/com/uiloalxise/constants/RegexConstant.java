@@ -11,9 +11,17 @@ public class RegexConstant {
      */
     public final static String PICTURE_REGEX = "^(.*?)(\\.jpg|\\.png|\\.gif)";
 
-    public final static String MUSIC_PANE_REGEX = "(谱面|pjskp)([\\u2E80-\\uFE4F]+)(?i)(ez|n|h|ex|ma|apd)";
-    public final static String MUSIC_REGEX = "(歌曲|pjskm)([\\u2E80-\\uFE4F]+)";
+    /**
+     * pjsk相关Regex
+     */
+    public final static String MUSIC_PANE_REGEX = "(谱面|pjskp)([\\u4e00-\\u9fa5a-zA-Z0-9_]+)(?i)(ez|n|h|ex|ma|apd)";
+    public final static String MUSIC_REGEX = "(歌曲|pjskm)([\\u4e00-\\u9fa5a-zA-Z0-9_]+)";
 
+
+    /**
+     * 决斗相关Regex
+     */
+    public final static String DUEL_REGEX = "(决斗)([\\u4e00-\\u9fa5a-zA-Z0-9_]+)";
 
     /**
      *
