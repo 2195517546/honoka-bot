@@ -160,6 +160,53 @@ public class MsgGeneratorServiceImpl implements MsgGeneratorService {
         }
     }
 
+    /**
+     * 随机决斗结束语
+     * $winner$替换为胜利者
+     * $loser$替换为失败者
+     */
+    @Override
+    public String randomDuelResult() {
+        String filePath = "duel_msg.txt";
+        File file = new File(filePath);
+        ArrayList<String> list = new ArrayList<>();
+
+        try {
+            // 检查文件是否存在
+            if (!file.exists()) {
+                // 如果文件不存在，则创建新文件
+                boolean isCreated = file.createNewFile();
+                log.info("duel_msg.txt文件已创建：{},{}",filePath,isCreated);
+            } else {
+
+                // 如果文件存在，则读取文件内容
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    list.add(line);
+                }
+                reader.close();
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(),e);
+        }
+
+        if (!list.isEmpty()) {
+            Random random = new Random(System.currentTimeMillis());
+
+            String result = list.get(random.nextInt(list.size()));
+
+            list.clear();
+
+            log.info("生成的决斗内容：{}",result);
+            return result;
+        }else {
+            return BotMsgConstant.DEFAULT_DUEL_MSG;
+        }
+
+
+    }
+
 //    @Override
 //    public String defaultReply(String key) {
 //

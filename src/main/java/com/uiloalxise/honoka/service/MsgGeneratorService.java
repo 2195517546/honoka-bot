@@ -7,6 +7,7 @@ package com.uiloalxise.honoka.service;
  * 生成随机消息的服务
  */
 public interface MsgGeneratorService {
+
     /**
      * 从文本中随机出一条钉言钉语
      * @return 一条钉言钉语
@@ -20,4 +21,9 @@ public interface MsgGeneratorService {
      */
     String defaultReply(String key);
 
+
+    /**
+     * 随机决斗结束语
+     */
+    String randomDuelResult();
 }

@@ -1,8 +1,10 @@
 package com.uiloalxise.honoka.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.uiloalxise.constants.BotMsgConstant;
 import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.constants.RegexConstant;
+import com.uiloalxise.honoka.service.MsgGeneratorService;
 import com.uiloalxise.honoka.service.QQBotDuelService;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import com.uiloalxise.utils.QQBotUtil;
@@ -41,6 +43,9 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
     @Resource
     private QQBotUtil qqBotUtil;
 
+    @Resource
+    private MsgGeneratorService msgGeneratorService;
+
     /**
      * 决斗发起或者接受
      *
@@ -75,7 +80,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
 
-        String playResult = null;
+        String playResult = null,loser = null;
         String result = "";
 
         //判断duelId
@@ -91,7 +96,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
             //设置存在时长，过期则删除
             redisTemplate.expire(groupId,300, TimeUnit.SECONDS);
 
-            playResult ="提出了举报";
+            playResult = BotMsgConstant.DUEL_LAUNCH_MSG;
         }
         else
         {
@@ -112,17 +117,26 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
             log.info("player1:" + player1 + " player2:" + player2 + " ranInt:" + ranInt);
             if (ranInt >= 50) {
                 playResult =  player1 ;
+                loser = player2;
             }else
             {
                 playResult = player2 ;
+                loser = player1;
             }
         }
 
-        if (playResult.contains("提出了举报"))
+
+
+        if (playResult.contains(BotMsgConstant.DUEL_LAUNCH_MSG))
         {
             result += player1 + playResult;
         }else {
-            result += playResult + "获得了胜利,有点强";
+            String msg = msgGeneratorService.randomDuelResult();
+            msg = msg.replaceAll("\\$winner\\$",playResult);
+            if (loser != null) {
+                msg = msg.replaceAll("\\$loser\\$",loser);
+            }
+            result += msg;
         }
 
         QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()

@@ -10,6 +10,8 @@ public class BotMsgConstant {
     public static final String CHECK_CARD_749 = "https://www.faceroundcloud.site/static/749_img.jpg";
     public static final String DEFAULT_REPLY_MSG = "请不要ky🤔🤔";
     public static final String DEFAULT_DINGTALK_MSG = "哎呀我服了";
+    public static final String DEFAULT_DUEL_MSG = "$winner$获得了胜利，有点强";
+    public static final String DUEL_LAUNCH_MSG = "提出了决斗";
     public static final String MENU_TEMPLATE_MSG = """
                 \n    帮助菜单
                 😎本皇帝功能如下
