@@ -440,6 +440,30 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     public void honokaDuel(JSONObject data, Integer msgSeq) {
         String command = data.getString("content");
 
+        if (command.contains("决斗排名"))
+        {
+            qqBotDuelService.rankKD(data, msgSeq);
+            return;
+        }
+
+        if (command.contains("决斗注册"))
+        {
+            qqBotDuelService.registerAccount(data,msgSeq);
+            return;
+        }
+
+        if (command.contains("决斗改名"))
+        {
+            qqBotDuelService.rename(data,msgSeq);
+            return;
+        }
+
+        if (command.contains("决斗信息"))
+        {
+            qqBotDuelService.information(data,msgSeq);
+            return;
+        }
+
         Pattern duelPattern = Pattern.compile(RegexConstant.DUEL_REGEX);
         Matcher duelMatcher = duelPattern.matcher(command);
 
@@ -451,7 +475,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
            qqBotDuelService.duel(data,msgSeq);
         }else{
             QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                    .content("决斗格式 :/决斗[昵称]")
+                    .content("决斗格式 :/决斗[金额],消耗一定的金额进行决斗")
                     .msgType(0)
                     .eventId("GROUP_AT_MESSAGE_CREATE")
                     .msgId(id)

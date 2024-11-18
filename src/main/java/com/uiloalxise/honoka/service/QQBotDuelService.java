@@ -29,4 +29,8 @@ public interface QQBotDuelService {
      * @param seq
      */
     void information(JSONObject data,Integer seq);
+
+    void rankKD(JSONObject data,Integer seq);
+
+    void registerAccount(JSONObject data,Integer seq);
 }

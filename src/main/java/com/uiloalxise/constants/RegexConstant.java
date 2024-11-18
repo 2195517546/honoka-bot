@@ -21,7 +21,8 @@ public class RegexConstant {
     /**
      * 决斗相关Regex
      */
-    public final static String DUEL_REGEX = "(决斗)([\\u4e00-\\u9fa5a-zA-Z0-9_]+)";
+    public final static String DUEL_REGEX = "(决斗)(\\d+)";
+    public final static String DUEL_RENAME_REGEX = "(决斗改名)([\\u4e00-\\u9fa5a-zA-Z0-9_]+)";
 
     /**
      *
