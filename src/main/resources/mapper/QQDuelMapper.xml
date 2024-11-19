@@ -6,24 +6,33 @@
     </insert>
 
     <!-- 交到审核中去防止出意外   -->
-    <update id="updateDuelPlayer">
+    <update id="updateDuelPlayerOnlyNameByOpenId">
         UPDATE duel_player
         SET new_user_name = #{userName}
         WHERE open_id = #{openId};
+    </update>
+    <update id="updateDuelPlayerByOpenIdExceptName">
+        UPDATE duel_player
+        SET
+            money = #{money},
+            win = #{win},
+            lost = #{lost}
+
+        WHERE open_id = #{openId};
+    </update>
+    <update id="processAll">
+        UPDATE duel_player
+        SET user_name = new_user_name
     </update>
 
     <select id="selectDuelPlayerByOpenId" resultType="com.uiloalxise.pojo.entity.DuelPlayer">
         select * from duel_player where open_id = #{openId};
     </select>
-    <select id="rankDuelPlayerByKD" resultType="com.uiloalxise.pojo.entity.DuelPlayer">
-        SELECT *,
-               CASE
-                   WHEN lost = 0 THEN NULL
-                   ELSE (win / lost)
-                   END AS win_loss_ratio
+
+    <select id="rankDuelPlayerByKd" resultType="com.uiloalxise.pojo.entity.DuelPlayer" >
+        SELECT *
         FROM duel_player
-        WHERE lost > 0
-        ORDER BY win_loss_ratio DESC
+        ORDER BY IF(lost = 0, NULL, (win / lost))
         LIMIT 10;
     </select>
 </mapper>

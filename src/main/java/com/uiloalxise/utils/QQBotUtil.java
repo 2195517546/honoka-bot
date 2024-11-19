@@ -1,6 +1,7 @@
 package com.uiloalxise.utils;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -94,6 +95,27 @@ public class QQBotUtil {
         headers.set("Content-Type"," application/json");
         headers.set("Authorization", getAuthorization());
         return headers;
+    }
+
+
+    public QQGroupsMsg qqGroupsTextMsg(String content,String msgId,Integer msgSeq)
+    {
+        return QQGroupsMsg.builder()
+                .content(content)
+                .msgType(0)
+                .eventId("GROUP_AT_MESSAGE_CREATE")
+                .msgId(msgId)
+                .msgSeq(msgSeq)
+                .build();
+    }
+
+    /**
+     * 获取openid
+     * @param data
+     * @return
+     */
+    public String getOpenId(JSONObject data) {
+        return data.getJSONObject("author").getString("member_openid");
     }
 
 }

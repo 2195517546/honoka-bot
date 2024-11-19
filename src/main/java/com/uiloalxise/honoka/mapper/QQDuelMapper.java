@@ -23,7 +23,11 @@ public interface QQDuelMapper {
 
     void addDuelPlayer(DuelPlayerDTO duelPlayerDTO);
 
-    List<DuelPlayer> rankDuelPlayerByKD();
+    List<DuelPlayer> rankDuelPlayerByKd();
 
-    void updateDuelPlayer(DuelPlayerDTO duelPlayerDTO);
+    void updateDuelPlayerOnlyNameByOpenId(DuelPlayerDTO duelPlayerDTO);
+
+    void updateDuelPlayerByOpenIdExceptName(DuelPlayerDTO duelPlayerDTO);
+
+    void processAll();
 }

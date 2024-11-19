@@ -440,6 +440,12 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     public void honokaDuel(JSONObject data, Integer msgSeq) {
         String command = data.getString("content");
 
+        if (command.contains("决斗菜单"))
+        {
+            qqBotDuelService.menu(data,msgSeq);
+            return;
+        }
+
         if (command.contains("决斗排名"))
         {
             qqBotDuelService.rankKD(data, msgSeq);
@@ -464,12 +470,36 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             return;
         }
 
+        if (command.contains("决斗审核全部"))
+        {
+            if ("280ABEC05AD07F3BA29F7C55A13C7C23".equals(qqBotUtil.getOpenId(data)))
+            {
+                qqBotDuelService.processAll();
+            }
+            return;
+        }
+
+        if ("/决斗".equals(command.trim()))
+        {
+            //构造群iD用于匹配决斗串key
+            String groupId = "[Duel:" + data.getString("group_openid") + "]";
+            //通过groupId获取duelId，如果没有则说明是发起决斗
+            String duelId =(String) redisTemplate.opsForValue().get(groupId);
+            if (duelId != null)
+            {
+                qqBotDuelService.duel(data,msgSeq);
+                return;
+            }
+        }
+
         Pattern duelPattern = Pattern.compile(RegexConstant.DUEL_REGEX);
         Matcher duelMatcher = duelPattern.matcher(command);
 
         String id = data.getString("id");
         String url = QQBotConstant.OPENAPI_URL + "/v2/groups/" + data.getString("group_openid");
         HttpHeaders headers = getHeader();
+
+
 
         if (duelMatcher.find()) {
            qqBotDuelService.duel(data,msgSeq);

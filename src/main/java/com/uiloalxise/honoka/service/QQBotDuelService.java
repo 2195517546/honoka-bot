@@ -33,4 +33,8 @@ public interface QQBotDuelService {
     void rankKD(JSONObject data,Integer seq);
 
     void registerAccount(JSONObject data,Integer seq);
+
+    void processAll();
+
+    void menu(JSONObject data,Integer seq);
 }
