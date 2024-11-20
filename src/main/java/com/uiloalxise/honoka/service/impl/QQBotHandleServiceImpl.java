@@ -77,7 +77,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
         }
 
         //处理为null的情况
-        log.info("Handle的结果：{}",result);
+        log.info("summaryHandle的结果：{}",result);
         return AsyncResult.forValue(result);
     }
 

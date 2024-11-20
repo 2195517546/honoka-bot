@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.constants.BotMsgConstant;
 import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.constants.RegexConstant;
+import com.uiloalxise.constants.WebConstant;
 import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
 import com.uiloalxise.honoka.service.QQBotDuelService;
@@ -118,16 +119,47 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         String id = data.getString("id");
         HttpHeaders headers = getHeader();
 
+        ResponseEntity<JSONObject> mediaFileResp = null;
+
         String content = msgGeneratorService.randomDingTalk();
 
+        Pattern pattern = Pattern.compile(RegexConstant.DINGTALK_PICTURE_REGEX);
+        Matcher matcher = pattern.matcher(content);
 
-        QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                .content(content)
-                .msgType(0)
-                .eventId("GROUP_AT_MESSAGE_CREATE")
-                .msgId(id)
-                .msgSeq(msgSeq)
-                .build();
+
+        if (matcher.find()) {
+            log.info("匹配到图片$图片$:{}",matcher.group());
+            String pictureUrl = WebConstant.DINGTALK_PIC_URL + matcher.group(2);
+            //构造qqmedia文件的json
+            QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureUrl)
+                    .fileType(1)
+                    .srvSendMsg(false)
+                    .build();
+
+            HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
+
+            mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
+            String fileInfo = mediaFileResp.getBody().getString("file_info");
+            log.info(fileInfo);
+        }
+
+
+
+        QQGroupsMsg qqGroupsMsg = null;
+
+        if(mediaFileResp == null) {
+            qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, msgSeq);
+        }else
+        {
+            qqGroupsMsg = QQGroupsMsg.builder()
+                    .content("钉言钉图")
+                    .msgType(7)
+                    .eventId("GROUP_AT_MESSAGE_CREATE")
+                    .media(mediaFileResp.getBody())
+                    .msgId(id)
+                    .build();
+        }
+
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);

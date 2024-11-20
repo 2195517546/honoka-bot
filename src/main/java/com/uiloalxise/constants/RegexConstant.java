@@ -10,6 +10,7 @@ public class RegexConstant {
      * 图片Regex
      */
     public final static String PICTURE_REGEX = "^(.*?)(\\.jpg|\\.png|\\.gif)";
+    public final static String DINGTALK_PICTURE_REGEX = "(\\$)([\\u4e00-\\u9fa5a-zA-Z0-9_.]+)(\\$)";
 
     /**
      * pjsk相关Regex
