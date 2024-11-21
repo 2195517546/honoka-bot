@@ -14,3 +14,16 @@ create table pjsk_music_pane
 )
     comment '世界计划铺面';
 -- 一条level_message格式如右边类似于EZ7C142ULC最初から所持CN从一开始就拥有|N14C343ULC最初から所持CN从一开始就拥有|H19C600ULC最初から所持CN从一开始就拥有|EX26C947ULC最初から所持CN从一开始就拥有|MA33C1157ULCGOOD以下を7以内でEXPERTクリアで解放CN以7个以内的GOOD以下判定通关EXPERT|APDCULCCN
+
+-- 决斗功能玩家表
+create table duel_player
+(
+    open_id       varchar(128) default ''         not null
+        primary key,
+    money         bigint       default 100        null,
+    win           int          default 0          null,
+    lost          int          default 0          null,
+    user_name     varchar(50)  default 'new_user' not null,
+    new_user_name varchar(50)                     null comment '改名审核用'
+)
+    comment '决斗游戏表';
