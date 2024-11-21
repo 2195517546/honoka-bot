@@ -1,10 +1,5 @@
 package com.uiloalxise.honoka.mapper;
 
-/**
- * @author Uiloalxise
- * @ClassName PJSKMusicPaneMapeer
- * @Description TODO
- */
 
 import com.uiloalxise.pojo.entity.PJSKMusicObject;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,11 +8,12 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- *
- * @author liumo
+ * @author Uiloalxise
+ * @ClassName PJSKMusicPaneMapper
+ * @Description PJSK查铺mapper
  */
 @Mapper
-public interface PJSKMusicPaneMapeer {
+public interface PJSKMusicPaneMapper {
 
     @Select("select * from xiaoyi_app.pjsk_music_pane where id = #{id}")
     PJSKMusicObject selectByPrimaryKey(Integer id);

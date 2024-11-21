@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * @author Uiloalxise
  * @ClassName QQBotUtil
- * @Description TODO
+ * @Description QQ机器人工具类
  */
 @Data
 @AllArgsConstructor
@@ -28,12 +28,16 @@ public class QQBotUtil {
     private String token;
     private String qqNumber;
 
-    private static String accessTokenUrl = "https://bots.qq.com/app/getAppAccessToken";
-    private static String authorUrl = "https://api.sgroup.qq.com";
-    private static String gateWayUrl = "https://api.sgroup.qq.com/gateway/bot";
+    private final static String ACCESS_TOKEN_URL = "https://bots.qq.com/app/getAppAccessToken";
+    private final static String AUTHOR_URL = "https://api.sgroup.qq.com";
+    private final static String GATE_WAY_URL = "https://api.sgroup.qq.com/gateway/bot";
 
-    private static String authorizationString = "Authorization";
+    private final static String AUTHORIZATION_STRING = "Authorization";
 
+    /**
+     * 发起ws连接请求
+     * @return
+     */
     public JSONObject getWebsocket() {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -43,7 +47,7 @@ public class QQBotUtil {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(gateWayUrl, HttpMethod.GET, entity, JSONObject.class);
+        ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(GATE_WAY_URL, HttpMethod.GET, entity, JSONObject.class);
 
         return Objects.requireNonNull(responseEntity.getBody());
     }
@@ -67,7 +71,7 @@ public class QQBotUtil {
         HttpEntity<String> entity = new HttpEntity<>(body.toJSONString(),headers);
 
 
-        ResponseEntity<JSONObject> response = restTemplate.exchange(accessTokenUrl,
+        ResponseEntity<JSONObject> response = restTemplate.exchange(ACCESS_TOKEN_URL,
                 HttpMethod.POST,
                 entity,
                 JSONObject.class);
@@ -89,6 +93,10 @@ public class QQBotUtil {
     }
 
 
+    /**
+     * 获取常用http header
+     * @return
+     */
     public HttpHeaders getHeader()
     {
         HttpHeaders headers = new HttpHeaders();
@@ -98,6 +106,13 @@ public class QQBotUtil {
     }
 
 
+    /**
+     * 生成一般的文本消息群消息
+     * @param content
+     * @param msgId
+     * @param msgSeq
+     * @return
+     */
     public QQGroupsMsg qqGroupsTextMsg(String content,String msgId,Integer msgSeq)
     {
         return QQGroupsMsg.builder()
@@ -110,7 +125,7 @@ public class QQBotUtil {
     }
 
     /**
-     * 获取openid
+     * 从d的json获取openid
      * @param data
      * @return
      */

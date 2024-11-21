@@ -1,10 +1,6 @@
 package com.uiloalxise.honoka.config;
 
-
-
-
 import org.springframework.context.annotation.Configuration;
-
 
 /**
  * WebSocket配置类

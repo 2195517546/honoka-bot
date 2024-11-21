@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName QQBotPayload
- * @Description TODO
+ * @Description QQBOT payload的实体类
  */
 @Data
 @Builder

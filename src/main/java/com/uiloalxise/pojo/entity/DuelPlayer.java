@@ -5,16 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author Uiloalxise
  * @ClassName DuelPlayer
- * @Description TODO
+ * @Description 决斗玩家实体类
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DuelPlayer {
+public class DuelPlayer implements Serializable {
 
     /*
     -- auto-generated definition

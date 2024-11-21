@@ -4,7 +4,7 @@ package com.uiloalxise.honoka.service;
 /**
  * @author Uiloalxise
  * @ClassName PictureServiceImpl
- * @Description TODO
+ * @Description 图片url服务
  */
 public interface PictureService {
 

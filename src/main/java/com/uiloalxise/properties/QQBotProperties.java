@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Uiloalxise
  * @ClassName QQBotProperties
- * @Description TODO
+ * @Description QQ机器人参数配置导入
  */
 @Component
 @ConfigurationProperties(prefix = "honoka.qq-bot")

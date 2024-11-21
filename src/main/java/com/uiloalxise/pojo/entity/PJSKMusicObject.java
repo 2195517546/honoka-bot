@@ -1,6 +1,5 @@
 package com.uiloalxise.pojo.entity;
 
-import com.uiloalxise.constants.StringConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * @author Uiloalxise
  * @ClassName PJSKMusicObject
- * @Description TODO
+ * @Description PJSK音乐
  */
 @Data
 @Builder

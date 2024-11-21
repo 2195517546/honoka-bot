@@ -13,7 +13,7 @@ import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import com.uiloalxise.pojo.entity.QQMediaFile;
 import com.uiloalxise.utils.PJSKUtil;
 import com.uiloalxise.utils.QQBotUtil;
-import com.uiloalxise.honoka.mapper.PJSKMusicPaneMapeer;
+import com.uiloalxise.honoka.mapper.PJSKMusicPaneMapper;
 import com.uiloalxise.honoka.service.MsgGeneratorService;
 import com.uiloalxise.honoka.service.PictureService;
 import com.uiloalxise.honoka.service.QQBotGroupFunctionService;
@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 /**
  * @author Uiloalxise
  * @ClassName QQBotFunctionServiceServiceImpl
- * @Description TODO
+ * @Description QQ机器人可调用的功能总服务类实现
  */
 @Service
 @Slf4j
@@ -59,10 +59,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     private PictureService pictureService;
 
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Resource
-    private PJSKMusicPaneMapeer pjsKMusicPaneMapeer;
+    private PJSKMusicPaneMapper pjsKMusicPaneMapper;
 
     @Resource
     private RestTemplate restTemplate;
@@ -237,7 +237,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             {
                 musicName = matcher.group(2);
                 difficulty = matcher.group(3);
-                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapeer.selectByTitle("%" + musicName + "%");
+                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapper.selectByTitle("%" + musicName + "%");
 
                 if (pjskMusicObjects.getFirst() == null)
                 {
@@ -348,7 +348,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             if (matcher.find())
             {
                 musicName = matcher.group(2);
-                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapeer.selectByTitle("%" + musicName + "%");
+                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapper.selectByTitle("%" + musicName + "%");
                 PJSKMusicObject pjskMusicObject = null;
 
                 if (pjskMusicObjects.getFirst() == null)

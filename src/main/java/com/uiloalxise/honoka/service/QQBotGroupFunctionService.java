@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 /**
  * @author Uiloalxise
  * @ClassName QQBotGroupFunctionService
- * @Description TODO
+ * @Description QQ机器人可调用的功能总服务类
  */
 public interface QQBotGroupFunctionService {
     //以下是主要功能

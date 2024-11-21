@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName QQMediaFile
- * @Description TODO
+ * @Description QQ机器人发送的媒体文件实体类
  */
 @Data
 @Builder

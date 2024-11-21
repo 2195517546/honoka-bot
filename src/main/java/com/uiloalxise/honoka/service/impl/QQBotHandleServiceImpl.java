@@ -10,15 +10,15 @@ import jakarta.annotation.Resource;
 import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
  * @author Uiloalxise
  * @ClassName QQBotHandleServiceImpl
- * @Description TODO
+ * @Description QQ机器人消息总处理类
  */
 @Service
 @Slf4j
@@ -32,7 +32,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
     private QQBotUtil qqBotUtil;
 
     @Resource
-    private QQBotGroupMsgHandleService QQBotGroupMsgHandleService;
+    private QQBotGroupMsgHandleService qqBotGroupMsgHandleService;
 
     /**
      * 总处理器，直接调用<br>
@@ -43,42 +43,53 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
     @Override
     public Future<JSONObject> summaryHandle(JSONObject json, Session session)
     {
-        Integer sInt = null;
 
-        JSONObject result = null;
+        // 模拟一些异步操作
+        CompletableFuture<JSONObject> future = new CompletableFuture<>();
+        try {
+            Integer sInt = null;
 
-        if (json.getInteger("s")!= null)
-        {
-            sInt = json.getInteger("s");
-        }
+            JSONObject result = null;
 
-        if ("0".equals(json.getString("op"))) {
-
-            String event = json.getString("t");
-
-            if ("GROUP_AT_MESSAGE_CREATE".equals(event)) {
-                QQBotGroupMsgHandleService.msgHandle(json,sInt);
+            if (json.getInteger("s") != null) {
+                sInt = json.getInteger("s");
             }
 
-            if ("READY".equals(event)) {
-                ReadyEventHandle(json, session,sInt);
-            }
-        }
+            if ("0".equals(json.getString("op"))) {
 
-        //调用登录凭证
-        if ("10".equals(json.getString("op")))
-        {
+                String event = json.getString("t");
+
+                if ("GROUP_AT_MESSAGE_CREATE".equals(event)) {
+                    qqBotGroupMsgHandleService.msgHandle(json, sInt);
+                }
+
+                if ("READY".equals(event)) {
+                    ReadyEventHandle(json, session, sInt);
+                }
+            }
+
+            //调用登录凭证
+            if ("10".equals(json.getString("op"))) {
 //            if(sessionId == null) {
                 result = buildLoginAuthToken(json);
 //            }else
-            //{
-             //   result = ResumeHandle(session);
-            //}
+                //{
+                //   result = ResumeHandle(session);
+                //}
+            }
+
+            //处理为null的情况
+            log.info("Summary Handle的结果：{}", result);
+            future.complete(result);
+            return future;
+        }catch (Exception e)
+        {
+            future.completeExceptionally(e);
+            return future;
         }
 
-        //处理为null的情况
-        log.info("summaryHandle的结果：{}",result);
-        return AsyncResult.forValue(result);
+
+
     }
 
 

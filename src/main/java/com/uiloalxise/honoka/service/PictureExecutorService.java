@@ -5,7 +5,7 @@ import com.uiloalxise.pojo.entity.PJSKMusicObject;
 /**
  * @author Uiloalxise
  * @ClassName PictureExecuterService
- * @Description TODO
+ * @Description 自定义图片生成或获取服务
  */
 public interface PictureExecutorService {
 

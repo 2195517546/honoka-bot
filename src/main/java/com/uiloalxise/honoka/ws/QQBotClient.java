@@ -3,8 +3,7 @@ package com.uiloalxise.honoka.ws;
 import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.utils.QQBotUtil;
 import com.uiloalxise.honoka.service.QQBotHandleService;
-import com.uiloalxise.honoka.service.impl.PictureServiceImpl;
-import com.uiloalxise.honoka.service.impl.QQBotHandleServiceImpl;
+
 import jakarta.websocket.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * @author Uiloalxise
  * @ClassName QQBotClient
- * @Description TODO
+ * @Description WS客户端
  */
 
 @ClientEndpoint

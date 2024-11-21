@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author Uiloalxise
  * @ClassName DuelPlayerDTO
- * @Description TODO
+ * @Description 决斗的玩家DTO
  */
 @Data
 @Builder

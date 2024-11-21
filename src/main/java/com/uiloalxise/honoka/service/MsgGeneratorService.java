@@ -3,8 +3,8 @@ package com.uiloalxise.honoka.service;
 /**
  * @author Uiloalxise
  * @ClassName MsgGeneratorService
- * @Description TODO
- * 生成随机消息的服务
+ * @Description 生成随机消息的服务
+ *
  */
 public interface MsgGeneratorService {
 

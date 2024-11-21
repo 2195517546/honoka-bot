@@ -4,19 +4,19 @@ import com.uiloalxise.utils.QQBotUtil;
 import com.uiloalxise.honoka.ws.QQBotClient;
 import jakarta.annotation.Resource;
 import jakarta.websocket.ContainerProvider;
+import jakarta.websocket.Session;
 import jakarta.websocket.WebSocketContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-
 import java.net.URI;
 
 /**
  * @author Uiloalxise
  * @ClassName WebSocketDevice
- * @Description TODO
+ * @Description ws启动设备Runner
  */
 @Component
 @Order(5)
@@ -41,9 +41,9 @@ public class WebSocketDevice implements CommandLineRunner {
                 WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
                 URI uri = null;
                 uri = new URI(qqBotUtil.getWebsocket().getString("url"));
-                webSocketContainer.connectToServer(QQBotClient.class, uri);
+                Session session = webSocketContainer.connectToServer(QQBotClient.class, uri);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
 
             log.info("启动websocket线程结束");

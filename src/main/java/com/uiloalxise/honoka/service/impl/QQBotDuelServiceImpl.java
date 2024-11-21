@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 /**
  * @author Uiloalxise
  * @ClassName QQBotDuelServiceImpl
- * @Description TODO
+ * @Description QQ决斗服务类实现
  */
 @Slf4j
 @Service
@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 public class QQBotDuelServiceImpl implements QQBotDuelService {
 
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Resource
     private RestTemplate restTemplate;

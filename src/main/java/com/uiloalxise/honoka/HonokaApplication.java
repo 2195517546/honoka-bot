@@ -7,6 +7,10 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author uiloalxise
+ * app启动类
+ */
 @Slf4j
 @EnableCaching //开启缓存注解
 @SpringBootApplication

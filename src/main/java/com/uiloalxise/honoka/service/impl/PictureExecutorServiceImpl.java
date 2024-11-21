@@ -6,7 +6,7 @@ import com.uiloalxise.honoka.service.PictureExecutorService;
 /**
  * @author Uiloalxise
  * @ClassName PictureExecutorServiceImpl
- * @Description TODO
+ * @Description 自定义图片生成或获取服务实现
  */
 public class PictureExecutorServiceImpl implements PictureExecutorService {
     /**

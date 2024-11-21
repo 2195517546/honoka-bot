@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName QQGroupsMsg
- * @Description TODO
+ * @Description QQ消息实体类
  */
 @Data
 @Builder

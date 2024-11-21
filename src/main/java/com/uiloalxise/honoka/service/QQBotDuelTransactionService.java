@@ -1,12 +1,11 @@
 package com.uiloalxise.honoka.service;
 
 import com.uiloalxise.pojo.dto.DuelPlayerDTO;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Uiloalxise
  * @ClassName QQBotDuelTransactionService
- * @Description TODO
+ * @Description QQ决斗事务服务类
  */
 public interface QQBotDuelTransactionService {
     /**

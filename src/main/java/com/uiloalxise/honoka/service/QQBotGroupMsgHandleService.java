@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 /**
  * @author Uiloalxise
  * @ClassName QQBotGroupMsgHandleService
- * @Description TODO
+ * @Description QQ机器人群消息总处理服务
  */
 public interface QQBotGroupMsgHandleService {
 

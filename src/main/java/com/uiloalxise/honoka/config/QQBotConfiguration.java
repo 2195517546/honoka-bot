@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Uiloalxise
  * @ClassName QQBotConfiguration
- * @Description TODO
+ * @Description QQBOT配置类
  */
 @Configuration
 @EnableConfigurationProperties(QQBotProperties.class)

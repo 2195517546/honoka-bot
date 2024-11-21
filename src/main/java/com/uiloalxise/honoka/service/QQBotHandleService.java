@@ -8,7 +8,7 @@ import java.util.concurrent.Future;
 /**
  * @author Uiloalxise
  * @ClassName QQBotHandleService
- * @Description TODO
+ * @Description QQ机器人消息总处理服务
  */
 public interface QQBotHandleService {
 

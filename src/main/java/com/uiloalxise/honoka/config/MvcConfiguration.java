@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Uiloalxise
  * @ClassName MvcConfiguration
- * @Description TODO
+ * @Description MVC配置类，暂无用
  */
 @Configuration
 public class MvcConfiguration {

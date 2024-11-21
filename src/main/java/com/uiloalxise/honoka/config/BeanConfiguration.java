@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Uiloalxise
  * @ClassName BeanConfiguration
- * @Description TODO
+ * @Description 常用bean配置
  */
 @Configuration
 @Slf4j

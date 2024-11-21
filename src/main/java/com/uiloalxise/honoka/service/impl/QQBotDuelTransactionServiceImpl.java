@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 事务管理类
  * @author Uiloalxise
  * @ClassName QQBotDuelTransactionServiceImpl
- * @Description TODO
+ * @Description QQ决斗事务服务类实现
  */
 @Service
 @Transactional

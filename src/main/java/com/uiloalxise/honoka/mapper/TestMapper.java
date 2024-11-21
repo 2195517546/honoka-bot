@@ -3,10 +3,9 @@ package com.uiloalxise.honoka.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 /**
  * @author liumo
+ * 测试mapper
  */
 @Mapper
 public interface TestMapper {
@@ -19,8 +18,4 @@ public interface TestMapper {
     @Insert("insert xiaoyi_app.test001 (name, age) values (#{name},#{age})")
     void insert(String name, int age);
 
-    /**
-     *
-     */
-    List<String> selectAll();
 }

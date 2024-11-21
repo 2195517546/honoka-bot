@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Uiloalxise
  * @ClassName QQDuelMapper
- * @Description TODO
+ * @Description qq决斗mapper
  */
 @Mapper
 public interface QQDuelMapper {
