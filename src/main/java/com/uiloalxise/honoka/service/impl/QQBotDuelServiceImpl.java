@@ -247,7 +247,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
                     .build();
 
             qqBotDuelTransactionService.updateName(duelPlayerDTO);
-            content = "改名申请已提交请等待审核";
+            content = "改名申请已提交请等待审核,一般每天审核两次，请耐心等待";
 
         }else{
             content = "格式出错请重新尝试";
