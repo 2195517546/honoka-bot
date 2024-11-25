@@ -73,6 +73,12 @@ public class QQBotClient {
 
     }
 
+    @OnError
+    public void onError(Throwable throwable)
+    {
+        log.error("error:",throwable);
+    }
+
     @OnClose
     public void onClose() {
         log.info("QQBotWebsocket链接关闭!Close to server");

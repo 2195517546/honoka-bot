@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -186,10 +187,11 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
                         //删除原先数据
                         redisTemplate.delete(groupId);
 
-                        Random r = new Random();
+                        SecureRandom r = new SecureRandom();
                         int ranInt = r.nextInt(100) + 1;
 
-                        log.info("player1:" + player1 + " player2:" + player2 + " ranInt:" + ranInt);
+                        log.info("player1:{} player2:{} ranInt:{}", player1, player2, ranInt);
+
                         if (ranInt >= 50) {
                             winner =  player1.getUserName();
                             loser = player2.getUserName();
