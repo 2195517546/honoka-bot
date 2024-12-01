@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.uiloalxise</groupId>
     <artifactId>honoka-qqbot</artifactId>
-    <version>0.5.3</version>
+    <version>0.5.4</version>
     <name>honoka-qqbot</name>
     <description>honoka-qqbot</description>
     <url/>

@@ -270,7 +270,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
 
 
-                    content = "\n" + pjskMusicObject.getTitle() + "\n难度" + pjskUtil.getDifficult(difficulty) ;
+                    content = "\n" + pjskMusicObject.getTitle() + "\n难度" + pjskUtil.getDifficult(difficulty) + "等级" + pjskUtil.getDifficultLevelNumber(pjskMusicObject,difficulty);
 
                     if (pjskMusicObject.getLevelMessage().contains("APD0")) {
                         throw new NoAppendException();
@@ -436,7 +436,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
         log.info("消息发送成功：{}", groupMsgResp.getBody());
     }
-
 
     /**
      * 帮助菜单

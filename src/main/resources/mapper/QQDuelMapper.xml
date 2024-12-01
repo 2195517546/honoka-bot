@@ -32,7 +32,8 @@
     <select id="rankDuelPlayerByKd" resultType="com.uiloalxise.pojo.entity.DuelPlayer" >
         SELECT *
         FROM duel_player
-        ORDER BY IF(lost = 0, NULL, (win / lost))
-        LIMIT 10;
+        ORDER BY IF(lost = 0, NULL, (win / lost)) DESC
+        LIMIT 10
+        ;
     </select>
 </mapper>

@@ -95,6 +95,55 @@ public class PJSKUtil {
         return result + StringConstant.dPng;
     }
 
+    public Integer getDifficultLevelNumber(PJSKMusicObject obj,String difficult)
+    {
+        String[]args = obj.getLevelMessage().split("\\|");
+
+        String diff = getDifficult(difficult);
+
+        String regex = null;
+        int index = 0;
+
+
+        if("easy".equals(diff)) {
+            regex = RegexConstant.EASY_REGEX;
+            index = 0;
+        }
+        if("normal".equals(diff))
+        {
+            regex = RegexConstant.NORMAL_REGEX;
+            index = 1;
+        }
+        if("hard".equals(diff)) {
+            regex = RegexConstant.HARD_REGEX;
+            index = 2;
+        }
+        if("expert".equals(diff)) {
+            regex = RegexConstant.EXPERT_REGEX;
+            index = 3;
+        }
+        if("master".equals(diff)) {
+            regex = RegexConstant.MASTER_REGEX;
+            index = 4;
+        }
+        if("append".equals(diff)) {
+            regex = RegexConstant.APPEND_REGEX;
+            index = 5;
+        }
+
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(args[index]);
+
+        if (matcher.find())
+        {
+            return Integer.valueOf(matcher.group(1));
+        }
+
+
+        return -1;
+    }
+
     public String PJSKMusicLevelCutter(PJSKMusicObject obj)
     {
         String[]args = obj.getLevelMessage().split("\\|");
