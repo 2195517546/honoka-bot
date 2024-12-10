@@ -66,4 +66,8 @@ honoka:
     token: ${honoka.qq-bot.token}
     app-secret: ${honoka.qq-bot.app-secret}
 
+  #调用图片生成apikey，请联系管理员qq1930409680获取
+  api-key:
+    secret: ${faceround.api-key.secret}
+
 

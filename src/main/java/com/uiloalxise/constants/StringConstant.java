@@ -10,5 +10,5 @@ public class StringConstant {
     /**
      * 获取一个.png字符串
      */
-    public static String dPng = ".png";
+    public static final String DOT_PNG = ".png";
 }

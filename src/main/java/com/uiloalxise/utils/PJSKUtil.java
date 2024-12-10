@@ -77,7 +77,7 @@ public class PJSKUtil {
     {
         String result = Url + String.format("%03d", obj.getId());
 
-        return result + StringConstant.dPng;
+        return result + StringConstant.DOT_PNG;
     }
 
     /**
@@ -92,7 +92,7 @@ public class PJSKUtil {
 
         result += getDifficult(difficult);
 
-        return result + StringConstant.dPng;
+        return result + StringConstant.DOT_PNG;
     }
 
     public Integer getDifficultLevelNumber(PJSKMusicObject obj,String difficult)

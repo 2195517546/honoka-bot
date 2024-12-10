@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 /**
  * @author uiloalxise
  * app启动类
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class HonokaApplication {
 
     public static void main(String[] args) {
+        log.info("Honoka QQ bot is starting");
         SpringApplication.run(HonokaApplication.class, args);
     }
 
