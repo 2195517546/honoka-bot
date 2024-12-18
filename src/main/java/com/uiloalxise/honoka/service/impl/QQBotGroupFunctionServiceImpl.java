@@ -89,7 +89,24 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         String id = data.getString("id");
 
-        QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureService.getRandomPicture("wantu"))
+        String content = data.getString("content");
+
+        String find = "";
+
+        if (content.contains("宛图"))
+        {
+            find = "wantu";
+        }
+        if (content.contains("邪神"))
+        {
+            find = "xieshen";
+        }
+        if(content.contains("学士"))
+        {
+            find = "xueshi";
+        }
+
+        QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureService.getRandomPicture(find))
                 .fileType(1)
                 .srvSendMsg(false)
                 .build();

@@ -40,10 +40,12 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
                 return;
             }
 
-            if (content.contains("来点宛图")) {
+            if (content.contains("来点"))
+            {
                 qqBotGroupFunctionService.randomPic(data,seq);
                 return;
             }
+
 
             if (content.contains("钉言钉语")) {
                 qqBotGroupFunctionService.randomDingTalk(data,seq);
