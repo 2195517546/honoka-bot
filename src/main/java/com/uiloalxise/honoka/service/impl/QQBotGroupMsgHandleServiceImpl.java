@@ -34,9 +34,16 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
         String content = data.getString("content");
 
         try {
+            log.info("当前seq:{}",seq);
             if (content.contains("tttest"))
             {
                 qqBotGroupFunctionService.testFunction(data,seq);
+                return;
+            }
+
+            if (content.contains("一键刷屏"))
+            {
+                qqBotGroupFunctionService.spamFunction(data,seq);
                 return;
             }
 

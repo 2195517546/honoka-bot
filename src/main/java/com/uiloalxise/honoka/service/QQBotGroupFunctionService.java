@@ -80,4 +80,11 @@ public interface QQBotGroupFunctionService {
      */
     void testFunction(JSONObject data,Integer msgSeq);
 
+    /**
+     * 一键刷屏
+     * @param data
+     * @param msgSeq
+     */
+    void spamFunction(JSONObject data,Integer msgSeq);
+
 }
