@@ -154,7 +154,8 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         if (matcher.find()) {
             log.info("匹配到图片$图片$:{}",matcher.group());
-            String pictureUrl = WebConstant.DINGTALK_PIC_URL + matcher.group(2);
+            String pictureUrl = WebConstant.DINGTALK_PIC_URL + matcher.group(3);
+            content = matcher.group(1);
             //构造qqmedia文件的json
             QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureUrl)
                     .fileType(1)
@@ -177,7 +178,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         }else
         {
             qqGroupsMsg = QQGroupsMsg.builder()
-                    .content("钉言钉图")
+                    .content(content)
                     .msgType(7)
                     .eventId("GROUP_AT_MESSAGE_CREATE")
                     .media(mediaFileResp.getBody())
