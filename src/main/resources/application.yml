@@ -39,14 +39,6 @@ spring:
       password: ${honoka.redis.password}
       database: ${honoka.redis.database}
 
-logging:
-  level:
-    com:
-      sky:
-        mapper: debug
-        service: info
-        controller: info
-
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml

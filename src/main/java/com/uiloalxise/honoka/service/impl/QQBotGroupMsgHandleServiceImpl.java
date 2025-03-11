@@ -5,10 +5,14 @@ import com.alibaba.fastjson2.JSONObject;
 
 import com.uiloalxise.honoka.service.QQBotGroupMsgHandleService;
 import com.uiloalxise.honoka.service.QQBotGroupFunctionService;
+import com.uiloalxise.honoka.service.QQBotRecordService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.bytecode.CodeIterator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -23,6 +27,10 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
     @Resource
     private QQBotGroupFunctionService qqBotGroupFunctionService;
 
+
+    @Resource
+    private QQBotRecordService qqBotRecordService;
+
     /**
      * 消息总处理
      * @param json
@@ -32,6 +40,10 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
     public void msgHandle(JSONObject json,Integer seq) {
         JSONObject data = json.getJSONObject("d");
         String content = data.getString("content");
+        String groupId = data.getString("group_openid");
+
+
+        qqBotRecordService.record(groupId);
 
         try {
             log.info("当前seq:{}",seq);

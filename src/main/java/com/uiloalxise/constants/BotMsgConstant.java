@@ -15,13 +15,16 @@ public class BotMsgConstant {
     public static final String MENU_TEMPLATE_MSG = """
                 \n    帮助菜单
                 😎本皇帝功能如下
-                🤪随机宛图🤪
+                🤪来点宛图🤪
+                🤪来点邪神🤪
                 🤪钉言钉语🤪
                 🤪群规🤪
+                🤪决斗菜单🤪
                 🤪歌曲[歌曲名或者简写]🤪
                 🤪谱面[歌曲名或者简写][难度简写EZ|N|H|EX|MA|APD]🤪
                 😎特别鸣谢Sekai Viewer提供资源支持😎
                 🤤本皇帝处于开发初期阶段有问题BUG请联系管理员及时修复求求你了🤤
+                😡官方qq群:916233774，不服就真实管理员吧！😡
                 """;
 
     public static final String MENU_DUEL_MSG = """

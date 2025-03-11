@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Uiloalxise
  * @ClassName BeanConfiguration
@@ -27,5 +32,12 @@ public class BeanConfiguration {
     public RestTemplate restTemplate() {
         log.info("开始创建restTemplate对象");
         return new RestTemplate();
+    }
+
+    @Bean("GroupsRecord")
+    @ConditionalOnMissingBean
+    public Set<String> groupsRecord() {
+        log.info("开始创建GroupsRecord群openid记录器");
+        return new HashSet<>();
     }
 }
