@@ -33,9 +33,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
 
 /**
  * @author Uiloalxise
@@ -70,20 +71,17 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     private RedisTemplate<String,Object> redisTemplate;
 
     @Resource
-    private PJSKMusicPaneMapper pjsKMusicPaneMapper;
+    private PJSKMusicPaneMapper pjskMusicPaneMapper;
 
     @Resource
     private RestTemplate restTemplate;
 
     /**
-     * @param data
+     * 随机图片，目前只有宛图功能
+     * @param data - data数据
      */
     @Override
-
-    /**
-     * 随机图片，目前只有宛图功能
-     */
-    public void randomPic(JSONObject data,Integer msgSeq){
+    public void randomPic(JSONObject data){
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
 
         // String memberOpenid = data.getJSONObject("author").getString("member_openid");
@@ -137,10 +135,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     /**
      * 随机钉言钉语
-     * @param data
+     * @param data - data数据
      */
     @Override
-    public void randomDingTalk(JSONObject data,Integer msgSeq) {
+    public void randomDingTalk(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = getQQbotHeader();
@@ -175,7 +173,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         QQGroupsMsg qqGroupsMsg = null;
 
         if(mediaFileResp == null) {
-            qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, msgSeq);
+            qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, 1);
         }else
         {
             qqGroupsMsg = QQGroupsMsg.builder()
@@ -196,10 +194,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     /**
      * 群规
-     * @param data
+     * @param data - data数据
      */
     @Override
-    public void groupRule(JSONObject data,Integer msgSeq) {
+    public void groupRule(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
 
         // String memberOpenid = data.getJSONObject("author").getString("member_openid");
@@ -239,11 +237,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     /**
      * 世界计划查谱面
-     * @param data
-     * @param msgSeq
+     * @param data - data数据
      */
     @Override
-    public void pjskPaneInfo(JSONObject data,Integer msgSeq)
+    public void pjskPaneInfo(JSONObject data)
     {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
@@ -264,7 +261,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             {
                 musicName = matcher.group(2);
                 difficulty = matcher.group(3);
-                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapper.selectByTitle("%" + musicName + "%");
+                List<PJSKMusicObject> pjskMusicObjects = pjskMusicPaneMapper.selectByTitle("%" + musicName + "%");
 
                 if (pjskMusicObjects.getFirst() == null)
                 {
@@ -355,125 +352,19 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     /**
      * 世界计划查歌
      * @param data
-     * @param msgSeq
      */
     @Override
-    public void pjskMusicInfo(JSONObject data,Integer msgSeq)
+    public void pjskMusicInfo(JSONObject data)
     {
-
-        pjskMusicInfo2(data,msgSeq);
-
-//        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
-//        String id = data.getString("id");
-//        HttpHeaders headers = getHeader();
-//        String content = data.getString("content");
-//        content = content.trim();
-//        String musicName = null;
-//        ResponseEntity<JSONObject> mediaFileResp = null;
-//
-//        try{
-//            Pattern pattern = Pattern.compile(RegexConstant.MUSIC_REGEX);
-//            Matcher matcher = pattern.matcher(content);
-//
-//            if (matcher.find())
-//            {
-//                musicName = matcher.group(2);
-//                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapper.selectByTitle("%" + musicName + "%");
-//                PJSKMusicObject pjskMusicObject = null;
-//
-//                if (pjskMusicObjects.getFirst() == null)
-//                {
-//                    throw new NoSuchElementException();
-//                }
-//                else {
-//                    for (int i = 0; i < pjskMusicObjects.size(); i++) {
-//                        if (pjskMusicObjects.get(i).getLikeTitle().contains(musicName)) {
-//                            pjskMusicObject = pjskMusicObjects.get(i);
-//                            break;
-//                        }
-//
-//                        if (i == pjskMusicObjects.size() - 1) {
-//                            pjskMusicObject = pjskMusicObjects.getFirst();
-//                        }
-//                    }
-//                    QQMediaFile qqMediaFile = QQMediaFile.builder()
-//                            .url(pjskUtil.getPaneUrl(pjskMusicObject))
-//                            .fileType(1)
-//                            .srvSendMsg(false)
-//                            .build();
-//
-//                    headers = getHeader();
-//
-//                    HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
-//                    //构造qqmedia文件的json
-//                    mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
-//                    String fileInfo = mediaFileResp.getBody().getString("file_info");
-//                    log.info("获取乐曲封面成功:{}", fileInfo);
-//
-//
-//
-//                    String levelMsg = pjskUtil.PJSKMusicLevelCutter(pjskMusicObject);
-//
-//
-//                    content = "查询成功信息如下\n" + "谱名【" + pjskMusicObject.getTitle().split("\\|")[0]
-//                            +"】\n中文名【" + pjskMusicObject.getTitle().split("\\|")[1]
-//                            + "】\n标签【" + pjskMusicObject.getLabel().split("\\|")[1]
-//                            + "】\n编曲【" + pjskMusicObject.getEditor()
-//                            + "】\n作曲【" + pjskMusicObject.getComposer()
-//                            + "】\n作词【" + pjskMusicObject.getLyrics()
-//                            + "】\n开放时间【" + pjskMusicObject.getOpeningTime()
-//                            + "】\nAPD状态【" + (pjskMusicObject.getLevelMessage().contains("APDCULCCN")?"无APPEND谱面":"有APPEND谱面")
-//                            +"】\n难度状态:\n" + levelMsg
-//                    ;
-//                }
-//
-//            }else {
-//                throw new ArgsException();
-//            }
-//        }catch (ArgsException e) {
-//            content= "参数错误";
-//        }
-//        catch (NoSuchElementException e)
-//        {
-//            content = "歌曲不存在或者未添加，查询失败";
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            log.error(e.getMessage());
-//            content = "未知错误,请稍后再试";
-//        }
-//
-//        QQGroupsMsg qqGroupsMsg = null;
-//        if (mediaFileResp !=null) {
-//
-//            qqGroupsMsg = QQGroupsMsg.builder()
-//                    .content(content)
-//                    .msgType(7)
-//                    .eventId("GROUP_AT_MESSAGE_CREATE")
-//                    .media(mediaFileResp.getBody())
-//                    .msgId(id)
-//                    .build();
-//        }
-//        else
-//        {
-//            qqGroupsMsg = QQGroupsMsg.builder()
-//                    .content(content)
-//                    .msgType(0)
-//                    .eventId("GROUP_AT_MESSAGE_CREATE")
-//                    .msgId(id)
-//                    .build();
-//        }
-//        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-//        ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-//        log.info("消息发送成功：{}", groupMsgResp.getBody());
+        pjskMusicInfo2(data);
     }
 
 
     /**
      * 世界计划查歌2
      * @param data
-     * @param msgSeq
      */
-    public void pjskMusicInfo2(JSONObject data,Integer msgSeq)
+    public void pjskMusicInfo2(JSONObject data)
     {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
@@ -490,7 +381,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             if (matcher.find())
             {
                 musicName = matcher.group(2);
-                List<PJSKMusicObject> pjskMusicObjects = pjsKMusicPaneMapper.selectByTitle("%" + musicName + "%");
+                List<PJSKMusicObject> pjskMusicObjects = pjskMusicPaneMapper.selectByTitle("%" + musicName + "%");
                 PJSKMusicObject pjskMusicObject = null;
 
                 if (pjskMusicObjects.getFirst() == null)
@@ -519,8 +410,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
 
                     HttpEntity<PJSKIdDTO> pjskIdDTOHttpEntity = new HttpEntity<>(pjskIdDTO,headers);
-                    mediaFileResp = restTemplate.exchange("https://www.faceroundcloud.site/execute/pjsk/id",HttpMethod.POST, pjskIdDTOHttpEntity, JSONObject.class);
-                    String res = "https://www.faceroundcloud.site/execute" + mediaFileResp.getBody().getString("data");
+
+                    //D
+                    mediaFileResp = restTemplate.exchange(WebConstant.PJSK_EXECUTE_URL,HttpMethod.POST, pjskIdDTOHttpEntity, JSONObject.class);
+                    String res = WebConstant.PJSK_EXECUTE_INFO_URL + mediaFileResp.getBody().getString("data");
 
 
                     QQMediaFile qqMediaFile = QQMediaFile.builder()
@@ -585,10 +478,9 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     /**
      * 帮助菜单
-     * @param data
      */
     @Override
-    public void helpMenu(JSONObject data,Integer msgSeq) {
+    public void helpMenu(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + "/v2/groups/" + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = getQQbotHeader();
@@ -611,39 +503,38 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     /**
      * 决斗功能
      * @param data
-     * @param msgSeq
      */
     @Override
-    public void honokaDuel(JSONObject data, Integer msgSeq) {
+    public void honokaDuel(JSONObject data) {
         String command = data.getString("content");
 
         if (command.contains("决斗菜单"))
         {
-            qqBotDuelService.menu(data,msgSeq);
+            qqBotDuelService.menu(data);
             return;
         }
 
         if (command.contains("决斗排名"))
         {
-            qqBotDuelService.rankKD(data, msgSeq);
+            qqBotDuelService.rankKD(data);
             return;
         }
 
         if (command.contains("决斗注册"))
         {
-            qqBotDuelService.registerAccount(data,msgSeq);
+            qqBotDuelService.registerAccount(data);
             return;
         }
 
         if (command.contains("决斗改名"))
         {
-            qqBotDuelService.rename(data,msgSeq);
+            qqBotDuelService.rename(data);
             return;
         }
 
         if (command.contains("决斗信息"))
         {
-            qqBotDuelService.information(data,msgSeq);
+            qqBotDuelService.information(data);
             return;
         }
 
@@ -664,7 +555,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             String duelId =(String) redisTemplate.opsForValue().get(groupId);
             if (duelId != null)
             {
-                qqBotDuelService.duel(data,msgSeq);
+                qqBotDuelService.duel(data);
                 return;
             }
         }
@@ -679,7 +570,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
 
         if (duelMatcher.find()) {
-           qqBotDuelService.duel(data,msgSeq);
+           qqBotDuelService.duel(data);
         }else{
             QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
                     .content("决斗格式 :/决斗[金额],消耗一定的金额进行决斗")
@@ -697,10 +588,9 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     /**
      * 查卡749单独为钉钉十号添加呵呵
      * @param data
-     * @param msgSeq
      */
     @Override
-    public void check749(JSONObject data, Integer msgSeq) {
+    public void check749(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
 
         // String memberOpenid = data.getJSONObject("author").getString("member_openid");
@@ -742,7 +632,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
      * @param data
      */
     @Override
-    public void defaultMessage(JSONObject data,Integer msgSeq) {
+    public void defaultMessage(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = getQQbotHeader();
@@ -762,7 +652,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
                 .msgType(0)
                 .eventId("GROUP_AT_MESSAGE_CREATE")
                 .msgId(id)
-                .msgSeq(msgSeq)
                 .build();
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
@@ -772,10 +661,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     /**
      * @param data
-     * @param msgSeq
      */
     @Override
-    public void testFunction(JSONObject data, Integer msgSeq) {
+    public void testFunction(JSONObject data) {
+        Integer msgSeq = 1;
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         String memberOpenid = data.getJSONObject("author").getString("member_openid");
@@ -800,7 +689,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
                     .msgType(0)
                     .eventId("GROUP_AT_MESSAGE_CREATE")
                     .msgId(id)
-                    .msgSeq(msgSeq)
                     .build();
 
             qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
@@ -837,10 +725,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     /**
      * @param data
-     * @param msgSeq
      */
     @Override
-    public void spamFunction(JSONObject data, Integer msgSeq) {
+    public void spamFunction(JSONObject data) {
+        Integer msgSeq = 1;
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         String memberOpenid = data.getJSONObject("author").getString("member_openid");

@@ -37,7 +37,7 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
      */
     @Override
     @Async
-    public void msgHandle(JSONObject json,Integer seq) {
+    public void msgHandle(JSONObject json) {
         JSONObject data = json.getJSONObject("d");
         String content = data.getString("content");
         String groupId = data.getString("group_openid");
@@ -46,70 +46,69 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
         qqBotRecordService.record(groupId);
 
         try {
-            log.info("当前seq:{}",seq);
             if (content.contains("tttest"))
             {
-                qqBotGroupFunctionService.testFunction(data,seq);
+                qqBotGroupFunctionService.testFunction(data);
                 return;
             }
 
             if (content.contains("一键刷屏"))
             {
-                qqBotGroupFunctionService.spamFunction(data,seq);
+                qqBotGroupFunctionService.spamFunction(data);
                 return;
             }
 
             if (content.contains("来点"))
             {
-                qqBotGroupFunctionService.randomPic(data,seq);
+                qqBotGroupFunctionService.randomPic(data);
                 return;
             }
 
 
             if (content.contains("钉言钉语")) {
-                qqBotGroupFunctionService.randomDingTalk(data,seq);
+                qqBotGroupFunctionService.randomDingTalk(data);
                 return;
             }
 
             if (content.contains("群规")) {
-                qqBotGroupFunctionService.groupRule(data,seq);
+                qqBotGroupFunctionService.groupRule(data);
                 return;
             }
 
             if (content.contains("/谱面") || content.contains("/pjskp")) {
-                qqBotGroupFunctionService.pjskPaneInfo(data,seq);
+                qqBotGroupFunctionService.pjskPaneInfo(data);
                 return;
             }
 
             if (content.contains("/歌曲") || content.contains("/pjskm")) {
-                qqBotGroupFunctionService.pjskMusicInfo(data,seq);
+                qqBotGroupFunctionService.pjskMusicInfo(data);
                 return;
             }
 
             if (content.contains("查卡749"))
             {
-                qqBotGroupFunctionService.check749(data,seq);
+                qqBotGroupFunctionService.check749(data);
                 return;
             }
 
             //决斗发起，决斗改名，查询决斗次数
             if (content.contains("/决斗"))
             {
-                qqBotGroupFunctionService.honokaDuel(data,seq);
+                qqBotGroupFunctionService.honokaDuel(data);
                 return;
             }
 
 
             if (content.contains("/help")) {
-                qqBotGroupFunctionService.helpMenu(data,seq);
+                qqBotGroupFunctionService.helpMenu(data);
                 return;
             }
 
-            qqBotGroupFunctionService.defaultMessage(data,seq);
+            qqBotGroupFunctionService.defaultMessage(data);
         }catch (Exception e)
         {
             log.error(e.getMessage(),e);
-            qqBotGroupFunctionService.defaultMessage(data,seq);
+            qqBotGroupFunctionService.defaultMessage(data);
         }
     }
 

@@ -18,8 +18,8 @@ public class BotMsgConstant {
                 🤪来点宛图🤪
                 🤪来点邪神🤪
                 🤪钉言钉语🤪
-                🤪群规🤪
                 🤪决斗菜单🤪
+                🤪群规🤪
                 🤪歌曲[歌曲名或者简写]🤪
                 🤪谱面[歌曲名或者简写][难度简写EZ|N|H|EX|MA|APD]🤪
                 😎特别鸣谢Sekai Viewer提供资源支持😎

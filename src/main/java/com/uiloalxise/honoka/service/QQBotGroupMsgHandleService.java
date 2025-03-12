@@ -12,7 +12,6 @@ public interface QQBotGroupMsgHandleService {
    /**
     * 作为群聊处理的总方法
     * @param json
-    * @param seq
     */
-   void msgHandle(JSONObject json,Integer seq);
+   void msgHandle(JSONObject json);
 }

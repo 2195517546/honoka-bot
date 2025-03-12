@@ -64,10 +64,9 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
      * 决斗发起或者接受
      *
      * @param data
-     * @param seq
      */
     @Override
-    public void duel(JSONObject data, Integer seq) {
+    public void duel(JSONObject data) {
 
         //发送消息准备
         String url = QQBotConstant.OPENAPI_URL + "/v2/groups/" + data.getString("group_openid");
@@ -217,7 +216,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
             }
         }
 
-        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(result,id,seq);
+        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(result,id,1);
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
@@ -230,10 +229,9 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
      * 重命名决斗名字
      *
      * @param data
-     * @param seq
      */
     @Override
-    public void rename(JSONObject data, Integer seq) {
+    public void rename(JSONObject data) {
         String command = data.getString("content");
         command = command.trim();
         Pattern duelPattern = Pattern.compile(RegexConstant.DUEL_RENAME_REGEX);
@@ -259,7 +257,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
 
-        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,seq);
+        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,1);
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
@@ -272,10 +270,9 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
      * 资料查询
      *
      * @param data
-     * @param seq
      */
     @Override
-    public void information(JSONObject data, Integer seq) {
+    public void information(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
@@ -300,7 +297,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
             content = "你还没有信息，请输入注册/决斗注册，进行注册";
         }
 
-        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,seq);
+        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,1);
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
@@ -310,10 +307,9 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
     /**
      * 根据KD排行
      * @param data
-     * @param seq
      */
     @Override
-    public void rankKD(JSONObject data, Integer seq) {
+    public void rankKD(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
@@ -330,7 +326,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         }
 
 
-        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content.toString(),id,seq);
+        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content.toString(),id,1);
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
@@ -339,7 +335,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
 
     @Override
     @Transactional
-    public void registerAccount(JSONObject data, Integer seq) {
+    public void registerAccount(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
@@ -365,7 +361,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         }
 
 
-        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,seq);
+        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,1);
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
@@ -393,7 +389,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
     }
 
     @Override
-    public void menu(JSONObject data, Integer seq) {
+    public void menu(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
@@ -401,7 +397,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         String content = BotMsgConstant.MENU_DUEL_MSG;
 
 
-        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,seq);
+        QQGroupsMsg qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content,id,1);
 
         HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);

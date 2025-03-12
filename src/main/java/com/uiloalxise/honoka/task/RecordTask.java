@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Uiloalxise
- * @ClassName recordTask
+ * @ClassName RecordTask
  * @Description TODO
  */
 @Component
 @Slf4j
-public class recordTask {
+public class RecordTask {
 
     @Resource
     private QQBotRecordService qqBotRecordService;

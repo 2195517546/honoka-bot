@@ -27,6 +27,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
 
     private static Thread ackThread = null;
     private static String sessionId = null;
+    private static Integer sInt = null;
 
     @Resource
     private QQBotUtil qqBotUtil;
@@ -47,12 +48,20 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
         // 模拟一些异步操作
         CompletableFuture<JSONObject> future = new CompletableFuture<>();
         try {
-            Integer sInt = null;
+
 
             JSONObject result = null;
 
-            if (json.getInteger("s") != null) {
-                sInt = json.getInteger("s");
+            if (json.getString("s") != null) {
+
+                sInt = Integer.valueOf(json.getString("s"));
+                log.info("s值改变，当前s:{}", sInt);
+            }
+
+            if("11".equals(json.getString("op")))
+            {
+                log.info("收到QQ ack返回消息");
+                return null;
             }
 
             if ("0".equals(json.getString("op"))) {
@@ -60,11 +69,11 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
                 String event = json.getString("t");
 
                 if ("GROUP_AT_MESSAGE_CREATE".equals(event)) {
-                    qqBotGroupMsgHandleService.msgHandle(json, sInt);
+                    qqBotGroupMsgHandleService.msgHandle(json);
                 }
 
                 if ("READY".equals(event)) {
-                    ReadyEventHandle(json, session, sInt);
+                    readyEventHandle(json, session);
                 }
             }
 
@@ -140,7 +149,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
 
 
     //处理readyEvent,一般整个session只有一次
-    private void ReadyEventHandle(JSONObject json, Session session,Integer sInt)
+    private void readyEventHandle(JSONObject json, Session session)
     {
 
 
@@ -189,7 +198,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
      * }
      * @param session
      */
-    private JSONObject ResumeHandle(Session session,Integer sInt)
+    private JSONObject resumeHandle(Session session, Integer sInt)
     {
 
         ackThread.interrupt();

@@ -12,37 +12,32 @@ public interface QQBotDuelService {
     /**
      * 决斗重命名昵称
      * @param data
-     * @param seq
      */
-    void rename(JSONObject data,Integer seq);
+    void rename(JSONObject data);
 
     /**
      * 决斗发起或者接受
      * @param data
-     * @param seq
      */
-    void duel(JSONObject data,Integer seq);
+    void duel(JSONObject data);
 
     /**
      * 决斗资料查询
      * @param data
-     * @param seq
      */
-    void information(JSONObject data,Integer seq);
+    void information(JSONObject data);
 
     /**
      * 决斗返回kd的排行榜
      * @param data
-     * @param seq
      */
-    void rankKD(JSONObject data,Integer seq);
+    void rankKD(JSONObject data);
 
     /**
      * 决斗注册账户
      * @param data
-     * @param seq
      */
-    void registerAccount(JSONObject data,Integer seq);
+    void registerAccount(JSONObject data);
 
     /**
      * ！！！危险操作
@@ -53,7 +48,6 @@ public interface QQBotDuelService {
     /**
      * 决斗菜单
      * @param data
-     * @param seq
      */
-    void menu(JSONObject data,Integer seq);
+    void menu(JSONObject data);
 }
