@@ -27,7 +27,7 @@ public class PictureServiceImpl implements PictureService {
      * 返回一个随机的url
      *
      * @param path - 随机目标的文件目录路径参数
-     * @return
+     * @return 一个随机图片url
      */
     @Override
     public String getRandomPicture(String path) {
@@ -35,7 +35,7 @@ public class PictureServiceImpl implements PictureService {
         log.info(url);
         String forObject = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = JSONObject.parseObject(forObject);
-        String result = null;
+        String result;
         if (jsonObject != null) {
             result = jsonObject.getString("data");
         }else {

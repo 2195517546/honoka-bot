@@ -16,8 +16,7 @@ public interface QQDuelMapper {
 
     /**
      * openid找用户
-     * @param duelPlayerDTO
-     * @return
+     * @return 返回用户实体类
      */
     DuelPlayer selectDuelPlayerByOpenId(DuelPlayerDTO duelPlayerDTO);
 

@@ -1,9 +1,5 @@
 package com.uiloalxise.honoka.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Uiloalxise
@@ -13,7 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface QQBotRecordService {
 
+    /**
+     * 记录一条群id
+     * @param groupOpenId 群id
+     */
     void record(String groupOpenId);
 
+    /**
+     * 保存已经记录的群id到数据库
+     */
     void save();
 }

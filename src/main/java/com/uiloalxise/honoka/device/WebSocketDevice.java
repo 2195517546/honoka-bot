@@ -29,17 +29,16 @@ public class WebSocketDevice implements CommandLineRunner {
 
     /**
      * 首次启动ws客户端用
-     * @param args
-     * @throws Exception
+     * @param args 无需自己填
      */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         Thread thread = new Thread(() -> {
 
             log.info("开始===调用websocket接口");
             try {
                 WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
-                URI uri = null;
+                URI uri;
                 uri = new URI(qqBotUtil.getWebsocket().getString("url"));
                 Session session = webSocketContainer.connectToServer(QQBotClient.class, uri);
             } catch (Exception e) {

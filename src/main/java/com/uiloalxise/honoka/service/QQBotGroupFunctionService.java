@@ -18,37 +18,37 @@ public interface QQBotGroupFunctionService {
 
     /**
      * 随机钉言钉语
-     * @param data
+     * @param data 总消息处理下的d
      */
     void randomDingTalk(JSONObject data);
 
     /**
      * 群规
-     * @param data
+     * @param data 总消息处理下的d
      */
     void groupRule(JSONObject data);
 
     /**
      * pjsk谱面查询
-     * @param data
+     * @param data 总消息处理下的d
      */
     void pjskPaneInfo(JSONObject data);
 
     /**
      * pjsk音乐查询
-     * @param data
+     * @param data 总消息处理下的d
      */
     void pjskMusicInfo(JSONObject data);
 
     /**
      * 帮助菜单
-     * @param data
+     * @param data 总消息处理下的d
      */
     void helpMenu(JSONObject data);
 
     /**
      * 决斗
-     * @param data
+     * @param data 总消息处理下的d
      */
     void honokaDuel(JSONObject data);
 
@@ -59,7 +59,7 @@ public interface QQBotGroupFunctionService {
 
     /**
      * 默认回复
-     * @param data
+     * @param data 总消息处理下的d
      */
     void defaultMessage(JSONObject data);
 
@@ -67,13 +67,13 @@ public interface QQBotGroupFunctionService {
      * 测试功能
      * 目前的测试：
      * 从接口处生成任意图片
-     * @param data
+     * @param data 总消息处理下的d
      */
     void testFunction(JSONObject data);
 
     /**
      * 一键刷屏
-     * @param data
+     * @param data 总消息处理下的d
      */
     void spamFunction(JSONObject data);
 

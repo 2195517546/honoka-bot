@@ -8,11 +8,9 @@ import com.uiloalxise.honoka.service.QQBotGroupFunctionService;
 import com.uiloalxise.honoka.service.QQBotRecordService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.bytecode.CodeIterator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 
 /**
@@ -33,7 +31,7 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
 
     /**
      * 消息总处理
-     * @param json
+     * @param json - 总消息处理用的完整消息
      */
     @Override
     @Async

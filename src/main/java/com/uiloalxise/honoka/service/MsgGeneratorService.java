@@ -16,7 +16,7 @@ public interface MsgGeneratorService {
 
     /**
      * 通过关键词key获取一条对应的回复value
-     * @param key
+     * @param key 关键词
      * @return 一条回复value
      */
     String defaultReply(String key);

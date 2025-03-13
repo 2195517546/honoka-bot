@@ -35,8 +35,8 @@ public class QQBotUtil {
     private final static String AUTHORIZATION_STRING = "Authorization";
 
     /**
-     * 发起ws连接请求
-     * @return
+     * 发起ws连接请求用的json
+     * @return 发起ws连接用的json
      */
     public JSONObject getWebsocket() {
         RestTemplate restTemplate = new RestTemplate();
@@ -54,7 +54,7 @@ public class QQBotUtil {
 
     /**
      * 获取通过凭证
-     * @return
+     * @return 获取token
      */
     public JSONObject getAccessToken()
     {
@@ -85,7 +85,7 @@ public class QQBotUtil {
      * 获取鉴权凭证
      * ,格式为
      * {QQBot access_token}
-     * @return
+     * @return 获取auth
      */
     public String getAuthorization()
     {
@@ -95,7 +95,7 @@ public class QQBotUtil {
 
     /**
      * 获取常用http header
-     * @return
+     * @return 默认http头部
      */
     public HttpHeaders getHeader()
     {
@@ -108,10 +108,10 @@ public class QQBotUtil {
 
     /**
      * 生成一般的文本消息群消息
-     * @param content
-     * @param msgId
-     * @param msgSeq
-     * @return
+     * @param content 文本
+     * @param msgId 消息id
+     * @param msgSeq 消息seq
+     * @return qq群消息实体类
      */
     public QQGroupsMsg qqGroupsTextMsg(String content,String msgId,Integer msgSeq)
     {
@@ -126,8 +126,8 @@ public class QQBotUtil {
 
     /**
      * 从d的json获取openid
-     * @param data
-     * @return
+     * @param data d
+     * @return 一个openid
      */
     public String getOpenId(JSONObject data) {
         return data.getJSONObject("author").getString("member_openid");

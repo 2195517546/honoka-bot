@@ -52,7 +52,7 @@ public class QQBotDuelTransactionServiceImpl implements QQBotDuelTransactionServ
     /**
      * 添加新数据
      *
-     * @param duelPlayerDTO
+     * @param duelPlayerDTO dto参数，注册用
      */
     @Override
     public void register(DuelPlayerDTO duelPlayerDTO) {

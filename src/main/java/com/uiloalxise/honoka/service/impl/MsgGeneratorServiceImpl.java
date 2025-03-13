@@ -3,8 +3,7 @@ package com.uiloalxise.honoka.service.impl;
 import com.uiloalxise.constants.BotMsgConstant;
 import com.uiloalxise.honoka.service.MsgGeneratorService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
+
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -21,8 +20,6 @@ import java.util.Set;
 @Service
 @Slf4j
 public class MsgGeneratorServiceImpl implements MsgGeneratorService {
-    @Autowired
-    private ResourceLoader resourceLoader;
 
     /**
      * 随机钉言钉语string生成器
@@ -106,8 +103,8 @@ public class MsgGeneratorServiceImpl implements MsgGeneratorService {
 
     /**
      * 默认回复生成器
-     * @param key
-     * @return
+     * @param key 关键词
+     * @return 回复
      */
     @Override
     public String defaultReply(String key)

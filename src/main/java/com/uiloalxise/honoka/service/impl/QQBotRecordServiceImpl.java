@@ -30,7 +30,7 @@ public class QQBotRecordServiceImpl implements QQBotRecordService {
     private QQGroupsMapper qqGroupsMapper;
 
     /**
-     * @param groupOpenId
+     * @param groupOpenId 群号（openId
      */
     @Override
     public void record(String groupOpenId) {
@@ -40,7 +40,7 @@ public class QQBotRecordServiceImpl implements QQBotRecordService {
     }
 
     /**
-     *
+     * 把群号保存到数据库
      */
     @Override
     public void save() {

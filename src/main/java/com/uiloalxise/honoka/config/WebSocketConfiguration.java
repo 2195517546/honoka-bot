@@ -9,9 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebSocketConfiguration {
 
-//    @Bean
-//    public ServerEndpointExporter serverEndpointExporter() {
-//        return new ServerEndpointExporter();
-//    }
+    /*
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
+     */
 
 }

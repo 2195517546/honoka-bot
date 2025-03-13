@@ -170,7 +170,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
 
 
-        QQGroupsMsg qqGroupsMsg = null;
+        QQGroupsMsg qqGroupsMsg;
 
         if(mediaFileResp == null) {
             qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, 1);
@@ -248,8 +248,8 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         String content = data.getString("content");
         content = content.trim();
-        String difficulty = null;
-        String musicName = null;
+        String difficulty;
+        String musicName;
         PJSKMusicObject pjskMusicObject = null;
         ResponseEntity<JSONObject> mediaFileResp = null;
 

@@ -38,7 +38,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
     /**
      * 总处理器，直接调用<br>
      *
-     * @param json
+     * @param json - 代表ws收到的json
      * @return null 则无结果
      */
     @Override
@@ -73,14 +73,17 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
                 }
 
                 if ("READY".equals(event)) {
-                    readyEventHandle(json, session);
+                    readyEventHandle(session);
                 }
             }
 
             //调用登录凭证
             if ("10".equals(json.getString("op"))) {
+
 //            if(sessionId == null) {
+
                 result = buildLoginAuthToken(json);
+
 //            }else
                 //{
                 //   result = ResumeHandle(session);
@@ -117,8 +120,8 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
      *     }
      *   }
      * }
-     * @param json
-     * @return
+     * @param json - ws收到的json
+     * @return 返回一个用于登录用的payload
      */
     private JSONObject buildLoginAuthToken(JSONObject json)
     {
@@ -149,7 +152,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
 
 
     //处理readyEvent,一般整个session只有一次
-    private void readyEventHandle(JSONObject json, Session session)
+    private void readyEventHandle(Session session)
     {
 
 
@@ -158,7 +161,6 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
             session.getBasicRemote().sendText(
                     ackBuilder(null).toString()
             );
-
             log.info("发送初次心跳:{}",session.getId());
 
         }catch (Exception e){
@@ -176,6 +178,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
                     Thread.sleep(QQBotConstant.hearBeatInterval);
                     session.getBasicRemote().sendText(ackBuilder(sInt).
                             toString());
+
                     log.info("发送心跳成功,s的值为：{},session的Id为：{}", sInt, sessionId);
                 }
             } catch (Exception e) {
@@ -184,6 +187,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
 
         });
         sessionId = session.getId();
+
         ackThread.start();
     }
 
@@ -196,7 +200,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
      *     "seq": sInt
      *   }
      * }
-     * @param session
+     * @param session 用于重启的session
      */
     private JSONObject resumeHandle(Session session, Integer sInt)
     {
@@ -227,7 +231,6 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
-
         });
         sessionId = session.getId();
         ackThread.start();
@@ -243,7 +246,7 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
     /**
      * 构建一个心跳并且返回json
      * @param sInt 可能是static sInt或者null
-     * @return
+     * @return 构建一个心跳payload
      */
     private JSONObject ackBuilder(Integer sInt)
     {

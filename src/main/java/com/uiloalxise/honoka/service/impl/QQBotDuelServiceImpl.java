@@ -27,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,7 +62,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
     /**
      * 决斗发起或者接受
      *
-     * @param data
+     * @param data d下的data
      */
     @Override
     public void duel(JSONObject data) {
@@ -95,7 +94,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
             //获取数据
             String command = data.getString("content");
             command = command.trim();
-            Matcher duelMatcher = null;
+            Matcher duelMatcher;
 
             //声明需要金额
             Long moneyNeed = null;
@@ -128,12 +127,12 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
             }
             //余额不足不允许决斗
             else
-            if (duelPlayer.getMoney().longValue() - moneyNeed.longValue() < 0) {
+            if (duelPlayer.getMoney() - moneyNeed < 0) {
                 result = "你的余额不足，不允许决斗！！！";
             }else
             {
                 //声明各种参数
-                DuelPlayer player1 = null,player2 = null;
+                DuelPlayer player1,player2;
                 DuelPlayerDTO player1DTO = new DuelPlayerDTO(),player2DTO = new DuelPlayerDTO();
                 String winner = null,loser = null;
 
@@ -175,7 +174,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
                                 money(duelPlayer.getMoney()).
                                 win(duelPlayer.getWin()).
                                 lost(duelPlayer.getLost()).
-                                build(); ;
+                                build();
 
                         //完整p1和p2的DTO,用于后续修改数据
                         BeanUtils.copyProperties(player1,player1DTO);
@@ -228,7 +227,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
     /**
      * 重命名决斗名字
      *
-     * @param data
+     * @param data d下的数据
      */
     @Override
     public void rename(JSONObject data) {
@@ -237,8 +236,8 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         Pattern duelPattern = Pattern.compile(RegexConstant.DUEL_RENAME_REGEX);
         Matcher duelMatcher = duelPattern.matcher(command);
 
-        String content = null;
-        String newName = null;
+        String content;
+        String newName;
         if (duelMatcher.find()) {
             newName = duelMatcher.group(2);
             DuelPlayerDTO duelPlayerDTO = DuelPlayerDTO.builder()
@@ -269,14 +268,14 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
     /**
      * 资料查询
      *
-     * @param data
+     * @param data d下的数据
      */
     @Override
     public void information(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
-        String content = null;
+        String content;
         DuelPlayer duelPlayer = qqDuelMapper.selectDuelPlayerByOpenId(DuelPlayerDTO.builder().
                 openId(getOpenId(data)).
                 build());
@@ -306,7 +305,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
 
     /**
      * 根据KD排行
-     * @param data
+     * @param data d下的数据
      */
     @Override
     public void rankKD(JSONObject data) {
@@ -340,7 +339,7 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
         String id = data.getString("id");
         HttpHeaders headers = qqBotUtil.getHeader();
 
-        String content = null;
+        String content;
 
         DuelPlayerDTO duelPlayerDTO = DuelPlayerDTO.builder().
                 openId(getOpenId(data)).
@@ -372,8 +371,8 @@ public class QQBotDuelServiceImpl implements QQBotDuelService {
 
     /**
      * 获取openid
-     * @param data
-     * @return
+     * @param data d下的data
+     * @return 返回一个openId从data中（快速提取用的工具）
      */
     private String getOpenId(JSONObject data) {
         return data.getJSONObject("author").getString("member_openid");

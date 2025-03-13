@@ -27,13 +27,13 @@ public class QQBotClient {
     //不知道为什么ws不能直接注入bean只能用如下解决方案
     private static QQBotUtil qqBotUtil;
     @Autowired
-    public void QQBotClient(QQBotUtil qqBotUtil) {
+    public void qqBotClient(QQBotUtil qqBotUtil) {
         QQBotClient.qqBotUtil = qqBotUtil;
     }
 
     private static QQBotHandleService qqBotHandleService;
     @Autowired
-    public void setQQBotHandleService(QQBotHandleService qqBotHandleService) {
+    public void setQqBotHandleService(QQBotHandleService qqBotHandleService) {
         QQBotClient.qqBotHandleService = qqBotHandleService;
     }
 
@@ -42,7 +42,7 @@ public class QQBotClient {
         System.out.println("连接至服务器");
         log.info("websocket链接打开!Connected to server");
 
-        log.info("qqbhs是否为空：{}",qqBotHandleService == null);
+        log.info("qq bot 总处理服务,是否为空：{}",qqBotHandleService == null);
 
 //        try {
 //            String message = "你好";
@@ -91,7 +91,7 @@ public class QQBotClient {
                 uri = new URI(qqBotUtil.getWebsocket().getString("url"));
                 webSocketContainer.connectToServer(QQBotClient.class, uri);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
 
             log.info("重新启动websocket线程结束");
@@ -101,7 +101,7 @@ public class QQBotClient {
     }
 
     public void onError(Session session, Throwable error) {
-        log.info("QQBotWebsocket链接错误3");
+        log.info("QQBotWebsocket链接错误");
     }
 
 }

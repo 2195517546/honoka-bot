@@ -20,12 +20,12 @@ import java.util.regex.Pattern;
 @Slf4j
 public class PJSKUtil {
 
-    private final static String Url = "https://www.faceroundcloud.site/static/pjsk/music_pane/";
+    private final static String URL = "https://www.faceroundcloud.site/static/pjsk/music_pane/";
 
     /**
      * 获取difficult全称
-     * @param difficult
-     * @return
+     * @param difficult 难度简称
+     * @return 难度全称
      */
     public String getDifficult(String difficult)
     {
@@ -75,7 +75,7 @@ public class PJSKUtil {
      */
     public String getPaneUrl(PJSKMusicObject obj)
     {
-        String result = Url + String.format("%03d", obj.getId());
+        String result = URL + String.format("%03d", obj.getId());
 
         return result + StringConstant.DOT_PNG;
     }
@@ -88,7 +88,7 @@ public class PJSKUtil {
     public String getDifficultUrl(PJSKMusicObject obj, String difficult)
     {
         difficult = difficult.toLowerCase();
-        String result = Url + obj.getId();
+        String result = URL + obj.getId();
 
         result += getDifficult(difficult);
 
