@@ -125,6 +125,8 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         }
 
+        times = Math.min(times, 10);
+
         for (int i = 1; i <= times; i++) {
             QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureService.getRandomPicture(find))
                 .fileType(1)
@@ -188,6 +190,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         log.info("times:{},request:{}", times,request);
 
+        times = Math.min(times, 10);
 
         for(int i = 1;i<=times;i++)
         {
