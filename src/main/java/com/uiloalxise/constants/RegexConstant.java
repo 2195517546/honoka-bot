@@ -7,6 +7,11 @@ package com.uiloalxise.constants;
  */
 public class RegexConstant {
     /**
+     * xx
+     */
+    public static final String GET_LAST_COUNT_REGEX = "(\\d+)$";
+
+    /**
      * 图片Regex
      */
     public final static String PICTURE_REGEX = "^(.*?)(\\.jpg|\\.png|\\.gif)";

@@ -105,32 +105,56 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             find = "xueshi";
         }
 
-        QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureService.getRandomPicture(find))
+
+        String request = data.getString("content");
+        request = request.trim();
+
+        if(request.charAt(0) == '/')
+        {
+            request = request.substring(1);
+        }
+
+
+        Pattern pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
+        Matcher matcher = pattern.matcher(request);
+
+        int times = 1;
+
+        if (matcher.find()) {
+            times = Integer.parseInt(matcher.group(1));
+
+        }
+
+        for (int i = 1; i <= times; i++) {
+            QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureService.getRandomPicture(find))
                 .fileType(1)
                 .srvSendMsg(false)
                 .build();
 
-        HttpHeaders headers = getQQbotHeader();
+            HttpHeaders headers = getQQbotHeader();
 
-        HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
+            HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
 
-        ResponseEntity<JSONObject> mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
-        String fileInfo = mediaFileResp.getBody().getString("file_info");
-        log.info(fileInfo);
+            ResponseEntity<JSONObject> mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
+            String fileInfo = mediaFileResp.getBody().getString("file_info");
+            log.info(fileInfo);
 
-        QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                .content(" ")
-                .msgType(7)
-                .eventId("GROUP_AT_MESSAGE_CREATE")
-                .media(mediaFileResp.getBody())
-                .msgId(id)
-                .build();
+            QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
+                    .content(" ")
+                    .msgType(7)
+                    .eventId("GROUP_AT_MESSAGE_CREATE")
+                    .media(mediaFileResp.getBody())
+                    .msgId(id)
+                    .msgSeq(i)
+                    .build();
 
-        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
+            HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
 
-        ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
+            ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
 
-        log.info("消息发送成功：{}", groupMsgResp.getBody());
+            log.info("消息发送成功：{}", groupMsgResp.getBody());
+
+        }
     }
 
     /**
@@ -141,55 +165,82 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     public void randomDingTalk(JSONObject data) {
         String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
         String id = data.getString("id");
-        HttpHeaders headers = getQQbotHeader();
 
-        ResponseEntity<JSONObject> mediaFileResp = null;
+        String request = data.getString("content");
+        request = request.trim();
 
-        String content = msgGeneratorService.randomDingTalk();
+        if(request.charAt(0) == '/')
+        {
+            request = request.substring(1);
+        }
 
-        Pattern pattern = Pattern.compile(RegexConstant.DINGTALK_PICTURE_REGEX);
-        Matcher matcher = pattern.matcher(content);
 
+
+        Pattern pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
+        Matcher matcher = pattern.matcher(request);
+
+        int times = 1;
 
         if (matcher.find()) {
-            log.info("匹配到图片$图片$:{}",matcher.group());
-            String pictureUrl = WebConstant.DINGTALK_PIC_URL + matcher.group(3);
-            content = matcher.group(1);
-            //构造qqmedia文件的json
-            QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureUrl)
-                    .fileType(1)
-                    .srvSendMsg(false)
-                    .build();
+            times = Integer.parseInt(matcher.group(1));
 
-            HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
-
-            mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
-            String fileInfo = mediaFileResp.getBody().getString("file_info");
-            log.info(fileInfo);
         }
 
+        log.info("times:{},request:{}", times,request);
 
 
-        QQGroupsMsg qqGroupsMsg;
-
-        if(mediaFileResp == null) {
-            qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, 1);
-        }else
+        for(int i = 1;i<=times;i++)
         {
-            qqGroupsMsg = QQGroupsMsg.builder()
-                    .content(content)
-                    .msgType(7)
-                    .eventId("GROUP_AT_MESSAGE_CREATE")
-                    .media(mediaFileResp.getBody())
-                    .msgId(id)
-                    .build();
+            HttpHeaders headers = getQQbotHeader();
+
+            ResponseEntity<JSONObject> mediaFileResp = null;
+
+            String content = msgGeneratorService.randomDingTalk();
+
+            pattern = Pattern.compile(RegexConstant.DINGTALK_PICTURE_REGEX);
+            matcher = pattern.matcher(content);
+
+
+            if (matcher.find()) {
+                log.info("匹配到图片$图片$:{}",matcher.group());
+                String pictureUrl = WebConstant.DINGTALK_PIC_URL + matcher.group(3);
+                content = matcher.group(1);
+                //构造qqmedia文件的json
+                QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureUrl)
+                        .fileType(1)
+                        .srvSendMsg(false)
+                        .build();
+
+                HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
+
+                mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
+                String fileInfo = mediaFileResp.getBody().getString("file_info");
+                log.info(fileInfo);
+            }
+
+
+
+            QQGroupsMsg qqGroupsMsg;
+
+            if(mediaFileResp == null) {
+                qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, i);
+            }else
+            {
+                qqGroupsMsg = QQGroupsMsg.builder()
+                        .content(content)
+                        .msgType(7)
+                        .eventId("GROUP_AT_MESSAGE_CREATE")
+                        .media(mediaFileResp.getBody())
+                        .msgId(id)
+                        .msgSeq(i)
+                        .build();
+            }
+
+
+            HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
+            ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
+            log.info("消息发送成功：{}", groupMsgResp.getBody());
         }
-
-
-        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-        ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-        log.info("消息发送成功：{}", groupMsgResp.getBody());
-
     }
 
     /**
