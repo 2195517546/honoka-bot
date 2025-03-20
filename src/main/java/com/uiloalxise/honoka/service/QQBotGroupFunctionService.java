@@ -65,11 +65,19 @@ public interface QQBotGroupFunctionService {
 
     /**
      * 测试功能
-     * 目前的测试：
-     * 从接口处生成任意图片
+     * 目前的测试：---
+     *
      * @param data 总消息处理下的d
      */
     void testFunction(JSONObject data);
+
+    /**
+     * 主动测试功能
+     * 目前的测试:---
+     *
+     * @param groupOpenId 群openId
+     */
+    void testFunction(String groupOpenId);
 
     /**
      * 一键刷屏

@@ -26,12 +26,14 @@ public class QQBotClient {
 
     //不知道为什么ws不能直接注入bean只能用如下解决方案
     private static QQBotUtil qqBotUtil;
+
     @Autowired
     public void qqBotClient(QQBotUtil qqBotUtil) {
         QQBotClient.qqBotUtil = qqBotUtil;
     }
 
     private static QQBotHandleService qqBotHandleService;
+
     @Autowired
     public void setQqBotHandleService(QQBotHandleService qqBotHandleService) {
         QQBotClient.qqBotHandleService = qqBotHandleService;
@@ -39,18 +41,9 @@ public class QQBotClient {
 
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("连接至服务器");
-        log.info("websocket链接打开!Connected to server");
+        log.info("websocket链接打开!Connected to qq-bot server");
 
-        log.info("qq bot 总处理服务,是否为空：{}",qqBotHandleService == null);
-
-//        try {
-//            String message = "你好";
-//            // Send a text message to the server
-//            session.getBasicRemote().sendText(message);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        log.info("qq-bot总处理服务,是否未挂起：{}",qqBotHandleService == null);
     }
 
     @OnMessage
@@ -73,18 +66,12 @@ public class QQBotClient {
 
     }
 
-    @OnError
-    public void onError(Throwable throwable)
-    {
-        log.error("error:",throwable);
-    }
-
     @OnClose
     public void onClose() {
         log.info("QQBotWebsocket链接关闭!Close to server");
-        Thread thread = new Thread(() -> {
+        new Thread(() -> {
 
-            log.info("开始===重启websocket");
+            log.info("开始===尝试重启websocket");
             try {
                 WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
                 URI uri = null;
@@ -96,12 +83,14 @@ public class QQBotClient {
 
             log.info("重新启动websocket线程结束");
 
-        });
-        thread.start();
+        }).start();
     }
 
-    public void onError(Session session, Throwable error) {
+    @OnError
+    public void onError(Throwable throwable,Session session)
+    {
         log.info("QQBotWebsocket链接错误");
+        log.error("error:",throwable);
     }
 
 }

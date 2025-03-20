@@ -1,5 +1,6 @@
 package com.uiloalxise.honoka.device;
 
+import com.uiloalxise.pojo.entity.SessionKeeper;
 import com.uiloalxise.utils.QQBotUtil;
 import com.uiloalxise.honoka.ws.QQBotClient;
 import jakarta.annotation.Resource;
@@ -24,7 +25,10 @@ import java.net.URI;
 public class WebSocketDevice implements CommandLineRunner {
 
     @Resource
-    QQBotUtil qqBotUtil;
+    private QQBotUtil qqBotUtil;
+
+    @Resource
+    private SessionKeeper sessionKeeper;
 
 
     /**
@@ -33,25 +37,24 @@ public class WebSocketDevice implements CommandLineRunner {
      */
     @Override
     public void run(String... args){
-        Thread thread = new Thread(() -> {
+        new Thread(() -> {
 
             log.info("开始===调用websocket接口");
             try {
                 WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
                 URI uri;
                 uri = new URI(qqBotUtil.getWebsocket().getString("url"));
+
                 Session session = webSocketContainer.connectToServer(QQBotClient.class, uri);
+                sessionKeeper.setSession(session);
+                log.info("session:{}",sessionKeeper);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
 
             log.info("启动websocket线程结束");
 
-        });
-        thread.start();
-
-
-
+        }).start();
 
     }
 }

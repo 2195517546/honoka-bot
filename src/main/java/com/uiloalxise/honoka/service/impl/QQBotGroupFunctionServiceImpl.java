@@ -751,7 +751,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             return;
         }
 
-
+        //此处是功能
 
         for(int i = 0;i<20;i++)
         {
@@ -767,18 +767,45 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
             log.info("消息发送成功：{}", groupMsgResp.getBody());
         }
-
-
-
-
-
-
-
-
     }
 
+
     /**
-     * @param data
+     * QQ群主动消息的testFunction
+     * 备忘录:以后建个处理主动消息的服务类
+     * @param groupOpenId 群openID
+     */
+    @Override
+    public void testFunction(String groupOpenId) {
+        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + groupOpenId;
+
+        HttpHeaders headers = getQQbotHeader();
+
+        String content = "测试消息,打扰了";
+
+        QQGroupsMsg qqGroupsMsg = null;
+
+        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = null;
+        ResponseEntity<JSONObject> groupMsgResp = null;
+
+        //主动消息无需限制调用权限
+        //此处是功能
+
+        qqGroupsMsg =
+                QQGroupsMsg.builder()
+        .content(content)
+        .msgType(0)
+        .build();
+
+        qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
+        groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
+
+        log.info("消息发送成功：{}", groupMsgResp.getBody());
+    }
+
+
+    /**
+     * @param data d下的data
      */
     @Override
     public void spamFunction(JSONObject data) {
