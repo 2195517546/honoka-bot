@@ -2,9 +2,19 @@ package com.uiloalxise.utils;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
+import com.uiloalxise.pojo.entity.payload.CustomPrivateKey;
+import com.uiloalxise.pojo.entity.payload.CustomPublicKey;
+import com.uiloalxise.pojo.entity.token.QQBotAccessToken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.crypto.KeyGenerationParameters;
+import org.bouncycastle.crypto.generators.Ed25519KeyPairGenerator;
+import org.bouncycastle.crypto.params.Ed25519KeyGenerationParameters;
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.signers.Ed25519Signer;
+import org.bouncycastle.math.ec.rfc8032.Ed25519;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,7 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.*;
+import java.util.*;
 
 /**
  * @author Uiloalxise
@@ -34,29 +47,78 @@ public class QQBotUtil {
 
     private final static String AUTHORIZATION_STRING = "Authorization";
 
-    /**
-     * 发起ws连接请求用的json
-     * @return 发起ws连接用的json
-     */
-    public JSONObject getWebsocket() {
-        RestTemplate restTemplate = new RestTemplate();
+    private static final int ED25519_SEED_SIZE = 32;
+    private static final int ED25519_SIGNATURE_SIZE = 64;
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type"," application/json");
-        headers.set("Authorization", getAuthorization());
+    public boolean verifySignature(String signatureHex,String timestamp,byte[] httpBody,byte[] publicKeyBytes)
+    {
+        try{
+            byte[] sig = HexFormat.of().parseHex(signatureHex);
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+            if(sig.length != ED25519_SIGNATURE_SIZE || (sig[63] & 0xE0)!=0)
+            {
+                log.warn("Invalid signature!签名格式错误！");
+                return false;
+            }
 
-        ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(GATE_WAY_URL, HttpMethod.GET, entity, JSONObject.class);
+            ByteArrayOutputStream msg = new ByteArrayOutputStream();
+            msg.write(timestamp.getBytes(StandardCharsets.UTF_8));
+            msg.write(httpBody);
+            Ed25519Signer signer = new Ed25519Signer();
+            signer.init(false,new Ed25519PublicKeyParameters(publicKeyBytes,0));
+            signer.update(msg.toByteArray(),0,msg.size());
 
-        return Objects.requireNonNull(responseEntity.getBody());
+            return signer.verifySignature(sig);
+
+        }catch (Exception e)
+        {
+            log.error(e.getMessage(),e);
+            return false;
+        }
+
     }
+
+    public KeyPair keyPairGenerator(byte[] seed) {
+        Ed25519KeyPairGenerator generator = new Ed25519KeyPairGenerator();
+        generator.init(new KeyGenerationParameters(null,ED25519_SEED_SIZE));
+
+        Ed25519PrivateKeyParameters privateKeyParams = new Ed25519PrivateKeyParameters(seed,0);
+        Ed25519PublicKeyParameters publicKeyParams = privateKeyParams.generatePublicKey();
+
+        byte[] publicKeyBytes = publicKeyParams.getEncoded();
+        byte[] privateKeyBytes = privateKeyParams.getEncoded();
+        return new KeyPair(
+                new CustomPublicKey(publicKeyBytes),
+                new CustomPrivateKey(privateKeyBytes)
+        );
+    }
+
+    public String seedGenerator()
+    {
+        String seed = new String(this.getAppSecret());
+        if(seed.length() < ED25519_SEED_SIZE)
+        {
+            seed = seed.repeat(2);
+        }
+        return seed.substring(0, ED25519_SEED_SIZE);
+    }
+
+    public byte[] messageSigner(PrivateKey privateKey, byte[] message)
+    {
+        Ed25519Signer signer = new Ed25519Signer();
+        signer.init(true,new Ed25519PrivateKeyParameters(privateKey.getEncoded(),0));
+        signer.update(message, 0, message.length);
+        return signer.generateSignature();
+    }
+
+    //存储的accesstoken
+    private QQBotAccessToken accessToken = null;
 
     /**
      * 获取通过凭证
      * @return 获取token
      */
-    public JSONObject getAccessToken()
+    public void freshAccessToken()
     {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
@@ -71,14 +133,14 @@ public class QQBotUtil {
         HttpEntity<String> entity = new HttpEntity<>(body.toJSONString(),headers);
 
 
-        ResponseEntity<JSONObject> response = restTemplate.exchange(ACCESS_TOKEN_URL,
+        ResponseEntity<QQBotAccessToken> response = restTemplate.exchange(ACCESS_TOKEN_URL,
                 HttpMethod.POST,
                 entity,
-                JSONObject.class);
+                QQBotAccessToken.class);
 
-        log.info("获取凭证成功:{},凭证时间：{}ms", Objects.requireNonNull(response.getBody()).get("access_token"),response.getBody().get("expires_in"));
+        log.info("获取凭证成功:{},凭证时间：{}s", Objects.requireNonNull(response.getBody()).getAccessToken(),response.getBody().getExpiresIn());
 
-        return response.getBody();
+        accessToken = response.getBody();
     }
 
     /**
@@ -89,7 +151,7 @@ public class QQBotUtil {
      */
     public String getAuthorization()
     {
-        return "QQBot " +getAccessToken().getString("access_token");
+        return "QQBot " +getAccessToken().getAccessToken();
     }
 
 

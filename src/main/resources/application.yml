@@ -32,6 +32,8 @@ spring:
       poolPreparedStatements: true
       maxPoolPreparedStatementPerConnectionSize: 20
 
+
+
   data:
     redis:
       host: ${honoka.redis.host}
