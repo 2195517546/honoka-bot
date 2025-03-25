@@ -1,4 +1,4 @@
-package com.uiloalxise.pojo.entity;
+package com.uiloalxise.pojo.entity.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QQBotPayload implements Serializable {
+    private String id;
     private Integer op;
     private Object d;
     private Integer s;
