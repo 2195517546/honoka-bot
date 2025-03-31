@@ -1,6 +1,7 @@
 package com.uiloalxise.honoka.service;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 
 /**
  * @author Uiloalxise
@@ -8,8 +9,17 @@ import com.alibaba.fastjson2.JSONObject;
  * @Description QQ机器人可调用的功能总服务类
  */
 public interface QQBotGroupFunctionService {
-    //以下是主要功能
+    /*
+    统一由commandHandleService传入
+    规范，只接受1个GroupMsgCommand如下例
+    void function(Command command);
+    */
 
+    void testFunction(GroupMsgCommand command);
+
+    void randomPic(GroupMsgCommand command);
+
+    //以下是主要功能 ，待修改
     /**
      * 随机图片，目前只支持宛图
      * @param data

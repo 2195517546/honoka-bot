@@ -3,9 +3,14 @@ package com.uiloalxise.honoka.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
 
+import com.uiloalxise.constants.QQBotConstant;
+import com.uiloalxise.honoka.service.CommandHandleService;
 import com.uiloalxise.honoka.service.QQBotGroupMsgHandleService;
 import com.uiloalxise.honoka.service.QQBotGroupFunctionService;
 import com.uiloalxise.honoka.service.QQBotRecordService;
+import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
+import com.uiloalxise.pojo.entity.payload.QQBotPayload;
+import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -28,6 +33,32 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
 
     @Resource
     private QQBotRecordService qqBotRecordService;
+
+    @Resource
+    private CommandHandleService commandHandleService;
+
+    /**
+     * @param payload 直接传入
+     */
+    @Override
+    @Async
+    public void msgHandle(QQBotPayload payload) {
+        String payloadType = payload.getT();
+        QQBotPayloadD data = payload.getD();
+
+        if (payloadType.equals(QQBotConstant.GROUP_AT_MESSAGE_CREATE))
+        {
+            GroupMsgCommand command = commandHandleService.groupMsgCommandCreator(data);
+            log.info("groupMsgCommand:{}", command);
+            if (command.getCommandType().equals(QQBotConstant.COMMAND_TYPE))
+            {
+                commandHandleService.groupCommandHandle(command);
+            }else
+            {
+                commandHandleService.groupChatHandle(command);
+            }
+        }
+    }
 
     /**
      * 消息总处理
@@ -109,5 +140,7 @@ public class QQBotGroupMsgHandleServiceImpl implements QQBotGroupMsgHandleServic
             qqBotGroupFunctionService.defaultMessage(data);
         }
     }
+
+
 
 }

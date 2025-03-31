@@ -1,6 +1,7 @@
 package com.uiloalxise.honoka.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.pojo.entity.payload.QQBotPayload;
 import com.uiloalxise.honoka.service.QQBotGroupMsgHandleService;
 import com.uiloalxise.honoka.service.QQBotHandleService;
@@ -40,12 +41,18 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
 
         CompletableFuture<String> result = new CompletableFuture<>();
 
-        String event = payload.getT();
+        String type = payload.getT();
         JSONObject json = JSONObject.from(payload);
-        if ("GROUP_AT_MESSAGE_CREATE".equals(event)) {
-            qqBotGroupMsgHandleService.msgHandle(json);
+
+        if (QQBotConstant.GROUP_AT_MESSAGE_CREATE.equals(type)) {
+
+
+            qqBotGroupMsgHandleService.msgHandle(payload);
+
             result.complete("qq群消息完成处理");
         }
+
+
 
 
         return result;

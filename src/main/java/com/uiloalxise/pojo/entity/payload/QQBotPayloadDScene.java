@@ -10,17 +10,17 @@ import java.io.Serializable;
 
 /**
  * @author Uiloalxise
- * @ClassName QQBotPayloadVerifyD
+ * @ClassName QQBotPayloadDScene
  * @Description TODO
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QQBotPayloadVerifyD implements Serializable {
-    @JsonProperty("plain_token")
-    private String plainToken;
+public class QQBotPayloadDScene implements Serializable {
 
-    @JsonProperty("event_ts")
-    private String eventTs;
+    private String source;
+
+    @JsonProperty("callback_data")
+    private Object callbackData;
 }

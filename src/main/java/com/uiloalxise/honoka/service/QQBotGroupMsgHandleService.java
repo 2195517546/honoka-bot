@@ -1,6 +1,7 @@
 package com.uiloalxise.honoka.service;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.uiloalxise.pojo.entity.payload.QQBotPayload;
 
 /**
  * @author Uiloalxise
@@ -14,4 +15,6 @@ public interface QQBotGroupMsgHandleService {
     * @param json 消息的json
     */
    void msgHandle(JSONObject json);
+
+   void msgHandle(QQBotPayload payload);
 }

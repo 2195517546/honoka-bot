@@ -25,8 +25,7 @@ public class QQBotConfiguration {
         return new QQBotUtil(qqBotProperties.getAppId(),
                 qqBotProperties.getAppSecret(),
                 qqBotProperties.getToken(),
-                qqBotProperties.getQqNumber(),
-                null
+                qqBotProperties.getQqNumber()
         );
     }
 }

@@ -1,10 +1,9 @@
 package com.uiloalxise.honoka.webhook;
 
-import com.alibaba.druid.sql.visitor.functions.Hex;
 import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.honoka.service.QQBotHandleService;
 import com.uiloalxise.pojo.entity.payload.QQBotPayload;
-import com.uiloalxise.pojo.entity.payload.QQBotPayloadVerifyD;
+import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 import com.uiloalxise.pojo.entity.payload.WebHookResult;
 import com.uiloalxise.utils.QQBotUtil;
 import jakarta.annotation.Resource;
@@ -42,7 +41,7 @@ public class WebHookController {
                                  @RequestHeader("X-Signature-Ed25519") String sig,
                                  @RequestHeader("X-Signature-Timestamp") String timestamp)
     {
-        log.info(body.toString());
+        log.info(body.toJson().toString());
         log.info(sig);
         log.info(timestamp);
 
@@ -60,7 +59,7 @@ public class WebHookController {
             }
             case 13 ->{
                 log.info("验证回调.....");
-                QQBotPayloadVerifyD data = JSONObject.parseObject(String.valueOf(d), QQBotPayloadVerifyD.class);
+                QQBotPayloadD data = JSONObject.parseObject(String.valueOf(d), QQBotPayloadD.class);
                 byte[] message = (data.getEventTs() + data.getPlainToken()).getBytes(StandardCharsets.UTF_8);
                 byte[] signature = qqBotUtil.messageSigner(keyPair.getPrivate(), message);
 

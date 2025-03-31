@@ -7,18 +7,16 @@ import com.uiloalxise.constants.RegexConstant;
 import com.uiloalxise.constants.WebConstant;
 import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
-import com.uiloalxise.honoka.service.QQBotDuelService;
+import com.uiloalxise.honoka.service.*;
 import com.uiloalxise.pojo.dto.PJSKIdDTO;
 import com.uiloalxise.pojo.entity.PJSKMusicObject;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import com.uiloalxise.pojo.entity.QQMediaFile;
+import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import com.uiloalxise.properties.FaceroundApiKeyProperties;
 import com.uiloalxise.utils.PJSKUtil;
 import com.uiloalxise.utils.QQBotUtil;
 import com.uiloalxise.honoka.mapper.PJSKMusicPaneMapper;
-import com.uiloalxise.honoka.service.MsgGeneratorService;
-import com.uiloalxise.honoka.service.PictureService;
-import com.uiloalxise.honoka.service.QQBotGroupFunctionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -76,13 +74,68 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     @Resource
     private RestTemplate restTemplate;
 
+
+    @Resource
+    private MessageSenderService messageSender;
+
+    /**
+     * @param command 命令实体
+     */
+    @Override
+    public void testFunction(GroupMsgCommand command) {
+        messageSender.groupTextMessageSender(command,"测试消息");
+    }
+
+    /**
+     * 随机图片功能
+     * @param command - 命令实体
+     */
+    @Override
+    public void randomPic(GroupMsgCommand command) {
+        String find = "";
+        String request = command.getContent();
+
+        if (request.contains("宛图"))
+        {
+            find = "wantu";
+        }
+        else if (request.contains("邪神"))
+        {
+            find = "xieshen";
+        }
+        else if(request.contains("学士"))
+        {
+            find = "xueshi";
+        }
+
+        //匹配指令 /来点{图片名}{图片数}
+        request = request.substring(1);
+        Pattern pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
+        Matcher matcher = pattern.matcher(request);
+        int times = 1;
+        if (matcher.find()) {
+            times = Integer.parseInt(matcher.group(1));
+        }
+        times = Math.min(times, 10);
+
+
+        for(int i = 1; i <= times; i++) {
+            messageSender.groupPictureMessageSender(command,pictureService.getRandomPicture(find)," ",i);
+        }
+
+
+    }
+
+
     /**
      * 随机图片，目前只有宛图功能
      * @param data - data数据
      */
     @Override
     public void randomPic(JSONObject data){
-        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
+        String url = QQBotConstant.OPENAPI_URL +
+                QQBotConstant.GROUP_SUFFIX +
+                data.getString("group_openid");
 
         // String memberOpenid = data.getJSONObject("author").getString("member_openid");
 
@@ -105,7 +158,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             find = "xueshi";
         }
 
-
         String request = data.getString("content");
         request = request.trim();
 
@@ -114,7 +166,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             request = request.substring(1);
         }
 
-
         Pattern pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
         Matcher matcher = pattern.matcher(request);
 
@@ -122,7 +173,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         if (matcher.find()) {
             times = Integer.parseInt(matcher.group(1));
-
         }
 
         times = Math.min(times, 10);
@@ -155,8 +205,8 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
             ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
 
             log.info("消息发送成功：{}", groupMsgResp.getBody());
-
         }
+
     }
 
     /**
@@ -652,7 +702,8 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         String id = data.getString("id");
 
         //构造qqmedia文件的json
-        QQMediaFile qqMediaFile = QQMediaFile.builder().url(BotMsgConstant.CHECK_CARD_749)
+        QQMediaFile qqMediaFile = QQMediaFile.builder()
+                .url(BotMsgConstant.CHECK_CARD_749)
                 .fileType(1)
                 .srvSendMsg(false)
                 .build();

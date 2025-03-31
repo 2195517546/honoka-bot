@@ -5,16 +5,16 @@ import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import com.uiloalxise.pojo.entity.payload.CustomPrivateKey;
 import com.uiloalxise.pojo.entity.payload.CustomPublicKey;
 import com.uiloalxise.pojo.entity.token.QQBotAccessToken;
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 import org.bouncycastle.crypto.generators.Ed25519KeyPairGenerator;
-import org.bouncycastle.crypto.params.Ed25519KeyGenerationParameters;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
 import org.bouncycastle.crypto.signers.Ed25519Signer;
-import org.bouncycastle.math.ec.rfc8032.Ed25519;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -33,13 +33,19 @@ import java.util.*;
  * @Description QQ机器人工具类
  */
 @Data
-@AllArgsConstructor
 @Slf4j
 public class QQBotUtil {
     private String appId;
     private String appSecret;
     private String token;
     private String qqNumber;
+
+    public QQBotUtil(String appId, String appSecret, String token, String qqNumber) {
+        this.appId = appId;
+        this.appSecret = appSecret;
+        this.token = token;
+        this.qqNumber = qqNumber;
+    }
 
     private final static String ACCESS_TOKEN_URL = "https://bots.qq.com/app/getAppAccessToken";
     private final static String AUTHOR_URL = "https://api.sgroup.qq.com";
@@ -95,7 +101,7 @@ public class QQBotUtil {
 
     public String seedGenerator()
     {
-        String seed = new String(this.getAppSecret());
+        String seed = this.getAppSecret();
         if(seed.length() < ED25519_SEED_SIZE)
         {
             seed = seed.repeat(2);
@@ -114,13 +120,16 @@ public class QQBotUtil {
     //存储的accesstoken
     private QQBotAccessToken accessToken = null;
 
+
+    @Resource
+    RestTemplate restTemplate;
+
     /**
      * 获取通过凭证
      * @return 获取token
      */
     public void freshAccessToken()
     {
-        RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
 
         HttpHeaders headers = new HttpHeaders();
