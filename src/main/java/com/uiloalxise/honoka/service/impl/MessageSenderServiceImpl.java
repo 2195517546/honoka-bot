@@ -1,6 +1,7 @@
 package com.uiloalxise.honoka.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.uiloalxise.constants.BotCommandConstant;
 import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.exception.BotGroupMessageException;
 import com.uiloalxise.honoka.service.MessageSenderService;
@@ -31,7 +32,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class MessageSenderServiceImpl implements MessageSenderService {
 
-    @Resource
+    @Resource(name = "groupWebClient")
     private WebClient groupWebClient;
 
     @Resource
@@ -98,7 +99,7 @@ public class MessageSenderServiceImpl implements MessageSenderService {
                 .bodyToMono(JSONObject.class)
                 .subscribe(resp ->{
                     QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                    .content(" ")
+                    .content(text)
                     .msgType(7)
                     .eventId(QQBotConstant.GROUP_AT_MESSAGE_CREATE)
                     .media(resp)
@@ -121,7 +122,11 @@ public class MessageSenderServiceImpl implements MessageSenderService {
     private void onError(Throwable error,GroupMsgCommand command)
     {
         log.error("webclient 发送群消息时失败:{}",error.getMessage());
-        throw new BotGroupMessageException("webclient发送消息时失败", error,command);
+        if(!command.getCommandType().equals(QQBotConstant.ERROR_TYPE))
+        {
+            command.setCommandType(QQBotConstant.ERROR_TYPE);
+            groupTextMessageSender(command,"果果执行，你的命令时被神秘的力量阻止了！\n请联系管理员报错！！！");
+        }
     }
 
     private void onSuccess(Object response)

@@ -18,9 +18,9 @@ public class RecordTask {
     @Resource
     private QQBotRecordService qqBotRecordService;
 
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void processRecord() {
-        log.info("开始执行定时(30分钟)存群组任务:");
+        log.info("开始执行定时(5分钟)存用户和任务:");
         qqBotRecordService.save();
     }
 }

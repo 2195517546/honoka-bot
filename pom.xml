@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.uiloalxise</groupId>
     <artifactId>honoka-qqbot</artifactId>
-    <version>0.8.0</version>
+    <version>0.8.4</version>
     <name>honoka-qqbot</name>
     <description>honoka-qqbot</description>
     <url/>
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.3</version>
+            <version>3.0.4</version>
         </dependency>
 
         <dependency>
@@ -124,6 +124,13 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.11</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -12,4 +12,11 @@ public class BotCommandConstant {
     public final static String COMMAND_TEST_PREFIX = "test";
     public final static String COMMAND_RANDOM_PICTURE_SUFFIX1 = "来点";
     public final static String COMMAND_RANDOM_PICTURE_SUFFIX2 = "随机图片";
+    public final static String COMMAND_HELP = "help";
+    public final static String COMMAND_DINGTALK = "钉言钉语";
+    public final static String[] COMMAND_947 = {"947","749","查卡947"};
+
+    //用户命令
+    public final static String USER_COMMAND_INFO = "个人信息";
+    public final static String USER_COMMAND_REGISTER = "注册";
 }

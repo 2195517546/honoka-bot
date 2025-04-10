@@ -1,5 +1,6 @@
 package com.uiloalxise.honoka.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  * @Description TODO
  */
 @Mapper
-public interface QQGroupsMapper {
+public interface QQGroupsMapper{
 
     void insertGroupsOpenId(Set<String> groupsOpenIds);
 

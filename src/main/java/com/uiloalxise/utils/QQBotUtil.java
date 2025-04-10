@@ -51,6 +51,9 @@ public class QQBotUtil {
     private final static String AUTHOR_URL = "https://api.sgroup.qq.com";
     private final static String GATE_WAY_URL = "https://api.sgroup.qq.com/gateway/bot";
 
+
+
+    private final static String USER_HEAD_URL = "https://q.qlogo.cn/qqapp/102098744/";
     private final static String AUTHORIZATION_STRING = "Authorization";
 
     private static final int ED25519_SEED_SIZE = 32;

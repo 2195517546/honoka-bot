@@ -9,6 +9,24 @@ package com.uiloalxise.honoka.service;
 public interface MsgGeneratorService {
 
     /**
+     *
+     * @return
+     */
+    boolean deleteDingTalk(Integer index);
+
+    /**
+     *
+     * @return
+     */
+    boolean addDingTalk(String content);
+
+    /**
+     * 全部钉言钉语，用于手动添加文本钉言钉语
+     * @return
+     */
+    String allDingTalk();
+
+    /**
      * 从文本中随机出一条钉言钉语
      * @return 一条钉言钉语
      */

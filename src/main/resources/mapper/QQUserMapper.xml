@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uiloalxise.honoka.mapper.QQUserMapper">
+
+
+    <insert id="insertUsersOpenId">
+        INSERT IGNORE INTO qq_users (open_id)
+        VALUES
+        <foreach collection="openIds" item="openId" separator=",">
+            #{openId}
+        </foreach>
+    </insert>
+    <update id="registerAllOpenId">
+        UPDATE bot_user
+        SET status = 1
+        WHERE open_id IN
+        <foreach collection="usersOpenIds" item="openId" open="(" separator="," close=")">
+            #{openId}
+        </foreach>
+    </update>
+</mapper>

@@ -1,31 +1,26 @@
-package com.uiloalxise.honoka.service.impl;
+package com.uiloalxise.honoka.handler;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.pojo.entity.payload.QQBotPayload;
-import com.uiloalxise.honoka.service.QQBotGroupMsgHandleService;
-import com.uiloalxise.honoka.service.QQBotHandleService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
  * @author Uiloalxise
- * @ClassName QQBotHandleServiceImpl
+ * @ClassName BotMessageSummaryHandler
  * @Description QQ机器人消息总处理类
  */
-@Service
+@Component
 @Slf4j
 @Async
-public class QQBotHandleServiceImpl implements QQBotHandleService {
+public class BotMessageSummaryHandler {
     @Resource
-    private QQBotGroupMsgHandleService qqBotGroupMsgHandleService;
+    private BotGroupMsgHandler groupMsgHandler;
 
 
     /**
@@ -34,27 +29,14 @@ public class QQBotHandleServiceImpl implements QQBotHandleService {
      * @param payload - qq事件payload
      * @return null 则无结果
      */
-    @Override
     public Future<?> summaryHandle(QQBotPayload payload)
     {
-
-
         CompletableFuture<String> result = new CompletableFuture<>();
-
         String type = payload.getT();
-        JSONObject json = JSONObject.from(payload);
-
         if (QQBotConstant.GROUP_AT_MESSAGE_CREATE.equals(type)) {
-
-
-            qqBotGroupMsgHandleService.msgHandle(payload);
-
+            groupMsgHandler.msgHandle(payload);
             result.complete("qq群消息完成处理");
         }
-
-
-
-
         return result;
     }
 

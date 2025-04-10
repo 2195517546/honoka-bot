@@ -25,4 +25,6 @@ public class GroupMsgCommand extends BotCommand{
     private String authorId;
     private String content;
     private Integer commandType;
+
+
 }

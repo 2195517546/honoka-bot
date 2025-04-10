@@ -13,6 +13,12 @@ public class QQBotConstant {
     public final static String MESSAGES_URI = "/messages";
     public final static String FILES_URI = "/files";
 
+    public final static String[] SUPER_ADMIN_OPENID = {
+            "280ABEC05AD07F3BA29F7C55A13C7C23",
+            "804E234BB3351434582925C30FF29FE5",
+            "4AE7F0C9BF7B5DAAE8FE6BC0A78896A6"
+    };
+
     public final static String GROUP_AT_MESSAGE_CREATE = "GROUP_AT_MESSAGE_CREATE";
     public final static String C2C_MESSAGE_CREATE = "C2C_MESSAGE_CREATE";
 
@@ -23,7 +29,15 @@ public class QQBotConstant {
     public final static Integer COMMAND_TYPE = 1;
     //聊天类型命令
     public final static Integer CHAT_TYPE = 0;
+    //错误类型命令
+    public final static Integer ERROR_TYPE = -1;
 
+
+
+
+    /*
+    https://q.qlogo.cn/qqapp/102098744/D4776A40BB97B7A422AFA2853A89F729/640
+    * */
 
 
 }

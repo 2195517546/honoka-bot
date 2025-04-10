@@ -17,4 +17,11 @@ public class BotCommand {
     private String messageId;
     private String content;
     private Integer commandType;
+    private String authorId;
+
+
+    public String getAvatarUrl()
+    {
+        return "https://q.qlogo.cn/qqapp/102098744/" + getAuthorId() + "/640";
+    }
 }

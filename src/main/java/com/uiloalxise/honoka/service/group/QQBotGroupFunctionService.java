@@ -1,4 +1,4 @@
-package com.uiloalxise.honoka.service;
+package com.uiloalxise.honoka.service.group;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
@@ -15,29 +15,49 @@ public interface QQBotGroupFunctionService {
     void function(Command command);
     */
 
+
+    /**
+     * 测试功能
+     * @param command 命令实体类
+     */
     void testFunction(GroupMsgCommand command);
 
+    /**
+     * 随机图片功能
+     * @param command 命令实体类
+     */
     void randomPic(GroupMsgCommand command);
+    /**
+     * 帮助菜单功能
+     * @param command 命令实体类
+     */
+    void helpMenu(GroupMsgCommand command);
+    /**
+     * 钉言钉语功能
+     * @param command 命令实体类
+     */
+    void dingTalk(GroupMsgCommand command);
+    /**
+     * 默认回复功能
+     * @param command 命令实体类
+     */
+    void defaultMessage(GroupMsgCommand command);
+
+    /**
+     * 查卡947功能
+     * @param command 命令实体类
+     */
+    void check947(GroupMsgCommand command);
+
+
+    /**
+     * 签到功能
+     * @param command 命令实体类
+     */
+    void signIn(GroupMsgCommand command);
+
 
     //以下是主要功能 ，待修改
-    /**
-     * 随机图片，目前只支持宛图
-     * @param data
-     */
-    void randomPic(JSONObject data);
-
-    /**
-     * 随机钉言钉语
-     * @param data 总消息处理下的d
-     */
-    void randomDingTalk(JSONObject data);
-
-    /**
-     * 群规
-     * @param data 总消息处理下的d
-     */
-    void groupRule(JSONObject data);
-
     /**
      * pjsk谱面查询
      * @param data 总消息处理下的d
@@ -51,12 +71,6 @@ public interface QQBotGroupFunctionService {
     void pjskMusicInfo(JSONObject data);
 
     /**
-     * 帮助菜单
-     * @param data 总消息处理下的d
-     */
-    void helpMenu(JSONObject data);
-
-    /**
      * 决斗
      * @param data 总消息处理下的d
      */
@@ -66,20 +80,6 @@ public interface QQBotGroupFunctionService {
     void check749(JSONObject data);
 
     //以下是默认功能
-
-    /**
-     * 默认回复
-     * @param data 总消息处理下的d
-     */
-    void defaultMessage(JSONObject data);
-
-    /**
-     * 测试功能
-     * 目前的测试：---
-     *
-     * @param data 总消息处理下的d
-     */
-    void testFunction(JSONObject data);
 
     /**
      * 主动测试功能

@@ -1,7 +1,7 @@
 package com.uiloalxise.honoka.webhook;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.uiloalxise.honoka.service.QQBotHandleService;
+import com.uiloalxise.honoka.handler.BotMessageSummaryHandler;
 import com.uiloalxise.pojo.entity.payload.QQBotPayload;
 import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 import com.uiloalxise.pojo.entity.payload.WebHookResult;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.util.HexFormat;
+import java.util.concurrent.Future;
 
 /**
  * @author Uiloalxise
@@ -29,7 +30,7 @@ public class WebHookController {
     private QQBotUtil qqBotUtil;
 
     @Resource
-    private QQBotHandleService qqBotHandleService;
+    private BotMessageSummaryHandler qqBotHandle;
 
     @RequestMapping("/webhook/test")
     public String index() {
@@ -54,8 +55,8 @@ public class WebHookController {
 
         switch (op) {
             case 0 ->{
-                qqBotHandleService.summaryHandle(body);
-                return ResponseEntity.ok(true);
+                Future<?> future = qqBotHandle.summaryHandle(body);
+                return ResponseEntity.ok(future.isDone());
             }
             case 13 ->{
                 log.info("验证回调.....");

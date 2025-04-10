@@ -1,4 +1,4 @@
-package com.uiloalxise.honoka.service.impl;
+package com.uiloalxise.honoka.service.group.impl;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.constants.BotMsgConstant;
@@ -8,6 +8,7 @@ import com.uiloalxise.constants.WebConstant;
 import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
 import com.uiloalxise.honoka.service.*;
+import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
 import com.uiloalxise.pojo.dto.PJSKIdDTO;
 import com.uiloalxise.pojo.entity.PJSKMusicObject;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
@@ -46,6 +47,8 @@ import java.util.regex.Pattern;
 @Async
 @EnableConfigurationProperties(FaceroundApiKeyProperties.class)
 public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService {
+
+    private static final String EMPTY_TEXT = " ";
 
     @Resource
     private FaceroundApiKeyProperties faceroundApiKeyProperties;
@@ -118,118 +121,67 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         }
         times = Math.min(times, 10);
 
-
         for(int i = 1; i <= times; i++) {
-            messageSender.groupPictureMessageSender(command,pictureService.getRandomPicture(find)," ",i);
+            messageSender.groupPictureMessageSender(command,pictureService.getRandomPicture(find),EMPTY_TEXT,i);
         }
-
-
-    }
-
-
-    /**
-     * 随机图片，目前只有宛图功能
-     * @param data - data数据
-     */
-    @Override
-    public void randomPic(JSONObject data){
-        String url = QQBotConstant.OPENAPI_URL +
-                QQBotConstant.GROUP_SUFFIX +
-                data.getString("group_openid");
-
-        // String memberOpenid = data.getJSONObject("author").getString("member_openid");
-
-        String id = data.getString("id");
-
-        String content = data.getString("content");
-
-        String find = "";
-
-        if (content.contains("宛图"))
-        {
-            find = "wantu";
-        }
-        if (content.contains("邪神"))
-        {
-            find = "xieshen";
-        }
-        if(content.contains("学士"))
-        {
-            find = "xueshi";
-        }
-
-        String request = data.getString("content");
-        request = request.trim();
-
-        if(request.charAt(0) == '/')
-        {
-            request = request.substring(1);
-        }
-
-        Pattern pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
-        Matcher matcher = pattern.matcher(request);
-
-        int times = 1;
-
-        if (matcher.find()) {
-            times = Integer.parseInt(matcher.group(1));
-        }
-
-        times = Math.min(times, 10);
-
-        for (int i = 1; i <= times; i++) {
-            QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureService.getRandomPicture(find))
-                .fileType(1)
-                .srvSendMsg(false)
-                .build();
-
-            HttpHeaders headers = getQQbotHeader();
-
-            HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
-
-            ResponseEntity<JSONObject> mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
-            String fileInfo = mediaFileResp.getBody().getString("file_info");
-            log.info(fileInfo);
-
-            QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                    .content(" ")
-                    .msgType(7)
-                    .eventId("GROUP_AT_MESSAGE_CREATE")
-                    .media(mediaFileResp.getBody())
-                    .msgId(id)
-                    .msgSeq(i)
-                    .build();
-
-            HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-
-            ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-
-            log.info("消息发送成功：{}", groupMsgResp.getBody());
-        }
-
     }
 
     /**
-     * 随机钉言钉语
-     * @param data - data数据
+     * 帮助菜单
+     * @param command 命令实体类
      */
     @Override
-    public void randomDingTalk(JSONObject data) {
-        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
-        String id = data.getString("id");
+    public void helpMenu(GroupMsgCommand command) {
+        messageSender.groupTextMessageSender(command,BotMsgConstant.HELP_MENU_MSG);
+    }
 
-        String request = data.getString("content");
-        request = request.trim();
-
-        if(request.charAt(0) == '/')
+    private boolean isSuperAdmin(String authorId)
+    {
+        int n = QQBotConstant.SUPER_ADMIN_OPENID.length;
+        for(int i = 0;i < n;i++)
         {
-            request = request.substring(1);
+            if (authorId.equals(QQBotConstant.SUPER_ADMIN_OPENID[i]))
+            {
+                return true;
+            }
         }
 
+        return false;
+    }
 
+    /**
+     * @param command
+     */
+    @Override
+    public void dingTalk(GroupMsgCommand command) {
 
-        Pattern pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
-        Matcher matcher = pattern.matcher(request);
+        String request = command.getContent();
+
+        Pattern pattern;
+        Matcher matcher;
+
+        if (isSuperAdmin(command.getAuthorId())) {
+            if (request.contains("钉言钉语全部")) {
+                messageSender.groupTextMessageSender(command, "\n" + msgGeneratorService.allDingTalk());
+                return;
+            }
+
+            if (request.contains("钉言钉语添加")) {
+                msgGeneratorService.addDingTalk(request.replace("钉言钉语添加",""));
+                messageSender.groupTextMessageSender(command, "添加成功");
+                return;
+            }
+
+            if (request.contains("钉言钉语删除"))
+            {
+                msgGeneratorService.deleteDingTalk(Integer.valueOf(request.replace("钉言钉语删除","")));
+                messageSender.groupTextMessageSender(command, "删除成功");
+                return;
+            }
+        }
+
+        pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
+        matcher = pattern.matcher(request);
 
         int times = 1;
 
@@ -242,102 +194,53 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         times = Math.min(times, 10);
 
-        for(int i = 1;i<=times;i++)
-        {
-            HttpHeaders headers = getQQbotHeader();
 
-            ResponseEntity<JSONObject> mediaFileResp = null;
-
-            String content = msgGeneratorService.randomDingTalk();
+        for(int i = 1; i <= times; i++) {
+            String dingTalk = msgGeneratorService.randomDingTalk();
 
             pattern = Pattern.compile(RegexConstant.DINGTALK_PICTURE_REGEX);
-            matcher = pattern.matcher(content);
 
-
+            matcher = pattern.matcher(dingTalk);
             if (matcher.find()) {
-                log.info("匹配到图片$图片$:{}",matcher.group());
-                String pictureUrl = WebConstant.DINGTALK_PIC_URL + matcher.group(3);
-                content = matcher.group(1);
-                //构造qqmedia文件的json
-                QQMediaFile qqMediaFile = QQMediaFile.builder().url(pictureUrl)
-                        .fileType(1)
-                        .srvSendMsg(false)
-                        .build();
-
-                HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
-
-                mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
-                String fileInfo = mediaFileResp.getBody().getString("file_info");
-                log.info(fileInfo);
+                dingTalk = matcher.group(1);
+                messageSender.groupPictureMessageSender(command,WebConstant.DINGTALK_PIC_URL + matcher.group(3),dingTalk,i);
             }
-
-
-
-            QQGroupsMsg qqGroupsMsg;
-
-            if(mediaFileResp == null) {
-                qqGroupsMsg = qqBotUtil.qqGroupsTextMsg(content, id, i);
-            }else
-            {
-                qqGroupsMsg = QQGroupsMsg.builder()
-                        .content(content)
-                        .msgType(7)
-                        .eventId("GROUP_AT_MESSAGE_CREATE")
-                        .media(mediaFileResp.getBody())
-                        .msgId(id)
-                        .msgSeq(i)
-                        .build();
+            else {
+                messageSender.groupTextMessageSender(command,dingTalk,i);
             }
-
-
-            HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-            ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-            log.info("消息发送成功：{}", groupMsgResp.getBody());
         }
     }
 
     /**
-     * 群规
-     * @param data - data数据
+     * 默认回复功能
+     * @param command 命令实体类
      */
     @Override
-    public void groupRule(JSONObject data) {
-        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
-
-        // String memberOpenid = data.getJSONObject("author").getString("member_openid");
-
-        String id = data.getString("id");
-
-        //构造qqmedia文件的json
-        QQMediaFile qqMediaFile = QQMediaFile.builder().url(BotMsgConstant.GROUP_RULES_URL)
-                .fileType(1)
-                .srvSendMsg(false)
-                .build();
-
-        HttpHeaders headers = getQQbotHeader();
-
-        HttpEntity<QQMediaFile> qqMediaFileHttpEntity = new HttpEntity<>(qqMediaFile, headers);
-
-        ResponseEntity<JSONObject> mediaFileResp = restTemplate.exchange(url + "/files", HttpMethod.POST, qqMediaFileHttpEntity, JSONObject.class);
-        String fileInfo = mediaFileResp.getBody().getString("file_info");
-        log.info(fileInfo);
-
-        QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                .content("这是群规我希望你遵守！")
-                .msgType(7)
-                .eventId("GROUP_AT_MESSAGE_CREATE")
-                .media(mediaFileResp.getBody())
-                .msgId(id)
-                .build();
-
-        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-
-
-        ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-
-        log.info("消息发送成功：{}", groupMsgResp.getBody());
+    public void defaultMessage(GroupMsgCommand command) {
+        messageSender.groupTextMessageSender(command
+                ,msgGeneratorService.defaultReply(command.getContent()));
     }
 
+    /**
+     * 查卡947功能
+     *
+     * @param command 命令实体类
+     */
+    @Override
+    public void check947(GroupMsgCommand command) {
+        messageSender.groupPictureMessageSender(command,BotMsgConstant.CHECK_CARD_749_URL,"947",1);
+    }
+
+    /**
+     * 签到功能
+     *
+     * @param command 命令实体类
+     *                todo
+     */
+    @Override
+    public void signIn(GroupMsgCommand command) {
+
+    }
 
     /**
      * 世界计划查谱面
@@ -581,30 +484,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     }
 
     /**
-     * 帮助菜单
-     */
-    @Override
-    public void helpMenu(JSONObject data) {
-        String url = QQBotConstant.OPENAPI_URL + "/v2/groups/" + data.getString("group_openid");
-        String id = data.getString("id");
-        HttpHeaders headers = getQQbotHeader();
-
-        String content = BotMsgConstant.MENU_TEMPLATE_MSG;
-
-
-        QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                .content(content)
-                .msgType(0)
-                .eventId("GROUP_AT_MESSAGE_CREATE")
-                .msgId(id)
-                .build();
-
-        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-        ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-        log.info("消息发送成功：{}", groupMsgResp.getBody());
-    }
-
-    /**
      * 决斗功能
      * @param data
      */
@@ -703,7 +582,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
         //构造qqmedia文件的json
         QQMediaFile qqMediaFile = QQMediaFile.builder()
-                .url(BotMsgConstant.CHECK_CARD_749)
+                .url(BotMsgConstant.CHECK_CARD_749_URL)
                 .fileType(1)
                 .srvSendMsg(false)
                 .build();
@@ -730,94 +609,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
 
         log.info("消息发送成功：{}", groupMsgResp.getBody());
-    }
-
-    /**
-     * 默认回复
-     * @param data
-     */
-    @Override
-    public void defaultMessage(JSONObject data) {
-        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
-        String id = data.getString("id");
-        HttpHeaders headers = getQQbotHeader();
-
-
-
-        String content = msgGeneratorService.defaultReply(data.getString("content"));
-
-        if (content == null)
-        {
-            content = BotMsgConstant.DEFAULT_REPLY_MSG;
-        }
-
-
-        QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
-                .content(content)
-                .msgType(0)
-                .eventId("GROUP_AT_MESSAGE_CREATE")
-                .msgId(id)
-                .build();
-
-        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-        ResponseEntity<JSONObject> groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-        log.info("消息发送成功：{}", groupMsgResp.getBody());
-    }
-
-    /**
-     * @param data
-     */
-    @Override
-    public void testFunction(JSONObject data) {
-        Integer msgSeq = 1;
-        String url = QQBotConstant.OPENAPI_URL + QQBotConstant.GROUP_SUFFIX + data.getString("group_openid");
-        String id = data.getString("id");
-        String memberOpenid = data.getJSONObject("author").getString("member_openid");
-
-        HttpHeaders headers = getQQbotHeader();
-
-
-
-        String content = "测试消息";
-
-        QQGroupsMsg qqGroupsMsg = null;
-
-        HttpEntity<QQGroupsMsg> qqGroupsMsgEntity = null;
-        ResponseEntity<JSONObject> groupMsgResp = null;
-
-
-        if (!memberOpenid.contains("280ABEC05AD07F3BA29F7C55A13C7C23"))
-        {
-            content = "无权调用";
-            qqGroupsMsg = QQGroupsMsg.builder()
-                    .content(content)
-                    .msgType(0)
-                    .eventId("GROUP_AT_MESSAGE_CREATE")
-                    .msgId(id)
-                    .build();
-
-            qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-            groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-            log.info("消息发送成功：{}", groupMsgResp.getBody());
-            return;
-        }
-
-        //此处是功能
-
-        for(int i = 0;i<20;i++)
-        {
-            qqGroupsMsg = QQGroupsMsg.builder()
-                    .content(content)
-                    .msgType(0)
-                    .eventId("GROUP_AT_MESSAGE_CREATE")
-                    .msgId(id)
-                    .msgSeq(msgSeq)
-                    .build();
-            msgSeq++;
-            qqGroupsMsgEntity = new HttpEntity<>(qqGroupsMsg,headers);
-            groupMsgResp = restTemplate.exchange(url + "/messages", HttpMethod.POST, qqGroupsMsgEntity, JSONObject.class);
-            log.info("消息发送成功：{}", groupMsgResp.getBody());
-        }
     }
 
 
