@@ -232,6 +232,16 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     }
 
     /**
+     * 如果这个功能无法使用就走这一条方法
+     *
+     * @param command 命令实体类
+     */
+    @Override
+    public void bannedFunction(GroupMsgCommand command) {
+        messageSender.groupTextMessageSender(command,"很遗憾该功能暂时下架重做/整改,无法使用",1);
+    }
+
+    /**
      * 签到功能
      *
      * @param command 命令实体类

@@ -91,6 +91,8 @@ public class MessageSenderServiceImpl implements MessageSenderService {
             .srvSendMsg(false)
             .build();
 
+        log.info("qqMediaFile:{}",JSONObject.toJSONString(qqMediaFile));
+
         groupWebClient.post()
                 .uri(command.getGroupId() + QQBotConstant.FILES_URI)
                 .headers(httpHeaders -> httpHeaders.addAll(getBotHeader()))
@@ -98,6 +100,8 @@ public class MessageSenderServiceImpl implements MessageSenderService {
                 .retrieve()
                 .bodyToMono(JSONObject.class)
                 .subscribe(resp ->{
+
+                    log.info(resp.toString());
                     QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
                     .content(text)
                     .msgType(7)

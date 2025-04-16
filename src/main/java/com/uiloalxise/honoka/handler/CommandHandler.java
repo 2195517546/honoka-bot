@@ -2,6 +2,7 @@ package com.uiloalxise.honoka.handler;
 
 import com.uiloalxise.constants.BotCommandConstant;
 import com.uiloalxise.constants.QQBotConstant;
+import com.uiloalxise.honoka.service.QQBotRecordService;
 import com.uiloalxise.honoka.service.group.GroupBotUserService;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
@@ -21,6 +22,10 @@ import org.springframework.stereotype.Component;
 public class CommandHandler{
 
     @Resource
+    private QQBotRecordService qqBotRecordService;
+
+
+    @Resource
     private QQBotGroupFunctionService groupFunctionService;
 
     @Resource
@@ -37,6 +42,10 @@ public class CommandHandler{
                 .messageId(data.getId())
                 .authorId(data.getAuthor().getId())
                 .build();
+
+        qqBotRecordService.recordUser(groupMsgCommand.getAuthorId());
+        qqBotRecordService.recordGroup(groupMsgCommand.getGroupId());
+
 
         if (content.trim().startsWith(QQBotConstant.COMMAND_START)) {
             groupMsgCommand.setCommandType(QQBotConstant.COMMAND_TYPE);
@@ -80,6 +89,18 @@ public class CommandHandler{
 
         if (commandCheck(content,BotCommandConstant.COMMAND_947)) {
             groupFunctionService.check947(command);
+            return;
+        }
+
+        if (commandCheck(content,"决斗"))
+        {
+            groupFunctionService.bannedFunction(command);
+            return;
+        }
+
+        if (commandCheck(content,"群规"))
+        {
+            groupFunctionService.bannedFunction(command);
             return;
         }
 

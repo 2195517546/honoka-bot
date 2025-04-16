@@ -3,11 +3,10 @@
 <mapper namespace="com.uiloalxise.honoka.mapper.QQGroupsMapper">
 
     <insert id="insertGroupsOpenId" parameterType="java.util.Set">
-        INSERT INTO qq_groups (groups_open_id)
+        INSERT IGNORE INTO qq_groups (groups_open_id)
         VALUES
         <foreach collection="groupsOpenIds" item="groupId" separator=",">
             (#{groupId})
         </foreach>
-        ON DUPLICATE KEY UPDATE groups_open_id = groups_open_id;
     </insert>
 </mapper>

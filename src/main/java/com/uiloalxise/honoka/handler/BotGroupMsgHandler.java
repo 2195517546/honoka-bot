@@ -27,8 +27,6 @@ public class BotGroupMsgHandler{
     private QQBotGroupFunctionService qqBotGroupFunctionService;
 
 
-    @Resource
-    private QQBotRecordService qqBotRecordService;
 
     @Resource
     private CommandHandler commandHandler;
@@ -41,8 +39,7 @@ public class BotGroupMsgHandler{
         String payloadType = payload.getT();
         QQBotPayloadD data = payload.getD();
 
-        qqBotRecordService.recordGroup(data.getGroupId());
-        qqBotRecordService.recordUser(data.getAuthor().getUserOpenid());
+
 
         if (payloadType.equals(QQBotConstant.GROUP_AT_MESSAGE_CREATE))
         {

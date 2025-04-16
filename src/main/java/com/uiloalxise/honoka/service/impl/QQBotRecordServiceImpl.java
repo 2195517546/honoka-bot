@@ -54,7 +54,7 @@ public class QQBotRecordServiceImpl implements QQBotRecordService {
      */
     @Override
     public void recordUser(String openId) {
-        log.info("收纳一条用户openid");
+        log.info("收纳一条用户openid:{}", openId);
         usersRecord.add(openId);
     }
 

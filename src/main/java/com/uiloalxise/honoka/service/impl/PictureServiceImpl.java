@@ -54,6 +54,9 @@ public class PictureServiceImpl implements PictureService {
         }else {
             result = "https://faceroundcloud.site/wantu/shion233.gif";
         }
+        log.info("result:{}",result);
+
+        result = result.replace("https://faceroundcloud.site/", "https://www.faceroundcloud.site/static/");
 
         return result;
     }

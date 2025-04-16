@@ -49,6 +49,11 @@ public interface QQBotGroupFunctionService {
      */
     void check947(GroupMsgCommand command);
 
+    /**
+     * 如果这个功能无法使用就走这一条方法
+     * @param command 命令实体类
+     */
+    void bannedFunction(GroupMsgCommand command);
 
     /**
      * 签到功能

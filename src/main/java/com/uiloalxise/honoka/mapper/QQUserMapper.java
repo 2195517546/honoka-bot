@@ -2,6 +2,7 @@ package com.uiloalxise.honoka.mapper;
 
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -16,13 +17,13 @@ import java.util.Set;
 @Mapper
 public interface QQUserMapper {
 
-    void insertUsersOpenId(Set<String> usersOpenIds);
+    void insertUsersOpenId(@Param("openIds") Set<String> openIds);
 
-    void registerAllOpenId(List<String> usersOpenIds);
+    void registerAllOpenId(@Param("usersOpenIds")Set<String> usersOpenIds);
 
     @Select("select qq_users.open_id from qq_users where status = 0")
     List<String> unregisterOpenIds();
 
-    @Update("update bot_user set status = 1 where open_id = #{openId}")
+    @Update("update qq_users set status = 1 where open_id = #{openId}")
     void registerOpenId(String openId);
 }
