@@ -129,7 +129,7 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         if(!command.getCommandType().equals(QQBotConstant.ERROR_TYPE))
         {
             command.setCommandType(QQBotConstant.ERROR_TYPE);
-            groupTextMessageSender(command,"果果执行，你的命令时被神秘的力量阻止了！\n请联系管理员报错！！！");
+            groupTextMessageSender(command,"果果执行你的命令时,被神秘的力量阻止了！\n请联系管理员报错！！！\n联系方式在/help获取");
         }
     }
 

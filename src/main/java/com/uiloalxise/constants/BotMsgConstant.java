@@ -25,12 +25,12 @@ public class BotMsgConstant {
     public static final String DUEL_LAUNCH_MSG = "提出了决斗,请各位英雄豪杰在5分钟内接下！";
     public static final String HELP_MENU_MSG = """
                 \n
-                    帮助菜单
-                😎本皇帝功能如下
-                🤪来点宛图🤪
-                🤪来点邪神🤪
+                    菜单
+                🤣版本:--0.8.5.1--
+                😎本皇功能如下
+                🤪来点宛图/邪神🤪
+                🤪查卡749🤪
                 🤪钉言钉语🤪
-                😎特别鸣谢Sekai Viewer提供资源支持😎
                 🤤本皇帝处于开发初期阶段有问题BUG请联系管理员及时修复求求你了🤤
                 😡官方qq群:916233774，不服就真实管理员吧！😡
                 """;
