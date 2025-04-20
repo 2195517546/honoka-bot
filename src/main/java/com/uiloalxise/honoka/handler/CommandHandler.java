@@ -92,6 +92,7 @@ public class CommandHandler{
             return;
         }
 
+        //暂时移除的命令
         if (commandCheck(content,"决斗"))
         {
             groupFunctionService.bannedFunction(command);
@@ -99,6 +100,12 @@ public class CommandHandler{
         }
 
         if (commandCheck(content,"群规"))
+        {
+            groupFunctionService.bannedFunction(command);
+            return;
+        }
+
+        if (commandCheck(content, new String[]{"谱面", "歌曲"}))
         {
             groupFunctionService.bannedFunction(command);
             return;
