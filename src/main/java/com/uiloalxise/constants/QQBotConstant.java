@@ -8,6 +8,10 @@ package com.uiloalxise.constants;
 public class QQBotConstant {
     //监听的消息常熟
     public final static String OPENAPI_URL = "https://api.sgroup.qq.com";
+    /**
+     * 使用此条目记得在末尾加/640如 AVATAR_URL_PREFIX + 102098744/D4776A40BB97B7A422AFA2853A89F729/640
+     */
+    public final static String AVATAR_URL_PREFIX = "https://q.qlogo.cn/qqapp/102098744/";
     public final static String GROUP_SUFFIX = "/v2/groups/";
     public final static String OPENAPI_GROUP_URL_PREFIX = OPENAPI_URL + GROUP_SUFFIX;
     public final static String MESSAGES_URI = "/messages";
@@ -21,6 +25,7 @@ public class QQBotConstant {
 
     public final static String GROUP_AT_MESSAGE_CREATE = "GROUP_AT_MESSAGE_CREATE";
     public final static String C2C_MESSAGE_CREATE = "C2C_MESSAGE_CREATE";
+
 
     //以下是命令相关常量
     //命令头以'/'开头
@@ -36,6 +41,7 @@ public class QQBotConstant {
 
 
     /*
+    头像
     https://q.qlogo.cn/qqapp/102098744/D4776A40BB97B7A422AFA2853A89F729/640
     * */
 

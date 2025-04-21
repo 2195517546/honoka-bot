@@ -1,12 +1,15 @@
 package com.uiloalxise.pojo.entity.user;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * @author Uiloalxise
@@ -16,7 +19,8 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BotUserSignInLog {
+@Builder
+public class BotUserSignInLog  implements Serializable {
     private Long id;
     private Long userId;
     private String openId;

@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -20,7 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BotUserPoints {
+public class BotUserPoints implements Serializable {
     private String openId;
     @TableId(type = IdType.AUTO)
     private Integer userId;

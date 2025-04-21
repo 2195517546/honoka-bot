@@ -16,6 +16,10 @@ public class BotMsgConstant {
     public static final String SUCCESS_REGISTER_SUCCESS = "注册成功!";
     public static final String DEFAULT_USER_NAME = "新用户";
 
+    //签到类
+    public static final String ERROR_ALREADY_SIGNED = "您今天已经签到过了哦~";
+    public static final String SUCCESS_SIGN_IN = "签到成功！获得{0}元奖励，当前余额：{1}元";
+    public static final String ERROR_SIGN_IN_FAILED = "签到失败，请稍后再试";
 
     public static final String GROUP_RULES_URL = "https://www.faceroundcloud.site/static/group_rule.png";
     public static final String CHECK_CARD_749_URL = "https://www.faceroundcloud.site/static/749_img.jpg";

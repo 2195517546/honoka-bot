@@ -21,6 +21,12 @@ public interface GroupBotUserService {
     void registerBotUser(GroupMsgCommand command);
 
     /**
+     * 日常签到功能
+     * @param command 命令实体类
+     */
+    void dailySignInBotUser(GroupMsgCommand command);
+
+    /**
      * 自动用户注册
      */
     void autoRegisterBotUser();

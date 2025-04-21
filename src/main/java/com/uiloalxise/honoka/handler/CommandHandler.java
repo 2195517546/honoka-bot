@@ -121,6 +121,11 @@ public class CommandHandler{
             groupBotUserService.registerBotUser(command);
             return;
         }
+        if(commandCheck(content,"签到"))
+        {
+            groupBotUserService.dailySignInBotUser(command);
+            return;
+        }
 
         return;
     }
