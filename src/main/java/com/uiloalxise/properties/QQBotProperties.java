@@ -17,4 +17,5 @@ public class QQBotProperties {
     private String appSecret;
     private String token;
     private String qqNumber;
+    private String localVersion;
 }

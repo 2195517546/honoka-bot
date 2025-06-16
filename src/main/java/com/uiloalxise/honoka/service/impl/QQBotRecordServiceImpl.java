@@ -73,7 +73,7 @@ public class QQBotRecordServiceImpl implements QQBotRecordService {
         }
 
         if (!usersRecord.isEmpty()) {
-            qqUserMapper.insertUsersOpenId(usersRecord);
+            qqUserMapper.insertUsersOpenId(usersRecord.stream().toList());
             log.info("定时插入传成功，已保存用户数:{}",usersRecord.size());
             usersRecord.clear();
         }else{

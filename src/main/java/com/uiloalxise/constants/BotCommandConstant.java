@@ -15,6 +15,9 @@ public class BotCommandConstant {
     public final static String COMMAND_HELP = "help";
     public final static String COMMAND_DINGTALK = "钉言钉语";
     public final static String[] COMMAND_947 = {"947","749","查卡947"};
+    public final static String COMMAND_SIGN_IN = "签到";
+    public final static String[] COMMAND_DUEL = {"决斗"};
+    public final static String[] COMMAND_AI_CHAT  = {"chat","求助"};
 
     //用户命令
     public final static String USER_COMMAND_INFO = "个人信息";

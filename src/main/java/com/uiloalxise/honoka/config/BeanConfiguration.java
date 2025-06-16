@@ -54,6 +54,15 @@ public class BeanConfiguration {
                 .build();
     }
 
+    @Bean
+    @ConditionalOnMissingBean(name = "aiWebClient")
+    public WebClient aiWebClient(){
+        log.info("开始创建AiWebClient对象");
+        return WebClient.builder()
+                .baseUrl(WebConstant.AI_CHAT_API_URL)
+                .build();
+    }
+
 
     @Bean(name = "groupsRecord")
     @ConditionalOnMissingBean(name = "groupsRecord")

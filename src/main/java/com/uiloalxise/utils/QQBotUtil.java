@@ -39,12 +39,14 @@ public class QQBotUtil {
     private String appSecret;
     private String token;
     private String qqNumber;
+    private String localVersion;
 
-    public QQBotUtil(String appId, String appSecret, String token, String qqNumber) {
+    public QQBotUtil(String appId, String appSecret, String token, String qqNumber,String localVersion) {
         this.appId = appId;
         this.appSecret = appSecret;
         this.token = token;
         this.qqNumber = qqNumber;
+        this.localVersion = localVersion;
     }
 
     private final static String ACCESS_TOKEN_URL = "https://bots.qq.com/app/getAppAccessToken";

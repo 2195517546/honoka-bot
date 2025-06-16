@@ -82,6 +82,14 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     private MessageSenderService messageSender;
 
     /**
+     * @param command
+     */
+    @Override
+    public void aiChat(GroupMsgCommand command) {
+
+    }
+
+    /**
      * @param command 命令实体
      */
     @Override
@@ -132,7 +140,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
      */
     @Override
     public void helpMenu(GroupMsgCommand command) {
-        messageSender.groupTextMessageSender(command,BotMsgConstant.HELP_MENU_MSG);
+        messageSender.groupTextMessageSender(command,BotMsgConstant.HELP_MENU_MSG.replace("${version}",qqBotUtil.getLocalVersion()));
     }
 
     private boolean isSuperAdmin(String authorId)

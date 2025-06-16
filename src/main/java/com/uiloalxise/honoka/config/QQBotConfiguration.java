@@ -21,11 +21,12 @@ public class QQBotConfiguration {
     @ConditionalOnMissingBean
     public QQBotUtil qqBotUtil(QQBotProperties qqBotProperties) {
         log.info("开始创建qq机器人工具类对象：{}",qqBotProperties);
-        log.info("当前QQ机器人版本:{}","1.0");
+        log.info("当前QQ机器人版本:{}",qqBotProperties.getLocalVersion());
         return new QQBotUtil(qqBotProperties.getAppId(),
                 qqBotProperties.getAppSecret(),
                 qqBotProperties.getToken(),
-                qqBotProperties.getQqNumber()
+                qqBotProperties.getQqNumber(),
+                qqBotProperties.getLocalVersion()
         );
     }
 }

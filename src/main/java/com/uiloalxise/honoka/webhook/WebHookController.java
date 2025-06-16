@@ -42,9 +42,6 @@ public class WebHookController {
                                  @RequestHeader("X-Signature-Ed25519") String sig,
                                  @RequestHeader("X-Signature-Timestamp") String timestamp)
     {
-        log.info(body.toJson().toString());
-        log.info(sig);
-        log.info(timestamp);
 
         JSONObject json = JSONObject.from(body);
         JSONObject d = json.getJSONObject("d");

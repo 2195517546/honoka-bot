@@ -15,6 +15,7 @@ public interface QQBotGroupFunctionService {
     void function(Command command);
     */
 
+    void aiChat(GroupMsgCommand command);
 
     /**
      * 测试功能

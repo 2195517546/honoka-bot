@@ -9,6 +9,9 @@ public class WebConstant {
     public final static String WEBSITE_URL = "https://faceroundcloud.site/";
     public final static String WEBSITE_API_URL = "https://www.faceroundcloud.site/";
 
+    //AI的API的url
+    public final static String AI_CHAT_API_URL = "http://114.66.55.108:11434/api/generate";
+
     public final static String RANDOM_PIC_URL = "https://www.faceroundcloud.site/pic/random/";
     public final static String RANDOM_PIC_URI = "pic/random/";
     public final static String DINGTALK_PIC_URL = "https://faceroundcloud.site/honoka/dingtalk/";

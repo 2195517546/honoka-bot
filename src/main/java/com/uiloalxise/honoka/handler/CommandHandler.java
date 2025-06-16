@@ -92,25 +92,6 @@ public class CommandHandler{
             return;
         }
 
-        //暂时移除的命令
-        if (commandCheck(content,"决斗"))
-        {
-            groupFunctionService.bannedFunction(command);
-            return;
-        }
-
-        if (commandCheck(content,"群规"))
-        {
-            groupFunctionService.bannedFunction(command);
-            return;
-        }
-
-        if (commandCheck(content, new String[]{"谱面", "歌曲"}))
-        {
-            groupFunctionService.bannedFunction(command);
-            return;
-        }
-
         //用户命令相关
         if (commandCheck(content,BotCommandConstant.USER_COMMAND_INFO)) {
             groupBotUserService.infoBotUser(command);
@@ -126,6 +107,33 @@ public class CommandHandler{
             groupBotUserService.dailySignInBotUser(command);
             return;
         }
+
+        //暂时移除的命令
+        if (commandCheck(content,"决斗"))
+        {
+            groupFunctionService.bannedFunction(command);
+            return;
+        }
+
+        if (commandCheck(content,"群规"))
+        {
+            groupFunctionService.bannedFunction(command);
+            return;
+        }
+
+        if (commandCheck(content,BotCommandConstant.COMMAND_AI_CHAT))
+        {
+            groupFunctionService.aiChat(command);
+            return;
+        }
+
+        if (commandCheck(content, new String[]{"谱面", "歌曲"}))
+        {
+            groupFunctionService.bannedFunction(command);
+            return;
+        }
+
+
 
         return;
     }

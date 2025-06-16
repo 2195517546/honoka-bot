@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -64,21 +66,27 @@ public class GroupUserServiceImpl implements GroupBotUserService {
     @Override
     @Async
     public void infoBotUser(GroupMsgCommand command) {
+        try {
         String openId = command.getAuthorId();
         LambdaQueryWrapper<BotUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(BotUser::getOpenId, openId);
+
+
         BotUser botUser = botUserMapper.selectOne(queryWrapper);
 
         String avatarUrl = QQBotConstant.AVATAR_URL_PREFIX+botUser.getOpenId()+"/640";
 
-        BotUserVO vo = self.getBotUserVO(botUser);
+
+            BotUserVO vo = self.getBotUserVO(botUser);
 
 
-        if (vo != null) {
-            messageSender.groupPictureMessageSender(command,avatarUrl,"本功能暂时不提供改名" + vo.toString(),1);
-        }else
-        {
-            messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND,1);
+            if (vo != null) {
+                messageSender.groupPictureMessageSender(command, avatarUrl, "本功能暂时不提供改名" + vo.toString(), 1);
+            } else {
+                messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
+            }
+        }catch (Exception e){
+            messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
         }
     }
 
@@ -99,6 +107,7 @@ public class GroupUserServiceImpl implements GroupBotUserService {
 
         // 2. 查询今日是否签到
         Date today = new Date();
+
         long todaySignInCount = botUserSignInLogMapper.selectCount(
             new LambdaQueryWrapper<BotUserSignInLog>()
                 .eq(BotUserSignInLog::getOpenId, openId)
@@ -158,47 +167,96 @@ public class GroupUserServiceImpl implements GroupBotUserService {
      *
      * @param command 命令实体类
      */
-    @Async
-    @Override
-    public void dailySignInBotUser(GroupMsgCommand command) {
-        String openId = command.getAuthorId();
+        @Async
+        @Override
+        public void dailySignInBotUser(GroupMsgCommand command) {
+            String openId = command.getAuthorId();
 
-        CompletableFuture<BotUser> userFuture = getBotUserByUserId(openId);
-        userFuture.thenAccept(botUser -> {
-            if (botUser == null) {
-                messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
-                return;
-            }
+            CompletableFuture<BotUser> userFuture = getBotUserByUserId(openId);
+            userFuture.thenAccept(botUser -> {
+                if (botUser == null) {
+                    messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
+                    return;
+                }
 
-            try {
-                // 尝试直接插入签到记录
-                BotUserSignInLog signInLog = BotUserSignInLog.builder()
-                    .userId(botUser.getUserId().longValue())
-                    .openId(openId)
-                    .signDate(new Date())
-                    .signTime(new Date())
-                    .rewardValue(new BigDecimal("100.00"))
-                    .createTime(new Date())
-                    .comment("日常签到奖励")
-                    .build();
+                try {
+                    // 检查今天是否已经签到
+                    if (hasSignedInToday(openId)) {
+                        messageSender.groupTextMessageSender(command, "您今天已经签到过了哦~", 1);
+                        return;
+                    }
 
-                botUserSignInLogMapper.insert(signInLog);
+                    // 获取昨天的签到记录
+                    BotUserSignInLog yesterdaySignIn = getYesterdaySignIn(openId);
+                    long currentCombo = 1; // 默认连续签到天数为1
 
-                // 如果插入成功，更新积分
-                self.updateUserPoints(botUser, command);
+                    if (yesterdaySignIn != null) {
+                        // 如果昨天签到了，则今天的连续签到天数 = 昨天的连续签到天数 + 1
+                        currentCombo = yesterdaySignIn.getCombo() != null ? yesterdaySignIn.getCombo() + 1 : 1;
+                    }
 
-            } catch (DuplicateKeyException e) {
-                // 唯一键冲突，说明已经签到过
-                messageSender.groupTextMessageSender(command, "您今天已经签到过了哦~", 1);
-            } catch (Exception e) {
-                log.error("签到失败", e);
+                    // 创建今天的签到记录
+                    BotUserSignInLog signInLog = BotUserSignInLog.builder()
+                        .userId(botUser.getUserId().longValue())
+                        .openId(openId)
+                        .signDate(new Date())
+                        .signTime(new Date())
+                        .rewardValue(new BigDecimal("100.00"))
+                        .createTime(new Date())
+                        .comment("日常签到奖励")
+                        .combo(currentCombo) // 设置连续签到天数
+                        .build();
+
+                    botUserSignInLogMapper.insert(signInLog);
+
+                    // 如果插入成功，更新积分
+                    self.updateUserPoints(botUser, command);
+
+                    // 发送签到成功消息，包含连续签到天数
+                    messageSender.groupTextMessageSender(command,
+                        String.format("签到成功！已连续签到%d天", currentCombo), 1);
+
+                } catch (Exception e) {
+                    log.error("签到失败", e);
+                    messageSender.groupTextMessageSender(command, "签到失败，请稍后再试", 1);
+                }
+            }).exceptionally(throwable -> {
+                log.error("签到失败", throwable);
                 messageSender.groupTextMessageSender(command, "签到失败，请稍后再试", 1);
-            }
-        }).exceptionally(throwable -> {
-            log.error("签到失败", throwable);
-            messageSender.groupTextMessageSender(command, "签到失败，请稍后再试", 1);
-            return null;
-        });
+                return null;
+            });
+        }
+
+    /**
+     * 检查用户今天是否已经签到
+     */
+    private boolean hasSignedInToday(String openId) {
+        Date today = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String todayStr = sdf.format(today);
+
+        return botUserSignInLogMapper.selectCount(
+            new QueryWrapper<BotUserSignInLog>()
+                .eq("open_id", openId)
+                .apply("DATE(sign_date) = STR_TO_DATE('" + todayStr + "', '%Y-%m-%d')")
+        ) > 0;
+    }
+
+    /**
+     * 获取用户昨天的签到记录
+     */
+    private BotUserSignInLog getYesterdaySignIn(String openId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        Date yesterday = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String yesterdayStr = sdf.format(yesterday);
+
+        return botUserSignInLogMapper.selectOne(
+            new QueryWrapper<BotUserSignInLog>()
+                .eq("open_id", openId)
+                .apply("DATE(sign_date) = STR_TO_DATE('" + yesterdayStr + "', '%Y-%m-%d')")
+        );
     }
 
     @Transactional
@@ -247,10 +305,16 @@ public class GroupUserServiceImpl implements GroupBotUserService {
 
     }
 
-    @Transactional(rollbackFor = Exception.class)
+   @Transactional(rollbackFor = Exception.class)
     protected void saveNewBotUserAndPoints(GroupMsgCommand command) {
+        // 使用 SELECT ... FOR UPDATE 锁定 openId 记录
+        BotUser existingUser = botUserMapper.selectByOpenIdForUpdate(command.getAuthorId());
+        if (existingUser != null) {
+            log.info("User with openId {} already exists, skipping", command.getAuthorId());
+            return;
+        }
+
         Date date = new Date();
-        // 添加用户
         BotUser newBotUser = BotUser.builder()
                 .openId(command.getAuthorId())
                 .nickname(BotMsgConstant.DEFAULT_USER_NAME + command.getAuthorId().substring(1, 4))
@@ -259,8 +323,7 @@ public class GroupUserServiceImpl implements GroupBotUserService {
                 .build();
         botUserMapper.insert(newBotUser);
 
-        // 再次查询用户
-        BotUser botUserNow = getBotUserByUserId(command.getAuthorId()).join();
+        BotUser botUserNow = botUserMapper.selectByOpenId(command.getAuthorId());
         BotUserPoints newUserPoints = BotUserPoints.builder()
                 .userId(botUserNow.getUserId())
                 .openId(command.getAuthorId())

@@ -30,11 +30,13 @@ public class BotMsgConstant {
     public static final String HELP_MENU_MSG = """
                 \n
                     菜单
-                🤣版本:--0.8.5.1--
+                🤣版本:${version}
                 😎本皇功能如下
                 🤪来点宛图/邪神🤪
                 🤪查卡749🤪
                 🤪钉言钉语🤪
+                🤪签到🤪
+                😈个人信息👿
                 🤤本皇帝处于开发初期阶段有问题BUG请联系管理员及时修复求求你了🤤
                 😡官方qq群:916233774，不服就真实管理员吧！😡
                 """;

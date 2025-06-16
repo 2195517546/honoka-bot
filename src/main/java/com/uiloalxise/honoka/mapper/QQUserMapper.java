@@ -17,9 +17,9 @@ import java.util.Set;
 @Mapper
 public interface QQUserMapper {
 
-    void insertUsersOpenId(@Param("openIds") Set<String> openIds);
+    void insertUsersOpenId(@Param("openIds") List<String> openIds);
 
-    void registerAllOpenId(@Param("usersOpenIds")Set<String> usersOpenIds);
+    void registerAllOpenId(@Param("usersOpenIds")List<String> usersOpenIds);
 
     @Select("select qq_users.open_id from qq_users where status = 0")
     List<String> unregisterOpenIds();

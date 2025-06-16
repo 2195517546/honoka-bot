@@ -59,6 +59,7 @@ honoka:
     app-id: ${honoka.qq-bot.app-id}
     token: ${honoka.qq-bot.token}
     app-secret: ${honoka.qq-bot.app-secret}
+    local-version: ${honoka.qq-bot.local-version}
 
   #调用图片生成apikey，请联系管理员qq1930409680获取
   api-key:

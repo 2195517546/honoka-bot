@@ -32,4 +32,6 @@ public class BotUserSignInLog  implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String comment;
+
+    private Long combo;
 }

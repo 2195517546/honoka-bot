@@ -3,11 +3,10 @@
 <mapper namespace="com.uiloalxise.honoka.mapper.QQUserMapper">
 
 
-    <insert id="insertUsersOpenId" parameterType="java.util.Set">
-        INSERT IGNORE INTO qq_users (open_id)
-        VALUES
-        <foreach collection="openIds" item="openId" open="(" separator="," close=")">
-            #{openId}
+    <insert id="insertUsersOpenId">
+        INSERT IGNORE INTO qq_users (open_id) VALUES
+        <foreach collection="openIds" item="openId" separator=",">
+            (#{openId})
         </foreach>
     </insert>
     <update id="registerAllOpenId">

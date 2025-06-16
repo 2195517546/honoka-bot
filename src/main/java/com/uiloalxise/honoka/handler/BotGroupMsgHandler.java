@@ -39,12 +39,10 @@ public class BotGroupMsgHandler{
         String payloadType = payload.getT();
         QQBotPayloadD data = payload.getD();
 
-
-
         if (payloadType.equals(QQBotConstant.GROUP_AT_MESSAGE_CREATE))
         {
             GroupMsgCommand command = commandHandler.groupMsgCommandCreator(data);
-            log.info("groupMsgCommand:{}", command);
+            log.info("收到一条content内容为[{}]\n,命令类型:{}", command.getContent(), command.getCommandType());
             if (command.getCommandType().equals(QQBotConstant.COMMAND_TYPE))
             {
                 commandHandler.groupCommandHandle(command);
