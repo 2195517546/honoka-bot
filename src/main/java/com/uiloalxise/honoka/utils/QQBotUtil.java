@@ -1,4 +1,4 @@
-package com.uiloalxise.utils;
+package com.uiloalxise.honoka.utils;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;

@@ -11,7 +11,7 @@ import com.uiloalxise.honoka.service.QQBotDuelTransactionService;
 import com.uiloalxise.pojo.dto.DuelPlayerDTO;
 import com.uiloalxise.pojo.entity.DuelPlayer;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
-import com.uiloalxise.utils.QQBotUtil;
+import com.uiloalxise.honoka.utils.QQBotUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

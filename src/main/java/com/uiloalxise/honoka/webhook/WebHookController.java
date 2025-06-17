@@ -5,7 +5,7 @@ import com.uiloalxise.honoka.handler.BotMessageSummaryHandler;
 import com.uiloalxise.pojo.entity.payload.QQBotPayload;
 import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 import com.uiloalxise.pojo.entity.payload.WebHookResult;
-import com.uiloalxise.utils.QQBotUtil;
+import com.uiloalxise.honoka.utils.QQBotUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

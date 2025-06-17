@@ -2,12 +2,13 @@ package com.uiloalxise.honoka.config;
 
 import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.constants.WebConstant;
-import com.uiloalxise.utils.PJSKUtil;
+import com.uiloalxise.honoka.utils.PJSKUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -60,6 +61,7 @@ public class BeanConfiguration {
         log.info("开始创建AiWebClient对象");
         return WebClient.builder()
                 .baseUrl(WebConstant.AI_CHAT_API_URL)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 

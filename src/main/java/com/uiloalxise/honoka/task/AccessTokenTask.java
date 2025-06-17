@@ -1,7 +1,6 @@
 package com.uiloalxise.honoka.task;
 
-import com.alibaba.fastjson2.JSONObject;
-import com.uiloalxise.utils.QQBotUtil;
+import com.uiloalxise.honoka.utils.QQBotUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

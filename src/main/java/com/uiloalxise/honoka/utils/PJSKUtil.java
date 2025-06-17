@@ -1,4 +1,4 @@
-package com.uiloalxise.utils;
+package com.uiloalxise.honoka.utils;
 
 import com.uiloalxise.constants.RegexConstant;
 import com.uiloalxise.constants.StringConstant;

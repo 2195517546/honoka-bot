@@ -9,14 +9,15 @@ import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
 import com.uiloalxise.honoka.service.*;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
+import com.uiloalxise.honoka.utils.AIUtil;
 import com.uiloalxise.pojo.dto.PJSKIdDTO;
 import com.uiloalxise.pojo.entity.PJSKMusicObject;
 import com.uiloalxise.pojo.entity.QQGroupsMsg;
 import com.uiloalxise.pojo.entity.QQMediaFile;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import com.uiloalxise.properties.FaceroundApiKeyProperties;
-import com.uiloalxise.utils.PJSKUtil;
-import com.uiloalxise.utils.QQBotUtil;
+import com.uiloalxise.honoka.utils.PJSKUtil;
+import com.uiloalxise.honoka.utils.QQBotUtil;
 import com.uiloalxise.honoka.mapper.PJSKMusicPaneMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -81,12 +82,18 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     @Resource
     private MessageSenderService messageSender;
 
+    @Resource
+    private AIUtil aiUtil;
+
     /**
      * @param command
      */
     @Override
     public void aiChat(GroupMsgCommand command) {
+        messageSender.groupTextMessageSender(command,"果果正在思考这个问题的解决方法请稍等",1);
+        String result = aiUtil.getAiResponse(command.getContent(), "deepseek-r1:7b", "user");
 
+        messageSender.groupTextMessageSender(command,result,2);
     }
 
     /**
