@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.concurrent.ExecutionException;
+
 
 /**
  * @author Uiloalxise
@@ -29,7 +31,14 @@ public class TestApplication {
 
     @Test
     public void test() {
-        String res = String.valueOf(aiUtil.getAiResponse("钉钉十号被王八草了怎么办",  "deepseek-r1:7b", "user"));
+        String res = null;
+        try {
+            res = aiUtil.getAiResponse("回复我3个字收到就行了",  "deepseek-r1:7b", "user").get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
         log.info(res);
 

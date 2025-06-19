@@ -1,21 +1,17 @@
 package com.uiloalxise.honoka.utils;
 
-import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.uiloalxise.pojo.entity.ai.AiMessage;
 import com.uiloalxise.pojo.entity.ai.ChatRequest;
 import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-import java.util.stream.Stream;
+import java.util.concurrent.Future;
 
 /**
  * @author Uiloalxise
@@ -31,9 +27,9 @@ public class AIUtil {
 
 
     @Async
-    public String getAiResponse(String content, String model, String user) {
+    public Future<String> getAiResponse(String content, String model, String user) {
                 // 创建请求体
-        ChatRequest chatRequest = new ChatRequest(model, "user", content);
+
 
         String defaultContent = """
                 你是一个求助机器人
@@ -48,27 +44,29 @@ public class AIUtil {
                 """;
 
 
-        return aiWebClient.post()
-            .uri("/api/chat")
-            .bodyValue(chatRequest)
-            .retrieve()
-            .onStatus(status -> status.isError(), response -> {
-                log.error("Error response from AI API: {}", response.statusCode());
-                return response.bodyToMono(String.class)
-                    .flatMap(body -> Mono.error(new RuntimeException("API error: " + body)));
-            })
-            .bodyToFlux(JSONObject.class)
-            .takeUntil(json -> json.getBoolean("done") != null && json.getBoolean("done"))
-            .map(json -> {
-                JSONObject msg = json.getObject("message", JSONObject.class);
-                String res = msg != null ? msg.getString("content") : "";
-                log.info("Received message: {}", res);
-                return res;
-            })
-            .filter(contentStr -> !contentStr.isEmpty())
-            .reduce((a, b) -> a + b)
-            .doOnNext(finalResult -> log.info("【AI 回复】{}", finalResult))
-            .block();
+        ChatRequest chatRequest = new ChatRequest(model, "user", defaultContent +  content);
+
+        return AsyncResult.forValue(aiWebClient.post()
+                .uri("/api/chat")
+                .bodyValue(chatRequest)
+                .retrieve()
+                .onStatus(status -> status.isError(), response -> {
+                    log.error("Error response from AI API: {}", response.statusCode());
+                    return response.bodyToMono(String.class)
+                            .flatMap(body -> Mono.error(new RuntimeException("API error: " + body)));
+                })
+                .bodyToFlux(JSONObject.class)
+                .takeUntil(json -> json.getBoolean("done") != null && json.getBoolean("done"))
+                .map(json -> {
+                    JSONObject msg = json.getObject("message", JSONObject.class);
+                    String res = msg != null ? msg.getString("content") : "";
+                    log.info("Received message: {}", res);
+                    return res;
+                })
+                .filter(contentStr -> !contentStr.isEmpty())
+                .reduce((a, b) -> a + b)
+                .doOnNext(finalResult -> log.info("【AI 回复】{}", finalResult))
+                .block());
     }
 }
 

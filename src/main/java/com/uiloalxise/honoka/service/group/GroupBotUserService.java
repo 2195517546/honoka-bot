@@ -30,4 +30,10 @@ public interface GroupBotUserService {
      * 自动用户注册
      */
     void autoRegisterBotUser();
+
+    /**
+     * 改名
+     * @param command 命令实体类
+     */
+    void changeName(GroupMsgCommand command);
 }

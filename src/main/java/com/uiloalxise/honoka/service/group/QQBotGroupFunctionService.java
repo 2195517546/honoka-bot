@@ -15,7 +15,17 @@ public interface QQBotGroupFunctionService {
     void function(Command command);
     */
 
+    /**
+     * ai聊天功能
+     * @param command 命令实体类
+     */
     void aiChat(GroupMsgCommand command);
+
+    /**
+     * 改名功能
+     * @param command 命令实体类
+     */
+    void changeName(GroupMsgCommand command);
 
     /**
      * 测试功能
@@ -55,6 +65,8 @@ public interface QQBotGroupFunctionService {
      * @param command 命令实体类
      */
     void bannedFunction(GroupMsgCommand command);
+
+
 
     /**
      * 签到功能

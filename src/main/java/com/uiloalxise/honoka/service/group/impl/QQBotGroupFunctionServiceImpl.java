@@ -33,6 +33,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,11 +91,27 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
      * @param command
      */
     @Override
-    public void aiChat(GroupMsgCommand command) {
+    public void aiChat(GroupMsgCommand command)  {
         messageSender.groupTextMessageSender(command,"果果正在思考这个问题的解决方法请稍等",1);
-        String result = aiUtil.getAiResponse(command.getContent(), "deepseek-r1:7b", "user");
+        Future<String> result = aiUtil.getAiResponse(command.getContent(), "deepseek-r1:7b", "user");
 
-        messageSender.groupTextMessageSender(command,result,2);
+        try{
+            messageSender.groupTextMessageSender(command,result.get(),2);
+        }catch (Exception e)
+        {
+            messageSender.groupTextMessageSender(command,"获取结果失败",2);
+        }
+
+    }
+
+    /**
+     * 改名功能
+     *
+     * @param command 命令实体类
+     */
+    @Override
+    public void changeName(GroupMsgCommand command) {
+
     }
 
     /**

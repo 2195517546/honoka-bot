@@ -305,7 +305,42 @@ public class GroupUserServiceImpl implements GroupBotUserService {
 
     }
 
-   @Transactional(rollbackFor = Exception.class)
+    /**
+     * 改名,把这个用户的new名改为command的content
+     *
+     * @param command 命令实体类
+     */
+    @Override
+    public void changeName(GroupMsgCommand command) {
+    // 获取用户信息
+    BotUser existingUser = botUserMapper.selectByOpenIdForUpdate(command.getAuthorId());
+
+        if (existingUser == null) {
+            messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
+            return;
+        }
+
+        // 更新用户昵称
+        Date date = new Date();
+        BotUser newBotUser = BotUser.builder()
+                .openId(command.getAuthorId())
+                .nickname(existingUser.getNickname())
+                .newNickname(command.getContent())
+                .createTime(existingUser.getCreateTime())
+                .updateTime(date)
+                .build();
+
+        // 执行更新操作
+        int rowsAffected = botUserMapper.updateById(newBotUser);
+
+        if (rowsAffected > 0) {
+            messageSender.groupTextMessageSender(command, "恭喜你改名成功！请等待审核", 1);
+        } else {
+            messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_UNKNOWN, 1);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
     protected void saveNewBotUserAndPoints(GroupMsgCommand command) {
         // 使用 SELECT ... FOR UPDATE 锁定 openId 记录
         BotUser existingUser = botUserMapper.selectByOpenIdForUpdate(command.getAuthorId());

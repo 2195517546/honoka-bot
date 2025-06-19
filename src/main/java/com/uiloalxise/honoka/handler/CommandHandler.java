@@ -102,7 +102,7 @@ public class CommandHandler{
             groupBotUserService.registerBotUser(command);
             return;
         }
-        if(commandCheck(content,"签到"))
+        if(commandCheck(content,BotCommandConstant.COMMAND_SIGN_IN ))
         {
             groupBotUserService.dailySignInBotUser(command);
             return;
@@ -132,6 +132,13 @@ public class CommandHandler{
             groupFunctionService.bannedFunction(command);
             return;
         }
+
+        if(commandCheck(content,"改名"))
+        {
+            groupBotUserService.changeName(command);
+            return;
+        }
+
 
 
 
