@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * @author Uiloalxise
  * @ClassName BotGroupMessageException
- * @Description TODO
+ * @Description 机器人消息异常类，用于记录异常信息，用于onError的处理
  */
 @Getter
 public class BotGroupMessageException extends RuntimeException {

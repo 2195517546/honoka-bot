@@ -11,7 +11,7 @@ import java.sql.Date;
 /**
  * @author Uiloalxise
  * @ClassName BotUserSignInLogDTO
- * @Description TODO
+ * @Description 机器人注册日志的DTO
  */
 
 @Data

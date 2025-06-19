@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Uiloalxise
  * @ClassName FaceroundApiKeyProperties
- * @Description TODO
+ * @Description 脸圆云api的配置属性
  */
 @Component
 @ConfigurationProperties(prefix = "honoka.api-key")

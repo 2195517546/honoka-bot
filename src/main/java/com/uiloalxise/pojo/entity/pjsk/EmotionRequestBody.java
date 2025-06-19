@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName EmotionRequestBody
- * @Description TODO
+ * @Description pjsk表情请求用的pojo
  */
 @Data
 @NoArgsConstructor

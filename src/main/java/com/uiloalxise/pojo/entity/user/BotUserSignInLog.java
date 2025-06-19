@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * @author Uiloalxise
  * @ClassName BotUserSignInLog
- * @Description TODO
+ * @Description QQ签到日志的实体类
  */
 @Data
 @AllArgsConstructor

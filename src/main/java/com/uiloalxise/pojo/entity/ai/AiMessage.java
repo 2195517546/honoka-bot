@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName AiMessage
- * @Description TODO
+ * @Description AI消息的数据结构
  */
 @Data
 @AllArgsConstructor

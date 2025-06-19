@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * @author Uiloalxise
  * @ClassName QQBotRecordServiceImpl
- * @Description TODO
+ * @Description QQ机器人使用记录的服务类impl
  */
 
 @Service

@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
 /**
  * @author Uiloalxise
  * @ClassName WebHookController
- * @Description TODO
+ * @Description qq官方api的webhook
  */
 @Slf4j
 @RestController

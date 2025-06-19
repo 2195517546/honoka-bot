@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * @author Uiloalxise
  * @ClassName BotUserPointsMapper
- * @Description TODO
+ * @Description 机器人用户积分(金币)库的mapper
  */
 @Mapper
 public interface BotUserPointsMapper extends BaseMapper<BotUserPoints> {

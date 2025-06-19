@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author Uiloalxise
  * @ClassName MapperResult
- * @Description TODO
+ * @Description todo
  */
 @Data
 @AllArgsConstructor

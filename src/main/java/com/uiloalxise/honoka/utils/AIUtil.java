@@ -16,7 +16,7 @@ import java.util.concurrent.Future;
 /**
  * @author Uiloalxise
  * @ClassName AIUtil
- * @Description TODO
+ * @Description ai工具类
  */
 @Component
 @AllArgsConstructor

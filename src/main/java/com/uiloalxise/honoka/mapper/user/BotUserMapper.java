@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * @author Uiloalxise
  * @ClassName BotUserMapper
- * @Description TODO
+ * @Description 机器人用户mapper
  */
 @Mapper
 public interface BotUserMapper extends BaseMapper<BotUser> {

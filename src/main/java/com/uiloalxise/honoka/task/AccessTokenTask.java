@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Uiloalxise
  * @ClassName AccessTokenTask
- * @Description TODO
+ * @Description 获取qqbot的access_token用的task
  */
 @Component
 @Slf4j

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * @author Uiloalxise
  * @ClassName DuelTextMapper
- * @Description TODO
+ * @Description 决斗文本mapper
  */
 @Mapper
 public interface DuelTextMapper {

@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName QQBotPayload
- * @Description TODO
+ * @Description qq机器人消息载荷的实体类
  */
 
 @Data

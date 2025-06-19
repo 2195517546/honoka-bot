@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName Message
- * @Description TODO
+ * @Description 消息实体类
  */
 @Data
 public class Message implements Serializable {

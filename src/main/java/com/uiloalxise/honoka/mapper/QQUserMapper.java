@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * @author Uiloalxise
  * @ClassName QQUserMapper.xml
- * @Description TODO
+ * @Description qq机器人用户信息的mapper
  */
 @Mapper
 public interface QQUserMapper {

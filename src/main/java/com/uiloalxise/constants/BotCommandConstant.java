@@ -3,7 +3,7 @@ package com.uiloalxise.constants;
 /**
  * @author Uiloalxise
  * @ClassName BotCommandConstant
- * @Description TODO
+ * @Description 机器人命令相关的常量
  */
 public class BotCommandConstant {
 

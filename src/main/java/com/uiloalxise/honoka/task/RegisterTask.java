@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Uiloalxise
  * @ClassName RegisterTask
- * @Description TODO
+ * @Description 定时注册任务的task
  */
 @Component
 @Slf4j

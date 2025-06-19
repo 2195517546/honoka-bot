@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName DuelText
- * @Description TODO
+ * @Description 决斗文本用的实体类
  */
 @Data
 @AllArgsConstructor

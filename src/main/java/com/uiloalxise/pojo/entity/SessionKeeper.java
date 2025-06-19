@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @author Uiloalxise
  * @ClassName SessionKeeper
- * @Description TODO
+ * @Description websocket用的户会话对象储存实体类
  */
 @Data
 public class SessionKeeper {

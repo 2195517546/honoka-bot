@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName PJSKIdDTO
- * @Description TODO
+ * @Description 世界计划谱面id
  */
 @Data
 @Builder

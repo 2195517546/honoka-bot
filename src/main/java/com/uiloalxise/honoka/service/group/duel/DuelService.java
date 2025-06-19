@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * @author Uiloalxise
  * @ClassName DuelService
- * @Description TODO
+ * @Description 决斗服务接口
  */
 public interface DuelService {
 

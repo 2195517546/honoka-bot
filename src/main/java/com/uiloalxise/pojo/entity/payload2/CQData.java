@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName CQData
- * @Description TODO
+ * @Description cq的数据结构
  */
 @Data
 @Builder

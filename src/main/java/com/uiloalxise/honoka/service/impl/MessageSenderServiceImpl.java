@@ -17,7 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 /**
  * @author Uiloalxise
  * @ClassName MessageSenderServiceImpl
- * @Description TODO
+ * @Description 消息发送服务类的impl
  */
 @Service
 @Async

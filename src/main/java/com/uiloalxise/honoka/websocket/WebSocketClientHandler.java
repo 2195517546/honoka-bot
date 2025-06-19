@@ -13,7 +13,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 /**
  * @author Uiloalxise
  * @ClassName WebSocketClientHandler
- * @Description TODO
+ * @Description websocket处理器,用于nap cat
  */
 //@Component
 @Slf4j

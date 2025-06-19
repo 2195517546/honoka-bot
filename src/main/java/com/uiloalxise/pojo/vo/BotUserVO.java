@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * @author Uiloalxise
  * @ClassName BotUserVO
- * @Description TODO
+ * @Description 机器人用户VO
  */
 @Getter
 @Setter

@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * @author Uiloalxise
  * @ClassName DuelResultDTO
- * @Description TODO
+ * @Description 决斗结果的DTO
  */
 @Data
 @Builder

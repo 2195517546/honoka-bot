@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName Sender
- * @Description TODO
+ * @Description 消息发送者的数据结构
  */
 @Data
 public class Sender implements Serializable {

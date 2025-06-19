@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * @author Uiloalxise
  * @ClassName SignInMapper
- * @Description TODO
+ * @Description 签到用的mapper
  */
 @Mapper
 public interface SignInMapper extends BaseMapper<BotUserSignInLog> {

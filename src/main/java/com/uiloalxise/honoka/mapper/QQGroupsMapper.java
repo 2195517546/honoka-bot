@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author Uiloalxise
  * @ClassName QQGroupsMapper
- * @Description TODO
+ * @Description qq群消息的mapper
  */
 @Mapper
 public interface QQGroupsMapper{

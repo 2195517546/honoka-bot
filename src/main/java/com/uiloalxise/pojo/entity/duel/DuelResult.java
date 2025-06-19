@@ -9,7 +9,7 @@ import lombok.Data;
 /**
  * @author Uiloalxise
  * @ClassName DuelResult
- * @Description TODO
+ * @Description 决斗结果的实体类
  */
 @Data
 @AllArgsConstructor

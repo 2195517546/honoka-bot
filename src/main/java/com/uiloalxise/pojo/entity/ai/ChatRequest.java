@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * @author Uiloalxise
  * @ClassName ChatRequest
- * @Description TODO
+ * @Description 调用大模型(基于 ollama)用的pojo
  */
 @Data
 public class ChatRequest implements Serializable {

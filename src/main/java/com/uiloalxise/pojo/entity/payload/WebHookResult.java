@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName WebHookResult
- * @Description TODO
+ * @Description webhook的结果pojo
  */
 @Data
 @Builder

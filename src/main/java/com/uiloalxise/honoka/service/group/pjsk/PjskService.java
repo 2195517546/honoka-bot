@@ -5,7 +5,7 @@ import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 /**
  * @author Uiloalxise
  * @ClassName PjskService
- * @Description TODO
+ * @Description 世界计划相关功能的服务器类
  */
 public interface PjskService {
 

@@ -32,7 +32,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * @author Uiloalxise
  * @ClassName GroupUserServiceImpl
- * @Description TODO
+ * @Description 群聊命令服务impl
  */
 
 @Service

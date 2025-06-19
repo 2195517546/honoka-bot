@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 /**
  * @author Uiloalxise
  * @ClassName Option
- * @Description TODO
+ * @Description ai相关的参数实体类
  */
 @Data
 @AllArgsConstructor

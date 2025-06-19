@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName QQBotAccessToken
- * @Description TODO
+ * @Description qq机器人api的访问令牌实体类
  */
 @Data
 @Builder

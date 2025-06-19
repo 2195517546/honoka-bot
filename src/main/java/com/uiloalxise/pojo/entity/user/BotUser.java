@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * @author Uiloalxise
  * @ClassName BotUser
- * @Description TODO
+ * @Description qq机器人用户实体类
  */
 @Data
 @AllArgsConstructor

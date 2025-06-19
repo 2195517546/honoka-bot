@@ -10,7 +10,7 @@ import static com.uiloalxise.constants.QQBotConstant.AVATAR_URL_PREFIX;
 /**
  * @author Uiloalxise
  * @ClassName BotCommand
- * @Description TODO
+ * @Description 机器人命令pojo
  */
 @Data
 @NoArgsConstructor

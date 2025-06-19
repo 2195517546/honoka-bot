@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * @author Uiloalxise
  * @ClassName BotUserPoints
- * @Description TODO
+ * @Description qq机器人用户积分表的实体类
  */
 @Data
 @AllArgsConstructor

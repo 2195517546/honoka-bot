@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author Uiloalxise
  * @ClassName QQBotPayloadDScene
- * @Description TODO
+ * @Description QQ负载消息中的回调数据
  */
 @Data
 @Builder

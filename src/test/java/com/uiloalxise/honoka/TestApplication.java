@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * @author Uiloalxise
  * @ClassName TestApplication
- * @Description TODO
+ * @Description junit入口
  */
 
 @RunWith(SpringRunner.class)

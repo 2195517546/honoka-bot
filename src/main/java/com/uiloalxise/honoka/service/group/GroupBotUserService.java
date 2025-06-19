@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * @author Uiloalxise
  * @ClassName GroupBotUserService
- * @Description TODO
+ * @Description 群聊命令服务
  */
 public interface GroupBotUserService {
     /**

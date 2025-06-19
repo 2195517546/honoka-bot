@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Uiloalxise
  * @ClassName PjskServiceImpl
- * @Description TODO
+ * @Description 世界计划的服务类impl
  */
 @Service
 public class PjskServiceImpl implements PjskService{

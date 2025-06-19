@@ -6,7 +6,7 @@ import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 /**
  * @author Uiloalxise
  * @ClassName MessageSenderService
- * @Description TODO
+ * @Description 信息发送服务类
  */
 public interface MessageSenderService {
 

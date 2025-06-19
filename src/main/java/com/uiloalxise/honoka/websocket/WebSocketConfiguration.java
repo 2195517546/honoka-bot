@@ -13,7 +13,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 /**
  * @author Uiloalxise
  * @ClassName WebSocketConfiguration
- * @Description TODO
+ * @Description websocket的相关配置
  */
 //@Configuration
 public class WebSocketConfiguration extends AbstractWebSocketHandler {

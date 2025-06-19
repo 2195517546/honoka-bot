@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Uiloalxise
  * @ClassName DuelResultMapper
- * @Description TODO
+ * @Description 决斗结果的Mapper
  */
 @Mapper
 public interface DuelResultMapper extends BaseMapper<DuelResult> {

@@ -4,7 +4,7 @@ package com.uiloalxise.honoka.service;
 /**
  * @author Uiloalxise
  * @ClassName QQBotRecordService
- * @Description TODO
+ * @Description qq机器人记录用户群聊等数据的服务
  */
 
 public interface QQBotRecordService {
