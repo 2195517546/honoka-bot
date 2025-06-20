@@ -24,11 +24,6 @@ import org.springframework.stereotype.Component;
 public class BotGroupMsgHandler{
 
     @Resource
-    private QQBotGroupFunctionService qqBotGroupFunctionService;
-
-
-
-    @Resource
     private CommandHandler commandHandler;
 
     /**

@@ -105,16 +105,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     }
 
     /**
-     * 改名功能
-     *
-     * @param command 命令实体类
-     */
-    @Override
-    public void changeName(GroupMsgCommand command) {
-
-    }
-
-    /**
      * @param command 命令实体
      */
     @Override

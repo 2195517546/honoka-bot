@@ -81,7 +81,7 @@ public class GroupUserServiceImpl implements GroupBotUserService {
 
 
             if (vo != null) {
-                messageSender.groupPictureMessageSender(command, avatarUrl, "本功能暂时不提供改名" + vo.toString(), 1);
+                messageSender.groupPictureMessageSender(command, avatarUrl, vo.toString(), 1);
             } else {
                 messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
             }
@@ -311,10 +311,12 @@ public class GroupUserServiceImpl implements GroupBotUserService {
      * @param command 命令实体类
      */
     @Override
+    @Transactional
     public void changeName(GroupMsgCommand command) {
     // 获取用户信息
     BotUser existingUser = botUserMapper.selectByOpenIdForUpdate(command.getAuthorId());
 
+        log.info("改名开始:{} ,{}",command.getContent(),existingUser);
         if (existingUser == null) {
             messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
             return;
@@ -323,9 +325,10 @@ public class GroupUserServiceImpl implements GroupBotUserService {
         // 更新用户昵称
         Date date = new Date();
         BotUser newBotUser = BotUser.builder()
-                .openId(command.getAuthorId())
+                .userId(existingUser.getUserId())
+                .openId(existingUser.getOpenId())
                 .nickname(existingUser.getNickname())
-                .newNickname(command.getContent())
+                .newNickname(command.getContent().replace("改名",""))
                 .createTime(existingUser.getCreateTime())
                 .updateTime(date)
                 .build();
@@ -336,6 +339,7 @@ public class GroupUserServiceImpl implements GroupBotUserService {
         if (rowsAffected > 0) {
             messageSender.groupTextMessageSender(command, "恭喜你改名成功！请等待审核", 1);
         } else {
+            log.error("更新用户昵称失败:{}",rowsAffected);
             messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_UNKNOWN, 1);
         }
     }

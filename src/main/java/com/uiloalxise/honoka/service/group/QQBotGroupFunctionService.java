@@ -21,11 +21,7 @@ public interface QQBotGroupFunctionService {
      */
     void aiChat(GroupMsgCommand command);
 
-    /**
-     * 改名功能
-     * @param command 命令实体类
-     */
-    void changeName(GroupMsgCommand command);
+
 
     /**
      * 测试功能
