@@ -74,4 +74,9 @@ public class WebHookController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
+        @PostMapping("/webhook2")
+    public ResponseEntity<?> webhook2(Object object)
+    {
+        return ResponseEntity.ok("Hello World");
+    }
 }
