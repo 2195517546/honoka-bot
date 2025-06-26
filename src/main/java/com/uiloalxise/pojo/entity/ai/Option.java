@@ -19,6 +19,9 @@ public class Option implements Serializable {
     BigDecimal temperature;
     Integer num_predict;
     Integer num_ctx;
+    Boolean verbose;
+    Float repeat_penalty;
+    Integer seed;
 
     public  Option()
     {

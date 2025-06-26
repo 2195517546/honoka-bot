@@ -11,6 +11,13 @@ import java.math.BigDecimal;
  * @Description TODO
  */
 public interface DuelService {
+
+    /**
+     * 获取决斗排行榜
+     * @param command
+     */
+    void top10(GroupMsgCommand command);
+
     /**
      * 决斗发起与接受
      * @param command 命令实体类

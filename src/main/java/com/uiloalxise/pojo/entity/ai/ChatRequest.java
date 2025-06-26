@@ -24,8 +24,11 @@ public class ChatRequest implements Serializable {
                 .build();
         this.messages = new AiMessage[]{messages};
         this.options = Option.builder()
+                .verbose(false)
                 .temperature(BigDecimal.valueOf(0.7))
                 .num_predict(512)
+                .repeat_penalty(1.0f)
+                .seed(-1)
                 .num_ctx(2048)
                 .build();
     }

@@ -93,7 +93,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     @Override
     public void aiChat(GroupMsgCommand command)  {
         messageSender.groupTextMessageSender(command,"果果正在思考这个问题的解决方法请稍等",1);
-        Future<String> result = aiUtil.getAiResponse(command.getContent(), "deepseek-r1:7b", "user");
+        Future<String> result = aiUtil.getAiResponse(command.getContent(), "deepseek-r1:1.5b", "user");
 
         try{
             messageSender.groupTextMessageSender(command,result.get(),2);

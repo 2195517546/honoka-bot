@@ -80,7 +80,7 @@ public class GroupUserServiceImpl implements GroupBotUserService {
 
 
             if (vo != null) {
-                messageSender.groupPictureMessageSender(command, avatarUrl, vo.toString(), 1);
+                messageSender.groupPictureMessageSender(command, avatarUrl, vo.toString() + "\n输入[/签到]可以签到", 1);
             } else {
                 messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
             }

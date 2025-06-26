@@ -3,6 +3,7 @@ package com.uiloalxise.honoka.service.group.duel.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.uiloalxise.constants.BotMsgConstant;
+import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.constants.RegexConstant;
 import com.uiloalxise.honoka.mapper.duel.DuelResultMapper;
 import com.uiloalxise.honoka.mapper.duel.DuelTextMapper;
@@ -69,6 +70,20 @@ public class DuelServiceImpl implements DuelService {
 
     @Resource
     private DuelTextMapper duelTextMapper;
+
+
+    /**
+     * 获取决斗排行榜
+     *
+     * @param command
+     */
+    @Override
+    public void top10(GroupMsgCommand command) {
+
+        String result = "决斗排行榜\n";
+
+        messageSender.groupTextMessageSender(command, result, 1);
+    }
 
     /**
      * 决斗-发起与接受
@@ -175,7 +190,9 @@ public class DuelServiceImpl implements DuelService {
                         duelText = duelText.replace("$winner$", winner.getNickname()).replace("$loser$", loser.getNickname());
                         messageSender.groupTextMessageSender(command, duelText, 1);
 
-                        messageSender.groupTextMessageSender(command,"胜利者一目了然，是:" + winner.getNickname(),2);
+
+                        String avatarUrl = QQBotConstant.AVATAR_URL_PREFIX+winner.getOpenId()+"/640";
+                        messageSender.groupPictureMessageSender(command,avatarUrl,"胜利者一目了然，是:" + winner.getNickname(),2);
 
                         //删除原先数据
                         redisTemplate.delete(duelId);
@@ -252,6 +269,7 @@ public class DuelServiceImpl implements DuelService {
             duelResultMapper.updateById(duelResult);
         }else{
             duelResult = DuelResult.builder()
+                    .id(null)
                 .openId(openId)
                 .win(result ? 1L : 0L)
                 .lost(result ? 0L : 1L)
