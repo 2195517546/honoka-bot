@@ -9,6 +9,10 @@ import com.alibaba.fastjson2.JSONObject;
  * @Description QQ决斗服务类
  */
 public interface QQBotDuelService {
+
+
+
+
     /**
      * 决斗重命名昵称
      * @param data 总消息处理下的d

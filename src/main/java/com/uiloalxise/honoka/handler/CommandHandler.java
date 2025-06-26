@@ -5,6 +5,7 @@ import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.honoka.service.QQBotRecordService;
 import com.uiloalxise.honoka.service.group.GroupBotUserService;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
+import com.uiloalxise.honoka.service.group.duel.DuelService;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 import jakarta.annotation.Resource;
@@ -24,6 +25,8 @@ public class CommandHandler{
     @Resource
     private QQBotRecordService qqBotRecordService;
 
+    @Resource
+    private DuelService duelService;
 
     @Resource
     private QQBotGroupFunctionService groupFunctionService;
@@ -108,13 +111,14 @@ public class CommandHandler{
             return;
         }
 
-        //暂时移除的命令
+        //决斗
         if (commandCheck(content,"决斗"))
         {
-            groupFunctionService.bannedFunction(command);
+            duelService.duel(command);
             return;
         }
 
+        //暂时移除的命令
         if (commandCheck(content,"群规"))
         {
             groupFunctionService.bannedFunction(command);

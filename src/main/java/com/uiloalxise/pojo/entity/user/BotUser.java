@@ -21,7 +21,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class BotUser implements Serializable {
-
     private String openId;
     @TableId(type = IdType.AUTO)
     private Integer userId;

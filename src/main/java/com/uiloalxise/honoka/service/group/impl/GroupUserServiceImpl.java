@@ -18,7 +18,6 @@ import com.uiloalxise.pojo.vo.BotUserVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -342,6 +341,27 @@ public class GroupUserServiceImpl implements GroupBotUserService {
             log.error("更新用户昵称失败:{}",rowsAffected);
             messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_UNKNOWN, 1);
         }
+    }
+
+    /**
+     * 返回用户金币
+     *
+     * @param botUser
+     * @return
+     */
+    @Override
+    public Long getMoney(BotUser botUser) {
+        if (botUser == null) {
+            return 0L;
+        }
+
+        // 查询用户积分信息
+        BotUserPoints userPoints = botUserPointsMapper.selectOne(
+            new LambdaQueryWrapper<BotUserPoints>()
+                .eq(BotUserPoints::getOpenId, botUser.getOpenId())
+        );
+
+        return userPoints != null ? userPoints.getMoney().longValue() : 0L;
     }
 
     @Transactional(rollbackFor = Exception.class)

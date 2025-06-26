@@ -3,6 +3,8 @@ package com.uiloalxise.honoka.service.group;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import com.uiloalxise.pojo.entity.user.BotUser;
 
+import java.math.BigDecimal;
+
 /**
  * @author Uiloalxise
  * @ClassName GroupBotUserService
@@ -36,4 +38,6 @@ public interface GroupBotUserService {
      * @param command 命令实体类
      */
     void changeName(GroupMsgCommand command);
+
+    Long getMoney(BotUser botUser);
 }

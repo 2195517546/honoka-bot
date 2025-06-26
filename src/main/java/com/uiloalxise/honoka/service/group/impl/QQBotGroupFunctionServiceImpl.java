@@ -183,25 +183,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
         Pattern pattern;
         Matcher matcher;
 
-        if (isSuperAdmin(command.getAuthorId())) {
-            if (request.contains("钉言钉语全部")) {
-                messageSender.groupTextMessageSender(command, "\n" + msgGeneratorService.allDingTalk());
-                return;
-            }
-
-            if (request.contains("钉言钉语添加")) {
-                msgGeneratorService.addDingTalk(request.replace("钉言钉语添加",""));
-                messageSender.groupTextMessageSender(command, "添加成功");
-                return;
-            }
-
-            if (request.contains("钉言钉语删除"))
-            {
-                msgGeneratorService.deleteDingTalk(Integer.valueOf(request.replace("钉言钉语删除","")));
-                messageSender.groupTextMessageSender(command, "删除成功");
-                return;
-            }
-        }
 
         pattern = Pattern.compile(RegexConstant.GET_LAST_COUNT_REGEX);
         matcher = pattern.matcher(request);

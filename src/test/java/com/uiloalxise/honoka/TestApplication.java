@@ -31,15 +31,9 @@ public class TestApplication {
 
     @Test
     public void test() {
-        String res = null;
-        try {
-            res = aiUtil.getAiResponse("回复我3个字收到就行了",  "deepseek-r1:7b", "user").get();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        String res = "叮咚鸡哈哈叮咚鸡";
 
+        res = res.replace("叮咚鸡","666");
         log.info(res);
 
     }

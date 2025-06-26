@@ -2,9 +2,11 @@ package com.uiloalxise.honoka.service.impl;
 
 import com.uiloalxise.constants.BotMsgConstant;
 import com.uiloalxise.honoka.service.MsgGeneratorService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,121 +25,9 @@ public class MsgGeneratorServiceImpl implements MsgGeneratorService {
 
     private static final String DING_TALK_TXT = "ding_talk.txt";
 
+    @Resource(name = "apiWebClient")
+    private WebClient apiWebClient;
 
-    /**
-     * @return
-     */
-    @Override
-    public boolean deleteDingTalk(Integer index) {
-        String filePath = DING_TALK_TXT;
-        File file = new File(filePath);
-        ArrayList<String> list = new ArrayList<>();
-
-        int count = 0;
-
-        try {
-            // 检查文件是否存在
-            if (!file.exists()) {
-                // 如果文件不存在，则创建新文件
-                boolean isCreated = file.createNewFile();
-                log.info("dingtalk文件已创建：{},{}",filePath,isCreated);
-            } else {
-
-                // 如果文件存在，则读取文件内容
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    count++;
-                    if (count==index)
-                    {continue;}
-                    list.add(line);
-                }
-                reader.close();
-
-                // 覆盖写入文件
-                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                for (String content : list) {
-                    writer.write(content);
-                    writer.newLine(); // 换行
-                }
-                list.clear();
-                writer.close();
-            }
-            return true;
-        } catch (IOException e) {
-            log.error(e.getMessage(),e);
-            return false;
-        }
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public boolean addDingTalk(String content) {
-        String filePath = DING_TALK_TXT;
-        File file = new File(filePath);
-        ArrayList<String> list = new ArrayList<>();
-
-        try {
-            // 检查文件是否存在
-            if (!file.exists()) {
-                // 如果文件不存在，则创建新文件
-                boolean isCreated = file.createNewFile();
-                log.info("dingtalk文件已创建：{},{}",filePath,isCreated);
-            } else {
-                // true 表示追加模式
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-                    writer.newLine(); // 先换行（可选，如果需要在最后一行后追加）
-                    // 写入新内容
-                    writer.write(content);
-                    writer.newLine(); // 可选，再换行
-                }
-            }
-            return true;
-        } catch (IOException e) {
-            log.error(e.getMessage(),e);
-            return false;
-        }
-    }
-
-    @Override
-    public String allDingTalk()
-    {
-        String filePath = DING_TALK_TXT;
-        File file = new File(filePath);
-        StringBuilder text = new StringBuilder();
-
-        int i = 1;
-
-        try {
-            // 检查文件是否存在
-            if (!file.exists()) {
-                // 如果文件不存在，则创建新文件
-                boolean isCreated = file.createNewFile();
-                log.info("dingtalk文件已创建：{},{}",filePath,isCreated);
-            } else {
-                // 如果文件存在，则读取文件内容
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    text.append(i++)
-                            .append(".")
-                            .append(line)
-                            .append("\r\n");
-                }
-                reader.close();
-            }
-        } catch (IOException e) {
-            log.error(e.getMessage(),e);
-        }
-
-        if (!text.isEmpty()) {
-            return text.toString();
-        }else {
-            return BotMsgConstant.DEFAULT_DINGTALK_MSG;
-        }
-    }
 
     /**
      * 随机钉言钉语string生成器

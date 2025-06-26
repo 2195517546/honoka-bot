@@ -49,6 +49,9 @@ mybatis:
     #开启驼峰命名
     map-underscore-to-camel-case: true
 
+
+
+
 honoka:
 
   #thread-pool:
