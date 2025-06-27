@@ -25,6 +25,12 @@ public interface DuelService {
     void duel(GroupMsgCommand command);
 
     /**
+     * 决斗取消
+     * @param command 命令实体类
+     */
+    void cancel(GroupMsgCommand command);
+
+    /**
      * 更新决斗结果
      * @param winner 战斗胜利者
      * @param loser 战斗失败者

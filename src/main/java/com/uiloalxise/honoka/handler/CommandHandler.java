@@ -118,6 +118,18 @@ public class CommandHandler{
         }
 
         //决斗
+        if (commandCheck(content,"决斗取消"))
+        {
+            duelService.cancel(command);
+            return;
+        }
+
+        if (commandCheck(content,"决斗排行"))
+        {
+            duelService.top10(command);
+            return;
+        }
+
         if (commandCheck(content,"决斗"))
         {
             duelService.duel(command);

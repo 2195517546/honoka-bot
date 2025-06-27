@@ -13,6 +13,7 @@ import com.uiloalxise.honoka.service.MessageSenderService;
 import com.uiloalxise.honoka.service.group.GroupBotUserService;
 import com.uiloalxise.honoka.service.group.duel.DuelService;
 import com.uiloalxise.pojo.dto.DuelPlayerDTO;
+import com.uiloalxise.pojo.dto.DuelResultDTO;
 import com.uiloalxise.pojo.entity.DuelPlayer;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import com.uiloalxise.pojo.entity.duel.DuelResult;
@@ -31,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,16 +82,22 @@ public class DuelServiceImpl implements DuelService {
     @Override
     public void top10(GroupMsgCommand command) {
 
-        String result = "决斗排行榜\n";
+        StringBuilder result = new StringBuilder("决斗排行榜\n");
 
 
         //这里写查询逻辑
+        List<DuelResultDTO> duelResultDTOS = duelResultMapper.findTop10ByWinOrder();
+        for (DuelResultDTO duelResultDTO : duelResultDTOS) {
+            result.append(duelResultDTO.getNickname()).append(": ").append(duelResultDTO.getWin()).append("胜").append(duelResultDTO.getLost()).append("负\n");
+        }
 
 
 
 
-        messageSender.groupTextMessageSender(command, result, 1);
+        messageSender.groupTextMessageSender(command, result.toString(), 1);
     }
+
+
 
     /**
      * 决斗-发起与接受
@@ -222,6 +230,24 @@ public class DuelServiceImpl implements DuelService {
         }else{
             messageSender.groupTextMessageSender(command, BotMsgConstant.ERROR_USER_NOT_FOUND, 1);
         }
+    }
+
+    /**
+     * 决斗取消
+     *
+     * @param command 命令实体类
+     */
+    @Override
+    public void cancel(GroupMsgCommand command) {
+        String duelId = "duel:" + command.getGroupId();
+        if (redisTemplate.hasKey(duelId)) {
+       redisTemplate.delete(duelId);
+       messageSender.groupTextMessageSender(command, "决斗取消成功！", 1);
+       log.info("成功删除 Redis 中的 key: {}", duelId);
+   } else {
+            messageSender.groupTextMessageSender(command, "没有进行中的决斗!取消无效。", 1);
+       log.warn("key 不存在: {}", duelId);
+   }
     }
 
 
