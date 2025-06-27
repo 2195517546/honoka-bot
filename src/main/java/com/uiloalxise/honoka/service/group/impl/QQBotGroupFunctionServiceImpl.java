@@ -7,6 +7,7 @@ import com.uiloalxise.constants.RegexConstant;
 import com.uiloalxise.constants.WebConstant;
 import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
+import com.uiloalxise.honoka.config.TempDomain;
 import com.uiloalxise.honoka.service.*;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
 import com.uiloalxise.honoka.utils.AIUtil;
@@ -52,6 +53,9 @@ import java.util.regex.Pattern;
 public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService {
 
     private static final String EMPTY_TEXT = " ";
+
+    @Resource
+    private TempDomain tempDomain;
 
     @Resource
     private FaceroundApiKeyProperties faceroundApiKeyProperties;
@@ -109,7 +113,10 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
      */
     @Override
     public void testFunction(GroupMsgCommand command) {
-        messageSender.groupTextMessageSender(command,"测试消息");
+        messageSender.groupTextMessageSender(command,
+                "实验室环境:[" + "温度:" +
+                        tempDomain.getArg1() +
+                ",湿度:" + tempDomain.getArg2() +"]");
     }
 
     /**

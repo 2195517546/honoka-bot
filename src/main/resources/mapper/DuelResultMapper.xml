@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uiloalxise.honoka.mapper.duel.DuelResultMapper">
+
+    <select id="findDuelResultWithNicknameByOpenId" resultType="com.uiloalxise.pojo.dto.DuelResultDTO">
+        SELECT
+           duel_result.id,
+           duel_result.open_id,
+           duel_result.win,
+           duel_result.lost
+        FROM
+           duel_result
+        LEFT JOIN duel_player ON duel_result.open_id = duel_player.open_id
+        WHERE
+           duel_result.open_id = #{openId}
+    </select>
+
+    <select id="findTop10ByWinOrder" resultType="com.uiloalxise.pojo.dto.DuelResultDTO">
+    SELECT
+        duel_result.id,
+        duel_result.open_id,
+        duel_result.win,
+        duel_result.lost,
+        bot_user.nickname
+    FROM
+        duel_result
+    LEFT JOIN bot_user ON duel_result.open_id = bot_user.open_id
+    ORDER BY
+        duel_result.win DESC
+    LIMIT 10
+</select>
+</mapper>

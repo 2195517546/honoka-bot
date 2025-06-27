@@ -70,6 +70,12 @@ public class CommandHandler{
     public void groupCommandHandle(GroupMsgCommand command) {
         String content = command.getContent();
 
+        if (commandCheck(content,"实验室环境"))
+        {
+            groupFunctionService.testFunction(command);
+            return;
+        }
+
         if (commandCheck(content,BotCommandConstant.COMMAND_TEST_PREFIX)) {
             groupFunctionService.testFunction(command);
             return;

@@ -82,6 +82,12 @@ public class DuelServiceImpl implements DuelService {
 
         String result = "决斗排行榜\n";
 
+
+        //这里写查询逻辑
+
+
+
+
         messageSender.groupTextMessageSender(command, result, 1);
     }
 
@@ -104,7 +110,7 @@ public class DuelServiceImpl implements DuelService {
             String info =(String) redisTemplate.opsForValue().get(duelId);
 
             //决斗需消耗金额
-            Long moneyNeed = 0L;
+            Long moneyNeed = null;
 
             Matcher duelMatcher;
 

@@ -23,6 +23,13 @@ import java.util.Set;
 @Configuration
 @Slf4j
 public class BeanConfiguration {
+
+    @Bean("tempDomain")
+    public TempDomain tempDomain() {
+        log.info("开始创建临时存储对象");
+        return new TempDomain(0.0F,0.0F);
+    }
+
     @Bean("pjsk-util")
     @ConditionalOnMissingBean
     public PJSKUtil pjskUtil() {
