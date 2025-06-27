@@ -44,7 +44,7 @@ public class Client {
                     System.out.printf("实时数据: %.1f℃ / %.1f%%\n", temp, hum);
 
                     //发起get请求推送到机器人
-                    String url = "http://www.faceroundcloud.site/sensor?tmp=" + temp + "&hum=" + hum;
+                    String url = "https://www.faceroundcloud.site/webhook/sensor?tmp=" + temp + "&hum=" + hum;
                     URL requestUrl = new URL(url);
 
                     // 打开连接

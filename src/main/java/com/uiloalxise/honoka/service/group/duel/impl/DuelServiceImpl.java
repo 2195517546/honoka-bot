@@ -114,7 +114,8 @@ public class DuelServiceImpl implements DuelService {
 
             Matcher duelMatcher;
 
-            Long userMoney =groupBotUserService.getMoney(botUser);
+            Long userMoney = groupBotUserService.getMoney(botUser);
+
             if (info == null)
             {
                 Pattern duelPattern = Pattern.compile(RegexConstant.DUEL_REGEX);
@@ -122,19 +123,23 @@ public class DuelServiceImpl implements DuelService {
                 //获取金额
                 if (duelMatcher.find()) {
                     moneyNeed = Long.valueOf(duelMatcher.group(2));
+                    log.info("money需要:{}",moneyNeed);
                 }
             }
             if (moneyNeed == null)
             {
-                moneyNeed = -1L;
+                moneyNeed = 0L;
             }
+
             if (moneyNeed < 0L)
             {
+
+
                 messageSender.groupTextMessageSender(command, "你输入的格式有问题，这次决斗申请无效！！金额也不能小于0\n决斗格式:\n/决斗[金额]", 1);
                 return;
             }//余额不足不允许决斗
             else
-            if (userMoney - moneyNeed < 0) {
+            if (userMoney - moneyNeed < 0L) {
                 messageSender.groupTextMessageSender(command, "你的余额不足不允许决斗", 1);
                 return;
             }else
@@ -164,6 +169,14 @@ public class DuelServiceImpl implements DuelService {
                    }else{
                        //如果duelId存在,则取出其值并且删除
                        openId = matcherInfo[0];
+                       moneyNeed = Long.valueOf(matcherInfo[2]);
+
+                       if (userMoney - moneyNeed < 0L)
+                       {
+                           messageSender.groupTextMessageSender(command, "你的余额不足不允许决斗", 1);
+                            return;
+                       }
+
                        queryWrapper.clear();
                        queryWrapper.eq(BotUser::getOpenId, openId);
                         player1 =  botUserMapper.selectOne(queryWrapper);
@@ -215,7 +228,8 @@ public class DuelServiceImpl implements DuelService {
     @Override
     @Transactional
     public void updateDuelResults(BotUser winner, BotUser loser, BigDecimal cost) {
-        log.info("1");
+
+        log.info("1:{}",cost);
         self.updateUserPoints(winner, cost);
         log.info("2");
         self.updateUserPoints(loser, cost.negate());
