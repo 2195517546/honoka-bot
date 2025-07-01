@@ -59,4 +59,27 @@ public class PictureServiceImpl implements PictureService {
         return result;
     }
 
+    /**
+     * 获取pjsk功能生成的图片
+     * @param openId
+     * @return
+     */
+    @Override
+    public String getPjskPicture(String openId) {
+        String uri = WebConstant.GET_PJSK_PIC_URI + openId;
+        String result = "https://www.faceroundcloud.site/api/v1/picture/pjsk/1234";
+        log.info("准备uri目标:{}",uri);
+
+        JSONObject jsonObject = apiWebClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(JSONObject.class)
+                .block();
+
+        if (jsonObject != null) {
+            result = jsonObject.getString("data");
+        }
+        return result;
+    }
+
 }

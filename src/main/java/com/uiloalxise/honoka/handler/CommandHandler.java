@@ -6,6 +6,7 @@ import com.uiloalxise.honoka.service.QQBotRecordService;
 import com.uiloalxise.honoka.service.group.GroupBotUserService;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
 import com.uiloalxise.honoka.service.group.duel.DuelService;
+import com.uiloalxise.honoka.service.group.pjsk.PjskService;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
 import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
 import jakarta.annotation.Resource;
@@ -33,6 +34,9 @@ public class CommandHandler{
 
     @Resource
     private GroupBotUserService groupBotUserService;
+
+    @Resource
+    private PjskService pjskService;
 
     /**
      * @param data
@@ -114,6 +118,12 @@ public class CommandHandler{
         if(commandCheck(content,BotCommandConstant.COMMAND_SIGN_IN ))
         {
             groupBotUserService.dailySignInBotUser(command);
+            return;
+        }
+
+        if (commandCheck(content,"pjsk"))
+        {
+            pjskService.pjskRandomEmoticon(command);
             return;
         }
 

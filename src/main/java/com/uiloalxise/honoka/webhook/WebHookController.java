@@ -41,7 +41,7 @@ public class WebHookController {
             @RequestParam("tmp")Float temperature,
             @RequestParam("hum")Float humidity)
     {
-        log.info("接收到数据:{},{}", temperature,humidity);
+        log.info("接收到传感器数据:{},{}", temperature,humidity);
         tempDomain.setArg1(temperature);
         tempDomain.setArg2(humidity);
         return ResponseEntity.ok("接收成功");

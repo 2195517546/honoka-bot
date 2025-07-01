@@ -244,10 +244,10 @@ public class DuelServiceImpl implements DuelService {
        redisTemplate.delete(duelId);
        messageSender.groupTextMessageSender(command, "决斗取消成功！", 1);
        log.info("成功删除 Redis 中的 key: {}", duelId);
-   } else {
-            messageSender.groupTextMessageSender(command, "没有进行中的决斗!取消无效。", 1);
-       log.warn("key 不存在: {}", duelId);
-   }
+       } else {
+                messageSender.groupTextMessageSender(command, "没有进行中的决斗!取消无效。", 1);
+           log.warn("key 不存在: {}", duelId);
+       }
     }
 
 
