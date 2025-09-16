@@ -199,6 +199,13 @@ public class CommandHandler{
      */
     @Async
     public void groupChatHandle(GroupMsgCommand command) {
+
+
+        if (command.getContent().startsWith("pjsk"))
+        {
+            pjskService.pjskRandomEmoticon(command);
+            return;
+        }
         groupFunctionService.defaultMessage(command);
     }
 

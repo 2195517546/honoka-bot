@@ -1,7 +1,6 @@
 package com.uiloalxise.honoka.webhook;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.uiloalxise.honoka.config.TempDomain;
 import com.uiloalxise.honoka.handler.BotMessageSummaryHandler;
 import com.uiloalxise.pojo.entity.payload.QQBotPayload;
 import com.uiloalxise.pojo.entity.payload.QQBotPayloadD;
@@ -27,25 +26,12 @@ import java.util.concurrent.Future;
 @RestController
 public class WebHookController {
 
-    @Resource
-    private TempDomain tempDomain;
 
     @Resource
     private QQBotUtil qqBotUtil;
 
     @Resource
     private BotMessageSummaryHandler qqBotHandle;
-
-    @GetMapping("/sensor")
-    public ResponseEntity<?> sensorData(
-            @RequestParam("tmp")Float temperature,
-            @RequestParam("hum")Float humidity)
-    {
-        log.info("接收到传感器数据:{},{}", temperature,humidity);
-        tempDomain.setArg1(temperature);
-        tempDomain.setArg2(humidity);
-        return ResponseEntity.ok("接收成功");
-    }
 
     @RequestMapping("/webhook/test")
     public String index() {

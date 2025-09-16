@@ -7,7 +7,6 @@ import com.uiloalxise.constants.RegexConstant;
 import com.uiloalxise.constants.WebConstant;
 import com.uiloalxise.exception.ArgsException;
 import com.uiloalxise.exception.NoAppendException;
-import com.uiloalxise.honoka.config.TempDomain;
 import com.uiloalxise.honoka.service.*;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
 import com.uiloalxise.honoka.utils.AIUtil;
@@ -54,8 +53,6 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
 
     private static final String EMPTY_TEXT = " ";
 
-    @Resource
-    private TempDomain tempDomain;
 
     @Resource
     private FaceroundApiKeyProperties faceroundApiKeyProperties;
@@ -97,7 +94,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
     @Override
     public void aiChat(GroupMsgCommand command)  {
         messageSender.groupTextMessageSender(command,"果果正在思考这个问题的解决方法请稍等",1);
-        Future<String> result = aiUtil.getAiResponse(command.getContent(), "deepseek-r1:7b", "user");
+        Future<String> result = aiUtil.getAiResponse(command.getContent(), "llama3.2", "user");
 
         try{
             messageSender.groupTextMessageSender(command,result.get(),2);
@@ -113,10 +110,7 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
      */
     @Override
     public void testFunction(GroupMsgCommand command) {
-        messageSender.groupTextMessageSender(command,
-                "实验室环境:[" + "温度:" +
-                        tempDomain.getArg1() +
-                ",湿度:" + tempDomain.getArg2() +"]");
+
     }
 
     /**

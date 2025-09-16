@@ -21,8 +21,8 @@ public class BotMsgConstant {
     public static final String SUCCESS_SIGN_IN = "签到成功！获得{0}元奖励，当前余额：{1}元";
     public static final String ERROR_SIGN_IN_FAILED = "签到失败，请稍后再试";
 
-    public static final String GROUP_RULES_URL = "https://www.faceroundcloud.site/static/group_rule.png";
-    public static final String CHECK_CARD_749_URL = "https://www.faceroundcloud.site/static/749_img.jpg";
+    public static final String GROUP_RULES_URL = "https://www.faceround.cn/static/group_rule.png";
+    public static final String CHECK_CARD_749_URL = "https://www.faceround.cn/static/749_img.jpg";
     public static final String DEFAULT_REPLY_MSG = "请不要ky🤔🤔";
     public static final String DEFAULT_DINGTALK_MSG = "哎呀我服了";
     public static final String DEFAULT_DUEL_MSG = "$winner$获得了胜利，有点强";

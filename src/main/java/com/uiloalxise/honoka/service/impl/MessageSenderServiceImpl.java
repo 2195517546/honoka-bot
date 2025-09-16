@@ -94,6 +94,7 @@ public class MessageSenderServiceImpl implements MessageSenderService {
                 .subscribe(resp ->{
 
                     log.info(resp.toString());
+
                     QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
                     .content(text)
                     .msgType(7)
@@ -102,13 +103,15 @@ public class MessageSenderServiceImpl implements MessageSenderService {
                     .msgId(command.getMessageId())
                     .msgSeq(seq)
                     .build();
-                        groupWebClient.post()
-                                .uri(command.getGroupId() + QQBotConstant.MESSAGES_URI)
-                                .headers(httpHeaders -> httpHeaders.addAll(getBotHeader()))
-                                .bodyValue(qqGroupsMsg)
-                                .retrieve()
-                                .bodyToMono(String.class)
-                                .subscribe(this::onSuccess, error -> onError(error, command));
+
+                    groupWebClient.post()
+                            .uri(command.getGroupId() + QQBotConstant.MESSAGES_URI)
+                            .headers(httpHeaders -> httpHeaders.addAll(getBotHeader()))
+                            .bodyValue(qqGroupsMsg)
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .subscribe(this::onSuccess, error -> onError(error, command));
+
                     }
                 , error -> onError(error, command)
                 );

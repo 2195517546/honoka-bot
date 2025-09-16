@@ -15,7 +15,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
  * @ClassName WebSocketClientHandler
  * @Description TODO
  */
-@Component
+//@Component
 @Slf4j
 public class WebSocketClientHandler extends AbstractWebSocketHandler {
     @Override

@@ -15,7 +15,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
  * @ClassName WebSocketConfiguration
  * @Description TODO
  */
-@Configuration
+//@Configuration
 public class WebSocketConfiguration extends AbstractWebSocketHandler {
     @Bean
     public WebSocketClient webSocketClient() {

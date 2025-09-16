@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static com.uiloalxise.constants.QQBotConstant.AVATAR_URL_PREFIX;
+
 /**
  * @author Uiloalxise
  * @ClassName BotCommand
@@ -22,6 +24,6 @@ public class BotCommand {
 
     public String getAvatarUrl()
     {
-        return "https://q.qlogo.cn/qqapp/102098744/" + getAuthorId() + "/640";
+        return AVATAR_URL_PREFIX + getAuthorId() + "/640";
     }
 }

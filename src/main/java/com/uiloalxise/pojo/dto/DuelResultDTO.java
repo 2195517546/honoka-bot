@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class DuelResultDTO {
+public class DuelResultDTO{
     private Long id;
     private String openId;
     private Integer win;
