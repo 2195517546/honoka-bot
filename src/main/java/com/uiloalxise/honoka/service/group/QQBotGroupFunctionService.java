@@ -21,7 +21,11 @@ public interface QQBotGroupFunctionService {
      */
     void aiChat(GroupMsgCommand command);
 
-
+    /**
+     * 音乐功能
+     * @param command 命令实体类
+     */
+    void music(GroupMsgCommand command);
 
     /**
      * 测试功能

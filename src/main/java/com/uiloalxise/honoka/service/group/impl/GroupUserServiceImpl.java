@@ -301,7 +301,7 @@ public class GroupUserServiceImpl implements GroupBotUserService {
             self.saveNewBotUserAndPoints(command);
         }
 
-
+        openIds.clear();
     }
 
     /**

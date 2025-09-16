@@ -109,6 +109,14 @@ public class QQBotGroupFunctionServiceImpl implements QQBotGroupFunctionService 
      * @param command 命令实体
      */
     @Override
+    public void music(GroupMsgCommand command) {
+        messageSender.groupSoundMessageSender(command, "https://www.faceround.cn/static/test/神人音乐.silk",EMPTY_TEXT,1);
+    }
+
+    /**
+     * @param command 命令实体
+     */
+    @Override
     public void testFunction(GroupMsgCommand command) {
 
     }

@@ -117,6 +117,55 @@ public class MessageSenderServiceImpl implements MessageSenderService {
                 );
     }
 
+    /**
+     * 带seq的音频消息发送
+     *
+     * @param command
+     * @param url
+     * @param text
+     * @param seq
+     */
+    @Override
+    public void groupSoundMessageSender(GroupMsgCommand command, String url, String text, Integer seq) {
+        QQMediaFile qqMediaFile = QQMediaFile.builder().url(url)
+            .fileType(3)
+            .srvSendMsg(false)
+            .build();
+
+        log.info("qqMediaFile:{}",JSONObject.toJSONString(qqMediaFile));
+
+        groupWebClient.post()
+                .uri(command.getGroupId() + QQBotConstant.FILES_URI)
+                .headers(httpHeaders -> httpHeaders.addAll(getBotHeader()))
+                .bodyValue(qqMediaFile)
+                .retrieve()
+                .bodyToMono(JSONObject.class)
+                .subscribe(resp ->{
+
+                    log.info(resp.toString());
+
+                    QQGroupsMsg qqGroupsMsg = QQGroupsMsg.builder()
+                    .content(" ")
+                    .msgType(7)
+                    .eventId(QQBotConstant.GROUP_AT_MESSAGE_CREATE)
+                    .media(resp)
+                    .msgId(command.getMessageId())
+                    .msgSeq(seq)
+                    .build();
+
+                    groupWebClient.post()
+                            .uri(command.getGroupId() + QQBotConstant.MESSAGES_URI)
+                            .headers(httpHeaders -> httpHeaders.addAll(getBotHeader()))
+                            .bodyValue(qqGroupsMsg)
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .subscribe(this::onSuccess, error -> onError(error, command));
+
+                    }
+                , error -> onError(error, command)
+                );
+    }
+
 
     private void onError(Throwable error,GroupMsgCommand command)
     {

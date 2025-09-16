@@ -146,6 +146,12 @@ public class CommandHandler{
             return;
         }
 
+        if (commandCheck(content,"音乐"))
+        {
+            groupFunctionService.music(command);
+            return;
+        }
+
         //暂时移除的命令
         if (commandCheck(content,"群规"))
         {

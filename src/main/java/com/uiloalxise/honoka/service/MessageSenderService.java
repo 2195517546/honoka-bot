@@ -32,4 +32,14 @@ public interface MessageSenderService {
      * @param seq
      */
     void groupPictureMessageSender(GroupMsgCommand command,String url,String text,Integer seq);
+
+
+    /**
+     * 带seq的音频消息发送
+     * @param command
+     * @param text
+     * @param url
+     * @param seq
+     */
+    void groupSoundMessageSender(GroupMsgCommand command,String url,String text,Integer seq);
 }
