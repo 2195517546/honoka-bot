@@ -14,4 +14,8 @@ public interface PjskService {
      * @param command - 群消息命令
      */
     void pjskRandomEmoticon(GroupMsgCommand command);
+
+    void pjskEmoticonMenu(GroupMsgCommand command);
+
+    void pjskEmoticon(GroupMsgCommand command);
 }

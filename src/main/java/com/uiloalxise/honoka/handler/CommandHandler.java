@@ -115,9 +115,9 @@ public class CommandHandler{
             return;
         }
 
-        if (commandCheck(content,"pjskhelp"))
+        if (commandCheck(content,"pjskf"))
         {
-            pjskService.pjskRandomEmoticon( command);
+            pjskService.pjskEmoticonMenu(command);
             return;
         }
 

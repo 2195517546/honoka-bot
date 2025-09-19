@@ -53,4 +53,48 @@ public class PjskServiceImpl implements PjskService{
         sender.groupPictureMessageSender(command,pictureService.getPjskPicture(command.getAuthorId()),content , 1);
 
     }
+
+    /**
+     * @param command
+     */
+    @Override
+    public void pjskEmoticonMenu(GroupMsgCommand command) {
+        String content = command.getContent().replace("pjskf","menu");
+        EmotionRequestBody requestBody = EmotionRequestBody.builder()
+                .openId(command.getAuthorId())
+                .content(content)
+                .build();
+
+        apiWebClient.post()
+                .uri("/api/v1/pjsk/emoticon")
+                .header("Content-Type", "application/json")
+                .body(Mono.just(requestBody), EmotionRequestBody.class)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+        sender.groupPictureMessageSender(command,pictureService.getPjskPicture(command.getAuthorId()),content , 1);
+
+    }
+
+    /**
+     * @param command
+     */
+    @Override
+    public void pjskEmoticon(GroupMsgCommand command) {
+        String content = command.getContent().replace("pjskf","");
+        content = content.trim();
+        EmotionRequestBody requestBody = EmotionRequestBody.builder()
+                .openId(command.getAuthorId())
+                .content(content)
+                .build();
+
+        apiWebClient.post()
+                .uri("/api/v1/pjsk/emoticon")
+                .header("Content-Type", "application/json")
+                .body(Mono.just(requestBody), EmotionRequestBody.class)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+        sender.groupPictureMessageSender(command,pictureService.getPjskPicture(command.getAuthorId()),content , 1);
+    }
 }
