@@ -74,12 +74,6 @@ public class CommandHandler{
     public void groupCommandHandle(GroupMsgCommand command) {
         String content = command.getContent();
 
-        if (commandCheck(content,"实验室环境"))
-        {
-            groupFunctionService.testFunction(command);
-            return;
-        }
-
         if (commandCheck(content,BotCommandConstant.COMMAND_TEST_PREFIX)) {
             groupFunctionService.testFunction(command);
             return;
@@ -121,32 +115,38 @@ public class CommandHandler{
             return;
         }
 
-        if (commandCheck(content,"pjsk"))
+        if (commandCheck(content,"pjskhelp"))
+        {
+            pjskService.pjskRandomEmoticon( command);
+            return;
+        }
+
+        if (commandCheck(content,BotCommandConstant.COMMAND_PJSK_EMOTICON))
         {
             pjskService.pjskRandomEmoticon(command);
             return;
         }
 
         //决斗
-        if (commandCheck(content,"决斗取消"))
+        if (commandCheck(content,BotCommandConstant.COMMAND_DUEL_CANCEL))
         {
             duelService.cancel(command);
             return;
         }
 
-        if (commandCheck(content,"决斗排行"))
+        if (commandCheck(content,BotCommandConstant.COMMAND_DUEL_TOP))
         {
             duelService.top10(command);
             return;
         }
 
-        if (commandCheck(content,"决斗"))
+        if (commandCheck(content,BotCommandConstant.COMMAND_DUEL))
         {
             duelService.duel(command);
             return;
         }
 
-        if (commandCheck(content,"音乐"))
+        if (commandCheck(content,BotCommandConstant.COMMAND_MUSIC))
         {
             groupFunctionService.music(command);
             return;
@@ -165,13 +165,13 @@ public class CommandHandler{
             return;
         }
 
-        if (commandCheck(content, new String[]{"谱面", "歌曲"}))
+        if (commandCheck(content,BotCommandConstant.COMMAND_PJSK_PANE_INFO))
         {
             groupFunctionService.bannedFunction(command);
             return;
         }
 
-        if(commandCheck(content,"改名"))
+        if(commandCheck(content,BotCommandConstant.COMMAND_RENAME))
         {
             groupBotUserService.changeName(command);
             return;
