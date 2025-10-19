@@ -12,12 +12,15 @@ public class WebConstant {
     //AI的API的url
     public final static String AI_CHAT_API_URL = "http://114.66.55.108:11434/";
 
-    public final static String RANDOM_PIC_URL = "https://www.faceround.cn/pic/random/";
+    public final static String RANDOM_PIC_URL = "https://www.faceround.cn/api/v1/picture/random/";
 
     //api/v1/picture/random/wantu
     public final static String RANDOM_PIC_URI = "api/v1/picture/random/";
     public final static String GET_PJSK_PIC_URI = "api/v1/picture/pjsk/";
+    public final static String GET_BANG_PIC_URI = "api/v1/picture/bang/";
+
     public final static String RANDOM_PJSK_EMOTICON_URI = "/api/v1/pjsk/random/emoticon";
+    public final static String RANDOM_BANG_EMOTICON_URI = "/api/v1/bang/random/emoticon";
 
     public final static String RANDOM_DING_TALK_URI = "api/v1/text/random/ding-talk";
 

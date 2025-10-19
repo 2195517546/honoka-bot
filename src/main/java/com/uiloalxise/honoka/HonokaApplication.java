@@ -21,8 +21,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 @EnableWebSocket
 public class HonokaApplication {
 
-
-
     public static void main(String[] args) {
         log.info("Honoka QQ bot is starting");
         SpringApplication.run(HonokaApplication.class, args);

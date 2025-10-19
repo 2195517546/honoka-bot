@@ -71,4 +71,14 @@ public class PictureServiceImpl implements PictureService {
         return WebConstant.WEBSITE_API_URL + uri;
     }
 
+    @Override
+    public String getBangPicture(String openId)
+    {
+
+
+        String uri = WebConstant.GET_BANG_PIC_URI + openId;
+
+        return WebConstant.WEBSITE_API_URL + uri;
+    }
+
 }

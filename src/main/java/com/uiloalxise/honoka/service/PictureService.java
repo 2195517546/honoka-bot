@@ -16,5 +16,6 @@ public interface PictureService {
     String getRandomPicture(String path);
 
     String getPjskPicture(String openId);
+    String getBangPicture(String openId);
 
 }

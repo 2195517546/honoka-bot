@@ -16,6 +16,4 @@ public interface PjskService {
     void pjskRandomEmoticon(GroupMsgCommand command);
 
     void pjskEmoticonMenu(GroupMsgCommand command);
-
-    void pjskEmoticon(GroupMsgCommand command);
 }

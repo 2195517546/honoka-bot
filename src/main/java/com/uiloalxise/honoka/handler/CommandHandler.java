@@ -5,6 +5,7 @@ import com.uiloalxise.constants.QQBotConstant;
 import com.uiloalxise.honoka.service.QQBotRecordService;
 import com.uiloalxise.honoka.service.group.GroupBotUserService;
 import com.uiloalxise.honoka.service.group.QQBotGroupFunctionService;
+import com.uiloalxise.honoka.service.group.bang.BangDreamService;
 import com.uiloalxise.honoka.service.group.duel.DuelService;
 import com.uiloalxise.honoka.service.group.pjsk.PjskService;
 import com.uiloalxise.pojo.entity.commands.GroupMsgCommand;
@@ -37,6 +38,9 @@ public class CommandHandler{
 
     @Resource
     private PjskService pjskService;
+
+    @Resource
+    private BangDreamService bangService;
 
     /**
      * @param data
@@ -115,6 +119,8 @@ public class CommandHandler{
             return;
         }
 
+
+        //自定义表情功能
         if (commandCheck(content,"pjskf"))
         {
             pjskService.pjskEmoticonMenu(command);
@@ -124,6 +130,12 @@ public class CommandHandler{
         if (commandCheck(content,BotCommandConstant.COMMAND_PJSK_EMOTICON))
         {
             pjskService.pjskRandomEmoticon(command);
+            return;
+        }
+
+        if(commandCheck(content,"bang"))
+        {
+            bangService.bangRandomEmoticon(command);
             return;
         }
 

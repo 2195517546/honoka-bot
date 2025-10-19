@@ -299,9 +299,9 @@ public class GroupUserServiceImpl implements GroupBotUserService {
                     .authorId(openId)
                     .build();
             self.saveNewBotUserAndPoints(command);
+            qqUserMapper.registerOpenId(openId);
         }
 
-        openIds.clear();
     }
 
     /**
